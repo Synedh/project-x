@@ -7,7 +7,7 @@ public class Loader : MonoBehaviour {
     public GameObject gameManager;
     // public GameObject soundManager;
 
-    // Use this for initialization
+    // Use this for initialization, called before Start()
     private void Awake()
     {
         

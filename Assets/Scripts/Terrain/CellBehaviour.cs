@@ -11,7 +11,7 @@ public class CellBehaviour : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        if (!isWalkable)
+        if (!isWalkable) // Correction hauteur block temporaire
             this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y + 0.25f, this.transform.position.z);
 	}
 	

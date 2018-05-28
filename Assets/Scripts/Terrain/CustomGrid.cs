@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using System.IO;
+using UnityEngine;  
 
 public class CustomGrid {
 
     public int cellSize, width, height;
+    List<GameObject> entities;
     int[,] tilemap;
     Cell[,] grid;
 
@@ -16,13 +16,14 @@ public class CustomGrid {
         this.height = tilemap.GetLength(1);
         this.cellSize = cellSize;
         this.tilemap = tilemap;
+        entities = new List<GameObject>();
 
         grid = new Cell[this.width, this.height];
         for (int i = 0; i < this.width; i++)
         {
             for (int j = 0; j < this.height; j++)
             {
-                grid[i, j] = new Cell(i * cellSize, j * cellSize, GetPrefabFromId(tilemap[i, j]));
+                grid[i, j] = new Cell(i * cellSize, j * cellSize, GameManager.GetPrefabFromId(tilemap[i, j]));
             }
         }
     }
@@ -47,13 +48,75 @@ public class CustomGrid {
         return drawGrid;
     }
 
-    static UnityEngine.Object GetPrefabFromId(int id)
+    public bool[,] getWalkableGrid()
     {
-        if (id == 1)
-            return Resources.Load("Prefabs/Plane");
-        if (id == 2)
-            return Resources.Load("Prefabs/Wall");
+        bool[,] walkableGrid = new bool[this.width, this.height];
+
+        for (int i = 0; i < this.width; i++)
+        {
+            for (int j = 0; j < this.height; j++)
+            {
+                try
+                {
+                    if (grid[i, j].cellObject.GetComponent<CellBehaviour>().isWalkable)
+                        walkableGrid[i, j] = !getEntityOnCell(i, j);
+                    else
+                        walkableGrid[i, j] = false;
+                }
+                catch (NullReferenceException)
+                {
+                    walkableGrid[i, j] = false;
+                }
+            }
+        }
+
+        return walkableGrid;
+    }
+
+    public bool[,] getViewGrid()
+    {
+        bool[,] viewGrid = new bool[this.width, this.height];
+
+        for (int i = 0; i < this.width; i++)
+        {
+            for (int j = 0; j < this.height; j++)
+            {
+                try
+                {
+                    if (!grid[i, j].cellObject.GetComponent<CellBehaviour>().hideView)
+                        viewGrid[i, j] = !getEntityOnCell(i, j);
+                    else
+                        viewGrid[i, j] = false;
+                }
+                catch (NullReferenceException)
+                {
+                    viewGrid[i, j] = true;
+                }
+            }
+        }
+
+        return viewGrid;
+    }
+
+    public GameObject getEntityOnCell(int x, int y)
+    {
+        foreach (GameObject entity in entities)
+        {
+            if (entity.transform.position.x == x && entity.transform.position.z == y)
+                return entity;
+        }
         return null;
+    }
+
+    public GameObject addEntity(GameObject entity)
+    {
+        foreach (GameObject tmpEntity in entities)
+        {
+            if (tmpEntity.transform.position == entity.transform.position)
+                return null;
+        }
+        entities.Add(entity);
+        return entity;
     }
 
     public static int[,] ReadTileMap(TextAsset tileMapFile)
