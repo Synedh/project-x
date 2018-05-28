@@ -5,11 +5,11 @@ using UnityEngine;
 public class GameManager : MonoBehaviour {
 
     public static GameManager instance = null;
-    public Object characterPrefab;
     public TextAsset tileMapFile;
 
     public CustomGrid grid;
-    public GameObject character;
+    public GameObject selectedEntity;
+    public List<GameObject> entities;
 
     // Use this for initialization, called before Start()
     void Awake () {
@@ -25,26 +25,26 @@ public class GameManager : MonoBehaviour {
     {
         grid = new CustomGrid(CustomGrid.ReadTileMap(tileMapFile), 1);
         grid.Draw();
-        character = loadEntity(characterPrefab, new Vector2(1, 1), Quaternion.identity);
-        GameObject entity = loadEntity(Resources.Load("Prefabs/Entity"), new Vector2(2, 1), Quaternion.identity);
-        print(entity.transform.position);
+        selectedEntity = null;
+        entities = new List<GameObject>();
     }
 
-    private void Update()
+    void Start()
     {
-
+        EntityBehaviour.loadEntity(Resources.Load("Prefabs/Entity"), new Vector2(1, 1), Quaternion.identity);
+        EntityBehaviour.loadEntity(Resources.Load("Prefabs/Entity"), new Vector2(2, 1), Quaternion.identity);
+        EntityBehaviour.loadEntity(Resources.Load("Prefabs/Entity"), new Vector2(2, 2), Quaternion.identity);
     }
 
-    public GameObject loadEntity(Object prefab, Vector2 pos, Quaternion rot)
+    void Update()
     {
-        GameObject entity = Instantiate(prefab, new Vector3(pos.x, 0, pos.y), rot) as GameObject;
-        return grid.addEntity(entity);
+
     }
 
     public static Object GetPrefabFromId(int id)
     {
         if (id == 1)
-            return Resources.Load("Prefabs/Plane");
+            return Resources.Load("Prefabs/Ground");
         if (id == 2)
             return Resources.Load("Prefabs/Wall");
         return null;

@@ -22,6 +22,6 @@ public class CellBehaviour : MonoBehaviour {
 
     public void OnMouseDown()
     {
-        GameManager.instance.character.GetComponent<CharacterBehaviour>().Move(GameManager.instance.grid, cell);
+        GameManager.instance.selectedEntity.GetComponent<EntityBehaviour>().Move(GameManager.instance.grid, cell);
     }
 }
