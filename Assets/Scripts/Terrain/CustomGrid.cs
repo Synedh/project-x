@@ -7,7 +7,6 @@ public class CustomGrid {
 
     public int cellSize, width, height;
     List<GameObject> entities;
-    int[,] tilemap;
     Cell[,] grid;
 
     public CustomGrid(int[,] tilemap, int cellSize)
@@ -15,7 +14,6 @@ public class CustomGrid {
         this.width = tilemap.GetLength(0);
         this.height = tilemap.GetLength(1);
         this.cellSize = cellSize;
-        this.tilemap = tilemap;
         entities = new List<GameObject>();
 
         grid = new Cell[this.width, this.height];

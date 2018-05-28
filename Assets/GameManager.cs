@@ -5,6 +5,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour {
 
     public static GameManager instance = null;
+    TurnManager turnManager;
     public TextAsset tileMapFile;
 
     public CustomGrid grid;
@@ -31,14 +32,23 @@ public class GameManager : MonoBehaviour {
 
     void Start()
     {
-        EntityBehaviour.loadEntity(Resources.Load("Prefabs/Entity"), new Vector2(1, 1), Quaternion.identity);
-        EntityBehaviour.loadEntity(Resources.Load("Prefabs/Entity"), new Vector2(2, 1), Quaternion.identity);
-        EntityBehaviour.loadEntity(Resources.Load("Prefabs/Entity"), new Vector2(2, 2), Quaternion.identity);
+        entities = new List<GameObject> {
+            EntityBehaviour.loadEntity(Resources.Load("Prefabs/Entity"), new Vector2(1, 1), Quaternion.identity) as GameObject,
+            EntityBehaviour.loadEntity(Resources.Load("Prefabs/Entity"), new Vector2(2, 1), Quaternion.identity) as GameObject,
+            EntityBehaviour.loadEntity(Resources.Load("Prefabs/Entity"), new Vector2(2, 2), Quaternion.identity) as GameObject
+        };
+        turnManager = new TurnManager(entities);
+        NextTurn();
     }
 
     void Update()
     {
 
+    }
+
+    public void NextTurn()
+    {
+        instance.turnManager.Next();
     }
 
     public static Object GetPrefabFromId(int id)

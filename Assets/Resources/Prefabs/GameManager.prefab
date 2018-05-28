@@ -51,7 +51,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98d93d66c2dff3d4d85661939e12eee4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterPrefab: {fileID: 1473269393684266, guid: aaa6a144f9f5502449634f64c8273843,
-    type: 2}
   tileMapFile: {fileID: 4900000, guid: 69bbf91059ae54448858b5783f4d22ec, type: 3}
-  character: {fileID: 0}
+  selectedEntity: {fileID: 0}
+  entities: []

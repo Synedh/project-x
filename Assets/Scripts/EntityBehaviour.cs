@@ -30,7 +30,7 @@ public class EntityBehaviour : MonoBehaviour {
 
     public void OnMouseDown()
     {
-        selectEntity(gameObject);
+        // selectEntity(gameObject);
     }
 
     public void Move(CustomGrid grid, Cell target)
