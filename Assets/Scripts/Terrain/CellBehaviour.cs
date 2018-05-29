@@ -20,8 +20,62 @@ public class CellBehaviour : MonoBehaviour {
 		
 	}
 
-    public void OnMouseDown()
+    public GameObject IsThereAnEntity()
     {
-        GameManager.instance.selectedEntity.GetComponent<EntityBehaviour>().Move(GameManager.instance.grid, cell);
+        foreach (GameObject entity in GameManager.instance.entities)
+        {
+            if (entity.transform.position == transform.position)
+            {
+                return entity;
+            }
+        }
+        return null;
+    }
+
+    void OnMouseOver()
+    {
+        GameObject entity = IsThereAnEntity();
+        if (entity && GameManager.instance.selectedEntity == entity)
+        {
+            foreach (MeshRenderer renderer in entity.GetComponentsInChildren<MeshRenderer>())
+            {
+                renderer.material = entity.GetComponent<EntityBehaviour>().hoverSelected;
+            }
+        }
+        else if (entity)
+        {
+            foreach (MeshRenderer renderer in entity.GetComponentsInChildren<MeshRenderer>())
+            {
+                renderer.material = entity.GetComponent<EntityBehaviour>().hoverUnselected;
+            }
+        }
+    }
+
+    private void OnMouseExit()
+    {
+        GameObject entity = IsThereAnEntity();
+        if (entity && GameManager.instance.selectedEntity == entity)
+        {
+            foreach (MeshRenderer renderer in entity.GetComponentsInChildren<MeshRenderer>())
+            {
+                renderer.material = entity.GetComponent<EntityBehaviour>().selected;
+            }
+        }
+        else if (entity)
+        {
+            foreach (MeshRenderer renderer in entity.GetComponentsInChildren<MeshRenderer>())
+            {
+                renderer.material = entity.GetComponent<EntityBehaviour>().unselected;
+            }
+        }
+    }
+
+    void OnMouseDown()
+    {
+        GameObject entity = IsThereAnEntity();
+        if (entity)
+            Debug.Log(entity);
+        else
+            GameManager.instance.selectedEntity.GetComponent<EntityBehaviour>().Move(GameManager.instance.grid, cell);
     }
 }

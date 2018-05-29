@@ -8,12 +8,17 @@ public class EntityBehaviour : MonoBehaviour {
     float speed;
     public Material selected;
     public Material unselected;
+    public Material hoverSelected;
+    public Material hoverUnselected;
+    BoxCollider boxCollider;
 
     List<Vector3> targets;
     
 	void Start () {
         speed = 3f;
         targets = new List<Vector3>();
+        boxCollider = GetComponent<BoxCollider>();
+        boxCollider.enabled = false;
 	}
 	
 	void Update () {
