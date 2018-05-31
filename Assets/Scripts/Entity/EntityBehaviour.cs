@@ -12,6 +12,7 @@ public class EntityBehaviour : MonoBehaviour {
     public Material hoverUnselected;
 
     BoxCollider boxCollider;
+    public TimelineEntity timelineEntity;
     CharacterBehaviour characterBehaviour;
 
     List<Vector3> moveTargets;
@@ -42,7 +43,7 @@ public class EntityBehaviour : MonoBehaviour {
         // selectEntity(gameObject);
     }
 
-    public static GameObject loadEntity(UnityEngine.Object prefab, Vector2 pos, Quaternion rot)
+    public static GameObject LoadEntity(UnityEngine.Object prefab, Vector2 pos, Quaternion rot)
     {
         GameObject entity = Instantiate(prefab, new Vector3(pos.x, 0, pos.y), rot) as GameObject;
         entity.transform.parent = GameObject.Find("Entities").transform;
@@ -83,19 +84,22 @@ public class EntityBehaviour : MonoBehaviour {
     }
 
 
-    public static void selectEntity(GameObject entity)
+    public static void SelectEntity(GameObject entity)
     {
         GameManager.instance.selectedEntity = entity;
         foreach (GameObject tmpEntity in GameManager.instance.entities)
         {
+            EntityBehaviour tmpEntityBehaviour = tmpEntity.GetComponent<EntityBehaviour>();
             foreach (MeshRenderer renderer in tmpEntity.GetComponentsInChildren<MeshRenderer>())
             {
-                renderer.material = tmpEntity.GetComponent<EntityBehaviour>().unselected;
+                renderer.material = tmpEntityBehaviour.unselected;
             }
+            tmpEntityBehaviour.timelineEntity.SetColor(Color.black);
         }
         foreach (MeshRenderer renderer in entity.GetComponentsInChildren<MeshRenderer>())
         {
             renderer.material = entity.GetComponent<EntityBehaviour>().selected;
         }
+        entity.GetComponent<EntityBehaviour>().timelineEntity.SetColor(Color.red);
     }
 }

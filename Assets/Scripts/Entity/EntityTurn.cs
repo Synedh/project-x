@@ -10,10 +10,12 @@ public class EntityTurn {
     public EntityTurn(GameObject entity)
     {
         this.entity = entity;
+        turn = 0;
     }
 
     public void Play()
     {
-        EntityBehaviour.selectEntity(entity);
+        turn++;
+        EntityBehaviour.SelectEntity(entity);
     }
 }

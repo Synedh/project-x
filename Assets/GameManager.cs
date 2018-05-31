@@ -33,15 +33,17 @@ public class GameManager : MonoBehaviour {
     void Start()
     {
         entities = new List<GameObject> {
-            EntityBehaviour.loadEntity(Resources.Load("Prefabs/Entity"), new Vector2(1, 1), Quaternion.identity) as GameObject,
-            EntityBehaviour.loadEntity(Resources.Load("Prefabs/Entity"), new Vector2(2, 1), Quaternion.identity) as GameObject,
-            EntityBehaviour.loadEntity(Resources.Load("Prefabs/Entity"), new Vector2(2, 2), Quaternion.identity) as GameObject
+            EntityBehaviour.LoadEntity(Resources.Load("Prefabs/Entity"), new Vector2(1, 1), Quaternion.identity) as GameObject,
+            EntityBehaviour.LoadEntity(Resources.Load("Prefabs/Entity"), new Vector2(2, 1), Quaternion.identity) as GameObject,
+            EntityBehaviour.LoadEntity(Resources.Load("Prefabs/Entity"), new Vector2(2, 2), Quaternion.identity) as GameObject
         };
-        entities[0].GetComponent<CharacterBehaviour>().loadCharacter("Toto");
-        entities[1].GetComponent<CharacterBehaviour>().loadCharacter("Bill");
-        entities[2].GetComponent<CharacterBehaviour>().loadCharacter("Boule");
+        entities[0].GetComponent<CharacterBehaviour>().LoadCharacter("Toto");
+        entities[1].GetComponent<CharacterBehaviour>().LoadCharacter("Bill");
+        entities[2].GetComponent<CharacterBehaviour>().LoadCharacter("Boule");
+        TimelineBehaviour.BuildTimeline(entities);
         turnManager = new TurnManager(entities);
         NextTurn();
+        Debug.Log(grid.GetCell(1, 1));
     }
 
     void Update()

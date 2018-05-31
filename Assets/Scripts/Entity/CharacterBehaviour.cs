@@ -40,7 +40,7 @@ public class CharacterBehaviour : MonoBehaviour {
 
     }
 
-    public void loadCharacter(string nickname)
+    public void LoadCharacter(string nickname)
     {
         this.nickname = nickname;
     }
