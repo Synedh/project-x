@@ -37,6 +37,9 @@ public class GameManager : MonoBehaviour {
             EntityBehaviour.loadEntity(Resources.Load("Prefabs/Entity"), new Vector2(2, 1), Quaternion.identity) as GameObject,
             EntityBehaviour.loadEntity(Resources.Load("Prefabs/Entity"), new Vector2(2, 2), Quaternion.identity) as GameObject
         };
+        entities[0].GetComponent<CharacterBehaviour>().loadCharacter("Toto");
+        entities[1].GetComponent<CharacterBehaviour>().loadCharacter("Bill");
+        entities[2].GetComponent<CharacterBehaviour>().loadCharacter("Boule");
         turnManager = new TurnManager(entities);
         NextTurn();
     }

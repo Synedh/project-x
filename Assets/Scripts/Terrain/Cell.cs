@@ -18,8 +18,10 @@ public class Cell {
 
     public Transform Draw()
     {
+        GameObject grid = GameObject.Find("Grid");
         if (this.prefab) {
             cellObject = Object.Instantiate(this.prefab, new Vector3(x, 0, y), Quaternion.identity) as GameObject;
+            cellObject.transform.parent = grid.transform;
             cellObject.GetComponent<CellBehaviour>().cell = this;
             return cellObject.transform;
         }
