@@ -14,6 +14,7 @@ public class EntityBehaviour : MonoBehaviour {
     BoxCollider boxCollider;
     public TimelineEntity timelineEntity;
     CharacterBehaviour characterBehaviour;
+    static CustomGrid grid;
 
     List<Vector3> moveTargets;
     
@@ -22,6 +23,7 @@ public class EntityBehaviour : MonoBehaviour {
         boxCollider = GetComponent<BoxCollider>();
         boxCollider.enabled = false;
         characterBehaviour = GetComponent<CharacterBehaviour>();
+        grid = GameObject.Find("Grid").GetComponent<CustomGrid>();
 
         moveTargets = new List<Vector3>();
     }
@@ -34,7 +36,6 @@ public class EntityBehaviour : MonoBehaviour {
             transform.position = Vector3.MoveTowards(transform.position, moveTargets[0], step);
             if (transform.position.Equals(moveTargets[0]))
                 moveTargets.RemoveAt(0);
-
         }
 	}
 
@@ -43,12 +44,9 @@ public class EntityBehaviour : MonoBehaviour {
         // selectEntity(gameObject);
     }
 
-    public static GameObject LoadEntity(UnityEngine.Object prefab, Vector2 pos, Quaternion rot)
+    public void SetToCell(int x, int y)
     {
-        GameObject entity = Instantiate(prefab, new Vector3(pos.x, 0, pos.y), rot) as GameObject;
-        entity.transform.parent = GameObject.Find("Entities").transform;
-        GameManager.instance.entities.Add(entity);
-        return GameManager.instance.grid.addEntity(entity);
+        this.transform.position = new Vector3(x, 0, y);
     }
 
     public void Move(CustomGrid grid, Cell target)
@@ -56,7 +54,7 @@ public class EntityBehaviour : MonoBehaviour {
         // Fill a targets list of point. Then this list is parsed by Update function.
         // Once a location is reached, element is remove and next one is targeted.
         // PathFinding module is used to search best way.
-        bool[,] tilesmap = grid.getWalkableGrid();
+        bool[,] tilesmap = grid.GetWalkableGrid();
 
         NesScripts.Controls.PathFind.Grid pathhGrid = new NesScripts.Controls.PathFind.Grid(tilesmap);
         NesScripts.Controls.PathFind.Point _from;
@@ -69,7 +67,6 @@ public class EntityBehaviour : MonoBehaviour {
             _from = new NesScripts.Controls.PathFind.Point((int)moveTargets[moveTargets.Count - 1].x, (int)moveTargets[moveTargets.Count - 1].z);
         }
         NesScripts.Controls.PathFind.Point _to = new NesScripts.Controls.PathFind.Point(target.x, target.y);
-
         List<NesScripts.Controls.PathFind.Point> path = NesScripts.Controls.PathFind.Pathfinding.FindPath(pathhGrid, _from, _to, NesScripts.Controls.PathFind.Pathfinding.DistanceType.Manhattan);
 
         foreach (NesScripts.Controls.PathFind.Point point in path)
@@ -78,9 +75,13 @@ public class EntityBehaviour : MonoBehaviour {
         }
     }
 
-    public void SetToCell(int x, int y)
+    public static GameObject LoadEntity(CustomGrid grid, UnityEngine.Object prefab, Vector2 pos)
     {
-        this.transform.position = new Vector3(x, 0, y);
+        GameObject entity = Instantiate(prefab, new Vector3(pos.x, 0, pos.y), Quaternion.identity) as GameObject;
+        entity.transform.parent = GameObject.Find("Entities").transform;
+        GameManager.instance.entities.Add(entity);
+        GameObject.Find("Timeline").GetComponent<TimelineBehaviour>().AddTimelineEntity(entity, GameManager.instance.entities.Count - 1);
+        return grid.AddEntity(entity);
     }
 
 

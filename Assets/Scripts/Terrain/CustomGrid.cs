@@ -3,61 +3,75 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;  
 
-public class CustomGrid {
+public class CustomGrid: MonoBehaviour {
 
-    public int cellSize, width, height;
+    public TextAsset tileMapFile;
+    public int width, height;
+    
+    int[,] tilemap;
     List<GameObject> entities;
     Cell[,] grid;
+    GameObject[,] drawnGrid;
 
-    public CustomGrid(int[,] tilemap, int cellSize)
+    void Awake()
     {
-        this.width = tilemap.GetLength(0);
-        this.height = tilemap.GetLength(1);
-        this.cellSize = cellSize;
+        tilemap = ReadTileMap(tileMapFile);
+        width = tilemap.GetLength(0);
+        height = tilemap.GetLength(1);
         entities = new List<GameObject>();
 
-        grid = new Cell[this.width, this.height];
-        for (int i = 0; i < this.width; i++)
+        grid = new Cell[width, height];
+        for (int i = 0; i < width; i++)
         {
-            for (int j = 0; j < this.height; j++)
+            for (int j = 0; j < height; j++)
             {
-                grid[i, j] = new Cell(i * cellSize, j * cellSize, GameManager.GetPrefabFromId(tilemap[i, j]));
+                grid[i, j] = new Cell(i, j, GameManager.GetPrefabFromId(tilemap[i, j]));
             }
         }
     }
 
-    public Cell GetCell(int x, int y)
+    private void Start()
     {
-        return this.grid[x, y];
+        drawnGrid = Draw();
     }
 
-    public Transform[,] Draw()
+    void Update()
     {
-        Transform[,] drawGrid = new Transform[this.width, this.height];
+        
+    }
 
-        for (int i = 0; i < this.width; i++)
+    public Cell GetCell(int x, int y)
+    {
+        return grid[x, y];
+    }
+
+    public GameObject[,] Draw()
+    {
+        GameObject[,] drawGrid = new GameObject[width, height];
+
+        for (int i = 0; i < width; i++)
         {
-            for (int j = 0; j < this.height; j++)
+            for (int j = 0; j < height; j++)
             {
-                drawGrid[i, j] = this.grid[i, j].Draw();
+                drawGrid[i, j] = grid[i, j].Draw();
             }
         }
 
         return drawGrid;
     }
 
-    public bool[,] getWalkableGrid()
+    public bool[,] GetWalkableGrid()
     {
-        bool[,] walkableGrid = new bool[this.width, this.height];
+        bool[,] walkableGrid = new bool[width, height];
 
-        for (int i = 0; i < this.width; i++)
+        for (int i = 0; i < width; i++)
         {
-            for (int j = 0; j < this.height; j++)
+            for (int j = 0; j < height; j++)
             {
                 try
                 {
                     if (grid[i, j].cellObject.GetComponent<CellBehaviour>().isWalkable)
-                        walkableGrid[i, j] = !getEntityOnCell(i, j);
+                        walkableGrid[i, j] = !GetEntityOnCell(i, j);
                     else
                         walkableGrid[i, j] = false;
                 }
@@ -71,18 +85,18 @@ public class CustomGrid {
         return walkableGrid;
     }
 
-    public bool[,] getViewGrid()
+    public bool[,] GetViewGrid()
     {
-        bool[,] viewGrid = new bool[this.width, this.height];
+        bool[,] viewGrid = new bool[width, height];
 
-        for (int i = 0; i < this.width; i++)
+        for (int i = 0; i < width; i++)
         {
-            for (int j = 0; j < this.height; j++)
+            for (int j = 0; j < height; j++)
             {
                 try
                 {
                     if (!grid[i, j].cellObject.GetComponent<CellBehaviour>().hideView)
-                        viewGrid[i, j] = !getEntityOnCell(i, j);
+                        viewGrid[i, j] = !GetEntityOnCell(i, j);
                     else
                         viewGrid[i, j] = false;
                 }
@@ -96,7 +110,7 @@ public class CustomGrid {
         return viewGrid;
     }
 
-    public GameObject getEntityOnCell(int x, int y)
+    public GameObject GetEntityOnCell(int x, int y)
     {
         foreach (GameObject entity in entities)
         {
@@ -106,7 +120,7 @@ public class CustomGrid {
         return null;
     }
 
-    public GameObject addEntity(GameObject entity)
+    public GameObject AddEntity(GameObject entity)
     {
         foreach (GameObject tmpEntity in entities)
         {

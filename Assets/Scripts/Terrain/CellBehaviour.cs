@@ -8,11 +8,13 @@ public class CellBehaviour : MonoBehaviour {
     public bool hideView;
 
     public Cell cell;
+    CustomGrid grid;
 
 	// Use this for initialization
 	void Start () {
         if (!isWalkable) // Correction hauteur block temporaire
             this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y + 0.25f, this.transform.position.z);
+        grid = GameObject.Find("Grid").GetComponent<CustomGrid>();
 	}
 	
 	// Update is called once per frame
@@ -76,6 +78,6 @@ public class CellBehaviour : MonoBehaviour {
         if (entity)
             Debug.Log(entity);
         else
-            GameManager.instance.selectedEntity.GetComponent<EntityBehaviour>().Move(GameManager.instance.grid, cell);
+            GameManager.instance.selectedEntity.GetComponent<EntityBehaviour>().Move(grid, cell);
     }
 }

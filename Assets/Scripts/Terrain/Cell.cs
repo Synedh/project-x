@@ -16,14 +16,14 @@ public class Cell {
         this.prefab = prefab;
     }
 
-    public Transform Draw()
+    public GameObject Draw()
     {
         GameObject grid = GameObject.Find("Grid");
         if (this.prefab) {
             cellObject = Object.Instantiate(this.prefab, new Vector3(x, 0, y), Quaternion.identity) as GameObject;
             cellObject.transform.parent = grid.transform;
             cellObject.GetComponent<CellBehaviour>().cell = this;
-            return cellObject.transform;
+            return cellObject;
         }
         return null;
     }

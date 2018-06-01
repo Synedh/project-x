@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour {
 
-    public static GameManager instance = null;
-    TurnManager turnManager;
-    public TextAsset tileMapFile;
-
-    public CustomGrid grid;
+    public static GameManager instance;
     public GameObject selectedEntity;
     public List<GameObject> entities;
+
+    TimelineBehaviour timelineBehaviour;
+    TurnManager turnManager;
+    CustomGrid grid;
 
     // Use this for initialization, called before Start()
     void Awake () {
@@ -24,26 +24,28 @@ public class GameManager : MonoBehaviour {
 
     void InitGame()
     {
-        grid = new CustomGrid(CustomGrid.ReadTileMap(tileMapFile), 1);
-        grid.Draw();
         selectedEntity = null;
         entities = new List<GameObject>();
     }
 
     void Start()
     {
+        grid = GameObject.Find("Grid").GetComponent<CustomGrid>();
+        timelineBehaviour = GameObject.Find("Timeline").GetComponent<TimelineBehaviour>();
+
         entities = new List<GameObject> {
-            EntityBehaviour.LoadEntity(Resources.Load("Prefabs/Entity"), new Vector2(1, 1), Quaternion.identity) as GameObject,
-            EntityBehaviour.LoadEntity(Resources.Load("Prefabs/Entity"), new Vector2(2, 1), Quaternion.identity) as GameObject,
-            EntityBehaviour.LoadEntity(Resources.Load("Prefabs/Entity"), new Vector2(2, 2), Quaternion.identity) as GameObject
+            EntityBehaviour.LoadEntity(grid, Resources.Load("Prefabs/Entity"), new Vector2(1, 1)) as GameObject,
+            EntityBehaviour.LoadEntity(grid, Resources.Load("Prefabs/Entity"), new Vector2(2, 1)) as GameObject,
+            EntityBehaviour.LoadEntity(grid, Resources.Load("Prefabs/Entity"), new Vector2(2, 2)) as GameObject
         };
         entities[0].GetComponent<CharacterBehaviour>().LoadCharacter("Toto");
         entities[1].GetComponent<CharacterBehaviour>().LoadCharacter("Bill");
         entities[2].GetComponent<CharacterBehaviour>().LoadCharacter("Boule");
-        TimelineBehaviour.BuildTimeline(entities);
+
+        timelineBehaviour.Refresh();
+
         turnManager = new TurnManager(entities);
         NextTurn();
-        Debug.Log(grid.GetCell(1, 1));
     }
 
     void Update()

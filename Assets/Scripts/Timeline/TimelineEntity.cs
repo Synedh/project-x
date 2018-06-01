@@ -5,22 +5,25 @@ using UnityEngine.UI;
 
 public class TimelineEntity : MonoBehaviour {
 
-    public CharacterBehaviour characterBehaviour;
+    CharacterBehaviour characterBehaviour;
+    EntityBehaviour entityBehaviour;
 
 	// Use this for initialization
 	void Start ()
     {
         characterBehaviour = null;
-	}
+        entityBehaviour = null;
+    }
 	
 	// Update is called once per frame
 	void Update () {
 	}
 
-    public void SetEntity(CharacterBehaviour characterBehaviour)
+    public void SetEntity(GameObject entity)
     {
-        characterBehaviour.gameObject.GetComponent<EntityBehaviour>().timelineEntity = this;
-        this.characterBehaviour = characterBehaviour;
+        characterBehaviour = entity.GetComponent<CharacterBehaviour>();
+        entityBehaviour = entity.GetComponent<EntityBehaviour>();
+        entityBehaviour.timelineEntity = this;
         GetComponentInChildren<Text>().text = characterBehaviour.nickname;
     }
 

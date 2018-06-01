@@ -5,11 +5,13 @@ using UnityEngine;
 public class CameraManager : MonoBehaviour {
 
     Vector3 middle;
+    CustomGrid grid;
 
 	// Use this for initialization
 	void Start () {
-        middle = new Vector3(GameManager.instance.grid.width / 2, 0f, GameManager.instance.grid.height / 2);
-        transform.position = new Vector3(GameManager.instance.grid.width, 5f, GameManager.instance.grid.height);
+        grid = GameObject.Find("Grid").GetComponent<CustomGrid>();
+        middle = new Vector3(grid.width / 2, 0f, grid.height / 2);
+        transform.position = new Vector3(grid.width, 5f, grid.height);
         transform.LookAt(middle);
     }
 	
@@ -17,17 +19,17 @@ public class CameraManager : MonoBehaviour {
 	void Update () {
         if (Input.GetKeyUp(KeyCode.UpArrow))
         {
-            transform.position = new Vector3(GameManager.instance.grid.width, transform.position.y, GameManager.instance.grid.height);
+            transform.position = new Vector3(grid.width, transform.position.y, grid.height);
             transform.LookAt(middle);
         }
         else if (Input.GetKeyUp(KeyCode.LeftArrow))
         {
-            transform.position = new Vector3(GameManager.instance.grid.width, transform.position.y, 0);
+            transform.position = new Vector3(grid.width, transform.position.y, 0);
             transform.LookAt(middle);
         }
         else if (Input.GetKeyUp(KeyCode.RightArrow))
         {
-            transform.position = new Vector3(0, transform.position.y, GameManager.instance.grid.height);
+            transform.position = new Vector3(0, transform.position.y, grid.height);
             transform.LookAt(middle);
         }
         else if (Input.GetKeyUp(KeyCode.DownArrow))
