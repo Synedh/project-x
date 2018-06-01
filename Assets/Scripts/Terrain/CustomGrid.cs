@@ -15,19 +15,7 @@ public class CustomGrid: MonoBehaviour {
 
     void Awake()
     {
-        tilemap = ReadTileMap(tileMapFile);
-        width = tilemap.GetLength(0);
-        height = tilemap.GetLength(1);
-        entities = new List<GameObject>();
-
-        grid = new Cell[width, height];
-        for (int i = 0; i < width; i++)
-        {
-            for (int j = 0; j < height; j++)
-            {
-                grid[i, j] = new Cell(i, j, GameManager.GetPrefabFromId(tilemap[i, j]));
-            }
-        }
+        LoadGrid();
     }
 
     private void Start()
@@ -43,6 +31,23 @@ public class CustomGrid: MonoBehaviour {
     public Cell GetCell(int x, int y)
     {
         return grid[x, y];
+    }
+
+    public void LoadGrid()
+    {
+        tilemap = ReadTileMap(tileMapFile);
+        width = tilemap.GetLength(0);
+        height = tilemap.GetLength(1);
+        entities = new List<GameObject>();
+
+        grid = new Cell[width, height];
+        for (int i = 0; i < width; i++)
+        {
+            for (int j = 0; j < height; j++)
+            {
+                grid[i, j] = new Cell(i, j, GameManager.GetPrefabFromId(tilemap[i, j]));
+            }
+        }
     }
 
     public GameObject[,] Draw()
