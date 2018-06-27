@@ -8,7 +8,7 @@ public class CharacterBehaviour : MonoBehaviour {
     public Dictionary<string, float> caracteristics;
     public Dictionary<string, Item> items;
     public List<Spell> spells;
-	public List<Buff> buffs;
+	public List<Effect> effects;
 
 
     // Use this for initialization
@@ -35,7 +35,7 @@ public class CharacterBehaviour : MonoBehaviour {
 			{"weapon", null}
         };
         spells = new List<Spell>();
-		buffs = new List<Buff>();
+		effects = new List<Effect>();
     }
 	
 	// Update is called once per frame
@@ -45,7 +45,18 @@ public class CharacterBehaviour : MonoBehaviour {
 
 	public void UpdateStats()
 	{
-		
+		foreach (KeyValuePair<string, Item> item in items)
+		{
+			foreach (KeyValuePair<string, float> stat in item.Value.Stats) {
+				this.caracteristics[stat.Key] += stat.Value;
+			}
+		}
+
+		foreach (Effect effect in effects)
+		{
+			KeyValuePair<string, float> turnEffect = effect.GetEffect();
+			caracteristics[turnEffect.Key] += turnEffect.Value;
+		}
 	}
 
 	public void LoadCharacter(string nickname, Dictionary<string, Item> items, List<Spell> spells)
