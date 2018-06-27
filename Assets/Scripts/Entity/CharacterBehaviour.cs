@@ -8,6 +8,7 @@ public class CharacterBehaviour : MonoBehaviour {
     public Dictionary<string, float> caracteristics;
     public Dictionary<string, Item> items;
     public List<Spell> spells;
+	public List<Buff> buffs;
 
 
     // Use this for initialization
@@ -30,9 +31,11 @@ public class CharacterBehaviour : MonoBehaviour {
         items = new Dictionary<string, Item>() {
             {"collar", null},
             {"ring", null},
-            {"bracelet", null}
+            {"bracelet", null},
+			{"weapon", null}
         };
         spells = new List<Spell>();
+		buffs = new List<Buff>();
     }
 	
 	// Update is called once per frame
@@ -40,8 +43,17 @@ public class CharacterBehaviour : MonoBehaviour {
 
     }
 
-    public void LoadCharacter(string nickname)
+	public void UpdateStats()
+	{
+		
+	}
+
+	public void LoadCharacter(string nickname, Dictionary<string, Item> items, List<Spell> spells)
     {
         this.nickname = nickname;
+		this.items = items;
+		this.spells = spells;
+
+		UpdateStats();
     }
 }

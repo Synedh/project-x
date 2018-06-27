@@ -17,6 +17,7 @@ public class EntityBehaviour : MonoBehaviour {
     static CustomGrid grid;
 
     List<Vector3> moveTargets;
+	int rotate;
     
 	void Start () {
         speed = 3f;
@@ -32,10 +33,10 @@ public class EntityBehaviour : MonoBehaviour {
         // Move
         if (moveTargets.Count != 0)
         {
-            float step = speed * Time.deltaTime;
-            transform.position = Vector3.MoveTowards(transform.position, moveTargets[0], step);
-            if (transform.position.Equals(moveTargets[0]))
-                moveTargets.RemoveAt(0);
+			Move(moveTargets[0]);
+			if (transform.position.Equals(moveTargets[0]))
+				moveTargets.RemoveAt(0);
+
         }
 	}
 
@@ -46,10 +47,28 @@ public class EntityBehaviour : MonoBehaviour {
 
     public void SetToCell(int x, int y)
     {
-        this.transform.position = new Vector3(x, 0, y);
+        transform.position = new Vector3(x, 0, y);
     }
 
-    public void Move(CustomGrid grid, Cell target)
+	public void Move(Vector3 moveTarget) 
+	{
+		if (transform.position.x - moveTarget.x < 0 && transform.position.z - moveTarget.z == 0)
+			Rotate (0);
+		else if (transform.position.x - moveTarget.x == 0 && transform.position.z - moveTarget.z < 0)
+			Rotate (270);
+		else if (transform.position.x - moveTarget.x == 0 && transform.position.z - moveTarget.z > 0)
+			Rotate (90);
+		else
+			Rotate (180);
+		transform.position = Vector3.MoveTowards(transform.position, moveTarget, speed * Time.deltaTime);
+	}
+
+	public void Rotate(int angle)
+	{	
+		transform.eulerAngles = new Vector3(0, angle, 0);
+	}
+
+    public void SetMoveTargets(CustomGrid grid, Cell target)
     {
         // Fill a targets list of point. Then this list is parsed by Update function.
         // Once a location is reached, element is remove and next one is targeted.

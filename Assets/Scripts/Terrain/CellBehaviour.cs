@@ -78,6 +78,6 @@ public class CellBehaviour : MonoBehaviour {
         if (entity)
             Debug.Log(entity);
         else
-            GameManager.instance.selectedEntity.GetComponent<EntityBehaviour>().Move(grid, cell);
+			GameManager.instance.selectedEntity.GetComponent<EntityBehaviour>().SetMoveTargets(grid, cell);
     }
 }

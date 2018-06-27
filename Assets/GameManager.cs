@@ -58,6 +58,11 @@ public class GameManager : MonoBehaviour {
         instance.turnManager.Next();
     }
 
+	public void RotateTo(int rot)
+	{
+		instance.selectedEntity.GetComponent<EntityBehaviour>().Rotate(rot);
+	}
+
     public static Object GetPrefabFromId(int id)
     {
         if (id == 1)
