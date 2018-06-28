@@ -5,14 +5,16 @@ using UnityEngine.UI;
 
 public class TimelineEntity : MonoBehaviour {
 
-    CharacterBehaviour characterBehaviour;
+    Character character;
     EntityBehaviour entityBehaviour;
+	GameObject detailContainer;
+	GameObject detailBox;
 
 	// Use this for initialization
-	void Start ()
-    {
-        characterBehaviour = null;
-        entityBehaviour = null;
+	void Start () {
+		// /!\ Caution, called after SetEntity /!\
+		detailContainer = GameObject.Find("DetailContainer");
+		detailBox = null;
     }
 	
 	// Update is called once per frame
@@ -21,14 +23,27 @@ public class TimelineEntity : MonoBehaviour {
 
     public void SetEntity(GameObject entity)
     {
-        characterBehaviour = entity.GetComponent<CharacterBehaviour>();
         entityBehaviour = entity.GetComponent<EntityBehaviour>();
+		character = entityBehaviour.character;
         entityBehaviour.timelineEntity = this;
-        GetComponentInChildren<Text>().text = characterBehaviour.nickname;
+        GetComponentInChildren<Text>().text = character.Nickname;
     }
 
     public void SetColor(Color color)
     {
         GetComponentInChildren<Text>().color = color;
     }
+
+	public void OnClick()
+	{
+		if (detailBox == null)
+		{
+			detailBox = Instantiate(Resources.Load("Prefabs/DetailPannel"), transform) as GameObject;
+			detailBox.GetComponent<TimelineDetailBox>().SetEntity(entityBehaviour);
+		} 
+		else 
+		{
+			DestroyImmediate(detailBox);
+		}
+	}
 }

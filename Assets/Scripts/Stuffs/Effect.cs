@@ -17,11 +17,11 @@ public class Effect
 	Sprite image;
 	string chatMessage;
 	string description;
-	List<KeyValuePair<string, float>> effects;
+	List<KeyValuePair<Characteristic, float>> effects;
 
 	int currentTurn;
 
-	public Effect(string name, Sprite image, string chatMessage, string description, List<KeyValuePair<string, float>> effects)
+	public Effect(string name, Sprite image, string chatMessage, string description, List<KeyValuePair<Characteristic, float>> effects)
 	{
 		this.name = name;
 		this.image = image;
@@ -32,15 +32,15 @@ public class Effect
 		currentTurn = 0;
 	}
 
-	void PrintEffect(string type, float value)
+	void PrintEffect(Characteristic type, float value)
 	{
 		// Print effect to chat
 		Debug.Log("Effet " + type + " de " + value + ".");
 	}
 
-	public KeyValuePair<string, float> GetEffect()
+	public KeyValuePair<Characteristic, float> GetEffect()
 	{
-		KeyValuePair<string, float> effect = effects[currentTurn];
+		KeyValuePair<Characteristic, float> effect = effects[currentTurn];
 		PrintEffect(effect.Key, effect.Value);
 		currentTurn++;
 
@@ -71,7 +71,7 @@ public class Effect
 		}
 	}
 
-	public List<KeyValuePair<string, float>> Effects {
+	public List<KeyValuePair<Characteristic, float>> Effects {
 		get {
 			return this.effects;
 		}

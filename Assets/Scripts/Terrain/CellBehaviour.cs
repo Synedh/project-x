@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class CellBehaviour : MonoBehaviour {
 
@@ -35,49 +36,45 @@ public class CellBehaviour : MonoBehaviour {
     }
 
     void OnMouseOver()
-    {
-        GameObject entity = IsThereAnEntity();
-        if (entity && GameManager.instance.selectedEntity == entity)
-        {
-            foreach (MeshRenderer renderer in entity.GetComponentsInChildren<MeshRenderer>())
-            {
-                renderer.material = entity.GetComponent<EntityBehaviour>().hoverSelected;
-            }
-        }
-        else if (entity)
-        {
-            foreach (MeshRenderer renderer in entity.GetComponentsInChildren<MeshRenderer>())
-            {
-                renderer.material = entity.GetComponent<EntityBehaviour>().hoverUnselected;
-            }
-        }
+	{
+		if (!EventSystem.current.IsPointerOverGameObject ()) {
+			GameObject entity = IsThereAnEntity ();
+			if (entity && GameManager.instance.selectedEntity == entity) {
+				foreach (MeshRenderer renderer in entity.GetComponentsInChildren<MeshRenderer>()) {
+					renderer.material = entity.GetComponent<EntityBehaviour> ().hoverSelected;
+				}
+			} else if (entity) {
+				foreach (MeshRenderer renderer in entity.GetComponentsInChildren<MeshRenderer>()) {
+					renderer.material = entity.GetComponent<EntityBehaviour> ().hoverUnselected;
+				}
+			}
+		} else {
+			OnMouseExit ();
+		}
     }
 
     private void OnMouseExit()
-    {
-        GameObject entity = IsThereAnEntity();
-        if (entity && GameManager.instance.selectedEntity == entity)
-        {
-            foreach (MeshRenderer renderer in entity.GetComponentsInChildren<MeshRenderer>())
-            {
-                renderer.material = entity.GetComponent<EntityBehaviour>().selected;
-            }
-        }
-        else if (entity)
-        {
-            foreach (MeshRenderer renderer in entity.GetComponentsInChildren<MeshRenderer>())
-            {
-                renderer.material = entity.GetComponent<EntityBehaviour>().unselected;
-            }
-        }
+	{
+		GameObject entity = IsThereAnEntity ();
+		if (entity && GameManager.instance.selectedEntity == entity) {
+			foreach (MeshRenderer renderer in entity.GetComponentsInChildren<MeshRenderer>()) {
+				renderer.material = entity.GetComponent<EntityBehaviour> ().selected;
+			}
+		} else if (entity) {
+			foreach (MeshRenderer renderer in entity.GetComponentsInChildren<MeshRenderer>()) {
+				renderer.material = entity.GetComponent<EntityBehaviour> ().unselected;
+			}
+		}
     }
 
     void OnMouseDown()
     {
-        GameObject entity = IsThereAnEntity();
-        if (entity)
-            Debug.Log(entity);
-        else
-			GameManager.instance.selectedEntity.GetComponent<EntityBehaviour>().SetMoveTargets(grid, cell);
+		if (!EventSystem.current.IsPointerOverGameObject ()) {
+			GameObject entity = IsThereAnEntity ();
+			if (entity)
+				Debug.Log (entity);
+			else
+				GameManager.instance.selectedEntity.GetComponent<EntityBehaviour> ().SetMoveTargets (grid, cell);
+		}
     }
 }

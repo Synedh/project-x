@@ -6,17 +6,19 @@ public class Item {
 
 	string name;
 	Sprite image;
+	ItemType itemType;
 	string description;
-	List<KeyValuePair<string, float>> stats;
-	List<Effect> effects;
+	List<KeyValuePair<Characteristic, float>> stats;
+	Spell spell; // For weapons only
 
-	public Item(string name, Sprite image, string description, List<KeyValuePair<string, float>> stats, List<Effect> effects)
+	public Item(string name, Sprite image, ItemType itemType, string description, List<KeyValuePair<Characteristic, float>> stats, Spell spell = null)
 	{
 		this.name = name;
 		this.image = image;
+		this.itemType = itemType;
 		this.description = description;
 		this.stats = stats;
-		this.effects = effects; // /!\ For weapons only /!\
+		this.spell = spell; // /!\ For weapons only /!\
 	}
 
 	public string Name {
@@ -31,21 +33,27 @@ public class Item {
 		}
 	}
 
+	public ItemType ItemType {
+		get {
+			return this.itemType;
+		}
+	}
+
 	public string Description {
 		get {
 			return this.description;
 		}
 	}
 
-	public List<KeyValuePair<string, float>> Stats {
+	public List<KeyValuePair<Characteristic, float>> Stats {
 		get {
 			return this.stats;
 		}
 	}
 
-	public List<Effect> Effects {
+	public Spell Spell {
 		get {
-			return this.effects;
+			return this.spell;
 		}
 	}
 }

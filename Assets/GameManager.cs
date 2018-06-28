@@ -38,9 +38,9 @@ public class GameManager : MonoBehaviour {
             EntityBehaviour.LoadEntity(grid, Resources.Load("Prefabs/Entity"), new Vector2(2, 1)) as GameObject,
             EntityBehaviour.LoadEntity(grid, Resources.Load("Prefabs/Entity"), new Vector2(2, 2)) as GameObject
         };
-        entities[0].GetComponent<CharacterBehaviour>().LoadCharacter("Toto", null, null);
-		entities[1].GetComponent<CharacterBehaviour>().LoadCharacter("Bill", null, null);
-		entities[2].GetComponent<CharacterBehaviour>().LoadCharacter("Boule", null, null);
+		entities[0].GetComponent<EntityBehaviour>().character = new Character("Toto");
+		entities[1].GetComponent<EntityBehaviour>().character = new Character("Bill");
+		entities[2].GetComponent<EntityBehaviour>().character = new Character("Boule");
 
         timelineBehaviour.Refresh();
 

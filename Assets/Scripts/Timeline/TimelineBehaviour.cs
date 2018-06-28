@@ -34,12 +34,11 @@ public class TimelineBehaviour : MonoBehaviour
 
         foreach (GameObject entity in entities)
         {
-            GameObject timelineEntity = Instantiate(timelineEntityprefab);
+			GameObject timelineEntity = Instantiate(timelineEntityprefab, transform);
 
-            timelineEntity.transform.SetParent(transform, false);
             timelineEntity.GetComponent<RectTransform>().anchoredPosition = new Vector2(
                 prefabRectTransform.rect.width / 2 + prefabRectTransform.rect.width * timelineEntities.Count,
-                prefabRectTransform.rect.height / 2
+                prefabRectTransform.rect.height / 2 - 10
             );
             timelineEntity.GetComponent<TimelineEntity>().SetEntity(entity);
 
@@ -50,6 +49,5 @@ public class TimelineBehaviour : MonoBehaviour
     public void AddTimelineEntity(GameObject entity, int position)
     {
         entities.Insert(position, entity);
-        Refresh();
     }
 }

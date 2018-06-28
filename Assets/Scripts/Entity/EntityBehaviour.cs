@@ -13,7 +13,7 @@ public class EntityBehaviour : MonoBehaviour {
 
     BoxCollider boxCollider;
     public TimelineEntity timelineEntity;
-    CharacterBehaviour characterBehaviour;
+    public Character character;
     static CustomGrid grid;
 
     List<Vector3> moveTargets;
@@ -23,7 +23,6 @@ public class EntityBehaviour : MonoBehaviour {
         speed = 3f;
         boxCollider = GetComponent<BoxCollider>();
         boxCollider.enabled = false;
-        characterBehaviour = GetComponent<CharacterBehaviour>();
         grid = GameObject.Find("Grid").GetComponent<CustomGrid>();
 
         moveTargets = new List<Vector3>();
@@ -42,6 +41,7 @@ public class EntityBehaviour : MonoBehaviour {
 
     public void OnMouseDown()
     {
+		// if (!EventSystem.current.IsPointerOverGameObject() )
         // selectEntity(gameObject);
     }
 
