@@ -42,7 +42,10 @@ public class CellBehaviour : MonoBehaviour {
 		if (!EventSystem.current.IsPointerOverGameObject ()) {
 			GameObject entity = IsThereAnEntity ();
 			if (entity) {
-				entity.GetComponent<EntityBehaviour>().MouseEnter();
+				entity.GetComponent<EntityBehaviour> ().MouseEnter ();
+			} else {
+				if (!GameManager.instance.selectedEntity.GetComponent<EntityBehaviour>().DoMove)
+					GameManager.instance.selectedEntity.GetComponent<EntityBehaviour>().SetMoveTargets(grid, cell);
 			}
 		} else {
 			OnMouseExit ();
@@ -64,7 +67,7 @@ public class CellBehaviour : MonoBehaviour {
 			if (entity)
 				entity.GetComponent<EntityBehaviour>().MouseDown();
 			else
-				GameManager.instance.selectedEntity.GetComponent<EntityBehaviour>().SetMoveTargets(grid, cell);
+				GameManager.instance.selectedEntity.GetComponent<EntityBehaviour>().DoMove = true;
 		}
     }
 

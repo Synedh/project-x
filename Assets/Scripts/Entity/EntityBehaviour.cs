@@ -5,40 +5,42 @@ using UnityEngine;
 
 public class EntityBehaviour : MonoBehaviour {
 
-    float speed;
     public Material selected;
     public Material unselected;
     public Material hoverSelected;
     public Material hoverUnselected;
 
-    BoxCollider boxCollider;
     public TimelineEntity timelineEntity;
     public Character character;
     static CustomGrid grid;
 
+	public int x;
+	public int y;
+
     List<Vector3> moveTargets;
 	List<Vector2> MPRangeCells;
-	int rotate;
+	float speed;
+	bool doMove;
     
 	void Start () {
-        speed = 3f;
-        boxCollider = GetComponent<BoxCollider>();
-        boxCollider.enabled = false;
+		GetComponent<BoxCollider>().enabled = false;
+
         grid = GameObject.Find("Grid").GetComponent<CustomGrid>();
 
 		moveTargets = new List<Vector3>();
 		MPRangeCells = new List<Vector2>();
+
+		x = (int)transform.position.x;
+		y = (int)transform.position.y;
+
+		speed = 3f;
+		doMove = false;
     }
 	
 	void Update () {
         // Move
-        if (moveTargets.Count != 0)
-        {
+        if (moveTargets.Count != 0 && doMove)
 			Move(moveTargets[0]);
-			if (transform.position.Equals(moveTargets[0]))
-				moveTargets.RemoveAt(0);
-
-        }
 	}
 
 	int[] Position() {
@@ -83,10 +85,14 @@ public class EntityBehaviour : MonoBehaviour {
 		grid.CleanCells(MPRangeCells);
 	}
 
-    public void SetToCell(int x, int y)
-    {
-        transform.position = new Vector3(x, 0, y);
-    }
+	public bool DoMove {
+		get {
+			return this.doMove;
+		}
+		set {
+			doMove = value;
+		}
+	}
 
 	public void Move(Vector3 moveTarget) 
 	{
@@ -99,6 +105,12 @@ public class EntityBehaviour : MonoBehaviour {
 		else
 			Rotate (180);
 		transform.position = Vector3.MoveTowards(transform.position, moveTarget, speed * Time.deltaTime);
+
+		if (transform.position.Equals(moveTargets[0])) {
+			moveTargets.RemoveAt(0);
+			if (moveTargets.Count == 0)
+				doMove = false;
+		}
 	}
 
 	public void Rotate(int angle)
@@ -117,7 +129,7 @@ public class EntityBehaviour : MonoBehaviour {
         NesScripts.Controls.PathFind.Point _from;
         if (moveTargets.Count == 0)
         {
-            _from = new NesScripts.Controls.PathFind.Point((int)transform.position.x, (int)transform.position.z);
+            _from = new NesScripts.Controls.PathFind.Point(x, y);
         }
         else
         {
