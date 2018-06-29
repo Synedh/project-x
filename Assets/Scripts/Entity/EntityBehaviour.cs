@@ -17,6 +17,7 @@ public class EntityBehaviour : MonoBehaviour {
     static CustomGrid grid;
 
     List<Vector3> moveTargets;
+	List<Vector2> MPRangeCells;
 	int rotate;
     
 	void Start () {
@@ -25,7 +26,8 @@ public class EntityBehaviour : MonoBehaviour {
         boxCollider.enabled = false;
         grid = GameObject.Find("Grid").GetComponent<CustomGrid>();
 
-        moveTargets = new List<Vector3>();
+		moveTargets = new List<Vector3>();
+		MPRangeCells = new List<Vector2>();
     }
 	
 	void Update () {
@@ -39,11 +41,47 @@ public class EntityBehaviour : MonoBehaviour {
         }
 	}
 
-    public void OnMouseDown()
+	int[] Position() {
+		return new int[] {
+			(int)Math.Truncate(transform.position.x),
+			(int)Math.Truncate(transform.position.z)
+		};
+	}
+
+    public void MouseDown()
     {
-		// if (!EventSystem.current.IsPointerOverGameObject() )
-        // selectEntity(gameObject);
+		Debug.Log(character.Nickname);
     }
+
+	public void MouseEnter()
+	{
+		if (GameManager.instance.selectedEntity == gameObject) {
+			foreach (MeshRenderer renderer in gameObject.GetComponentsInChildren<MeshRenderer>()) {
+				renderer.material = hoverSelected;
+			}
+		} else {
+			foreach (MeshRenderer renderer in gameObject.GetComponentsInChildren<MeshRenderer>()) {
+				renderer.material = hoverUnselected;
+			}
+		}
+		int[] position = Position ();
+		MPRangeCells = grid.MPRange(position[0], position[1], Convert.ToInt32(character.Stats[Characteristic.CurrentMP]));
+		grid.ColorCells(MPRangeCells, new Color(0f, 1f, 0.2f, 0.5f));
+	}
+
+	public void MouseExit()
+	{
+		if (GameManager.instance.selectedEntity == gameObject) {
+			foreach (MeshRenderer renderer in gameObject.GetComponentsInChildren<MeshRenderer>()) {
+				renderer.material = selected;
+			}
+		} else {
+			foreach (MeshRenderer renderer in gameObject.GetComponentsInChildren<MeshRenderer>()) {
+				renderer.material = unselected;
+			}
+		}
+		grid.CleanCells(MPRangeCells);
+	}
 
     public void SetToCell(int x, int y)
     {
@@ -75,7 +113,7 @@ public class EntityBehaviour : MonoBehaviour {
         // PathFinding module is used to search best way.
         bool[,] tilesmap = grid.GetWalkableGrid();
 
-        NesScripts.Controls.PathFind.Grid pathhGrid = new NesScripts.Controls.PathFind.Grid(tilesmap);
+        NesScripts.Controls.PathFind.Grid pathGrid = new NesScripts.Controls.PathFind.Grid(tilesmap);
         NesScripts.Controls.PathFind.Point _from;
         if (moveTargets.Count == 0)
         {
@@ -86,13 +124,13 @@ public class EntityBehaviour : MonoBehaviour {
             _from = new NesScripts.Controls.PathFind.Point((int)moveTargets[moveTargets.Count - 1].x, (int)moveTargets[moveTargets.Count - 1].z);
         }
         NesScripts.Controls.PathFind.Point _to = new NesScripts.Controls.PathFind.Point(target.x, target.y);
-        List<NesScripts.Controls.PathFind.Point> path = NesScripts.Controls.PathFind.Pathfinding.FindPath(pathhGrid, _from, _to, NesScripts.Controls.PathFind.Pathfinding.DistanceType.Manhattan);
+        List<NesScripts.Controls.PathFind.Point> path = NesScripts.Controls.PathFind.Pathfinding.FindPath(pathGrid, _from, _to, NesScripts.Controls.PathFind.Pathfinding.DistanceType.Manhattan);
 
         foreach (NesScripts.Controls.PathFind.Point point in path)
         {
             moveTargets.Add(new Vector3(point.x, transform.position.y, point.y));
         }
-    }
+	}
 
     public static GameObject LoadEntity(CustomGrid grid, UnityEngine.Object prefab, Vector2 pos)
     {

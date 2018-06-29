@@ -15,9 +15,11 @@ public class Character {
 		this.nickname = nickname;
 		stats = new Dictionary<Characteristic, float>() {
 			{ Characteristic.MaxLife, 60f },
-			{ Characteristic.Life, 60f },
-			{ Characteristic.AP, 6f },
-			{ Characteristic.MP, 3f },
+			{ Characteristic.CurrentLife, 60f },
+			{ Characteristic.MaxAP, 6f },
+			{ Characteristic.CurrentAP, 6f },
+			{ Characteristic.MaxMP, 3f },
+			{ Characteristic.CurrentMP, 3f },
 			{ Characteristic.ContactDamage, 1f },
 			{ Characteristic.DistantDamage, 1f },
 			{ Characteristic.PhysicalDamage, 1f },
@@ -38,7 +40,27 @@ public class Character {
 		effects = new List<Effect>();
 
 		UpdateStats ();
-    }
+	}
+
+	public void UpdateStats()
+	{
+		foreach (KeyValuePair<ItemType, Item> item in items)
+		{
+			if (item.Value != null)
+			{
+				foreach (KeyValuePair<Characteristic, float> stat in item.Value.Stats)
+				{
+					this.stats[stat.Key] += stat.Value;
+				}
+			}
+		}
+
+		foreach (Effect effect in effects)
+		{
+			KeyValuePair<Characteristic, float> turnEffect = effect.GetEffect();
+			stats[turnEffect.Key] += turnEffect.Value;
+		}
+	}
 
 	public string Nickname {
 		get {
@@ -67,26 +89,6 @@ public class Character {
 	public List<Effect> Effects {
 		get {
 			return this.effects;
-		}
-	}
-
-	public void UpdateStats()
-	{
-		foreach (KeyValuePair<ItemType, Item> item in items)
-		{
-			if (item.Value != null)
-			{
-				foreach (KeyValuePair<Characteristic, float> stat in item.Value.Stats)
-				{
-					this.stats[stat.Key] += stat.Value;
-				}
-			}
-		}
-
-		foreach (Effect effect in effects)
-		{
-			KeyValuePair<Characteristic, float> turnEffect = effect.GetEffect();
-			stats[turnEffect.Key] += turnEffect.Value;
 		}
 	}
 }

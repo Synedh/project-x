@@ -9,13 +9,15 @@ public class CellBehaviour : MonoBehaviour {
     public bool hideView;
 
     public Cell cell;
+	GameObject cellColor;
     CustomGrid grid;
 
 	// Use this for initialization
 	void Start () {
         if (!isWalkable) // Correction hauteur block temporaire
-            this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y + 0.25f, this.transform.position.z);
+            transform.position = new Vector3(transform.position.x, transform.position.y + 0.25f, transform.position.z);
         grid = GameObject.Find("Grid").GetComponent<CustomGrid>();
+		cellColor = null;
 	}
 	
 	// Update is called once per frame
@@ -35,35 +37,23 @@ public class CellBehaviour : MonoBehaviour {
         return null;
     }
 
-    void OnMouseOver()
+    void OnMouseEnter()
 	{
 		if (!EventSystem.current.IsPointerOverGameObject ()) {
 			GameObject entity = IsThereAnEntity ();
-			if (entity && GameManager.instance.selectedEntity == entity) {
-				foreach (MeshRenderer renderer in entity.GetComponentsInChildren<MeshRenderer>()) {
-					renderer.material = entity.GetComponent<EntityBehaviour> ().hoverSelected;
-				}
-			} else if (entity) {
-				foreach (MeshRenderer renderer in entity.GetComponentsInChildren<MeshRenderer>()) {
-					renderer.material = entity.GetComponent<EntityBehaviour> ().hoverUnselected;
-				}
+			if (entity) {
+				entity.GetComponent<EntityBehaviour>().MouseEnter();
 			}
 		} else {
 			OnMouseExit ();
 		}
     }
 
-    private void OnMouseExit()
+    void OnMouseExit()
 	{
 		GameObject entity = IsThereAnEntity ();
-		if (entity && GameManager.instance.selectedEntity == entity) {
-			foreach (MeshRenderer renderer in entity.GetComponentsInChildren<MeshRenderer>()) {
-				renderer.material = entity.GetComponent<EntityBehaviour> ().selected;
-			}
-		} else if (entity) {
-			foreach (MeshRenderer renderer in entity.GetComponentsInChildren<MeshRenderer>()) {
-				renderer.material = entity.GetComponent<EntityBehaviour> ().unselected;
-			}
+		if (entity) {
+			entity.GetComponent<EntityBehaviour>().MouseExit();
 		}
     }
 
@@ -72,9 +62,21 @@ public class CellBehaviour : MonoBehaviour {
 		if (!EventSystem.current.IsPointerOverGameObject ()) {
 			GameObject entity = IsThereAnEntity ();
 			if (entity)
-				Debug.Log (entity);
+				entity.GetComponent<EntityBehaviour>().MouseDown();
 			else
-				GameManager.instance.selectedEntity.GetComponent<EntityBehaviour> ().SetMoveTargets (grid, cell);
+				GameManager.instance.selectedEntity.GetComponent<EntityBehaviour>().SetMoveTargets(grid, cell);
 		}
     }
+
+	public void colorCell(Color color) {
+		if (cellColor != null)
+			removeColorCell ();
+		cellColor = Instantiate(Resources.Load("Prefabs/CellColor"), transform) as GameObject;
+		cellColor.GetComponent<SpriteRenderer> ().color = color;// new Color(0f, 1f, 0.2f, 0.5f);
+	}
+
+	public void removeColorCell() {
+		DestroyImmediate(cellColor);
+		cellColor = null;
+	}
 }

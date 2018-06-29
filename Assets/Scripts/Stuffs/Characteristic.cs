@@ -2,9 +2,11 @@
 
 public enum Characteristic {
 	MaxLife,
-	Life,
-	AP,
-	MP,
+	CurrentLife,
+	MaxAP,
+	CurrentAP,
+	MaxMP,
+	CurrentMP,
 	ContactDamage,
 	DistantDamage,
 	PhysicalDamage,
