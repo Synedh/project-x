@@ -38,7 +38,12 @@ public class GameManager : MonoBehaviour {
             EntityBehaviour.LoadEntity(grid, Resources.Load("Prefabs/Entity"), new Vector2(2, 1)) as GameObject,
             EntityBehaviour.LoadEntity(grid, Resources.Load("Prefabs/Entity"), new Vector2(2, 2)) as GameObject
         };
-		entities[0].GetComponent<EntityBehaviour>().character = new Character("Toto");
+
+		Item firstNecklace = new Item("Sauron's eye", 20, null, ItemType.Necklace, "C tré for", 
+			new List<KeyValuePair<Characteristic, float>>() { new KeyValuePair<Characteristic, float>(Characteristic.MaxMP, 2f)},
+			null
+		);
+		entities[0].GetComponent<EntityBehaviour>().character = new Character("Toto", firstNecklace);
 		entities[1].GetComponent<EntityBehaviour>().character = new Character("Bill");
 		entities[2].GetComponent<EntityBehaviour>().character = new Character("Boule");
 

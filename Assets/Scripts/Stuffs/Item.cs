@@ -5,15 +5,17 @@ using UnityEngine;
 public class Item {
 
 	string name;
+	int price;
 	Sprite image;
 	ItemType itemType;
 	string description;
 	List<KeyValuePair<Characteristic, float>> stats;
 	Spell spell; // For weapons only
 
-	public Item(string name, Sprite image, ItemType itemType, string description, List<KeyValuePair<Characteristic, float>> stats, Spell spell = null)
+	public Item(string name, int price, Sprite image, ItemType itemType, string description, List<KeyValuePair<Characteristic, float>> stats, Spell spell = null)
 	{
 		this.name = name;
+		this.price = price;
 		this.image = image;
 		this.itemType = itemType;
 		this.description = description;
@@ -24,6 +26,12 @@ public class Item {
 	public string Name {
 		get {
 			return this.name;
+		}
+	}
+
+	public int Price {
+		get {
+			return this.price;
 		}
 	}
 

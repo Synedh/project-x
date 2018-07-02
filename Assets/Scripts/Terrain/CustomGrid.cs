@@ -93,7 +93,7 @@ public class CustomGrid: MonoBehaviour {
 
 	bool LineOfSight(Vector2 u, Vector2 v)
 	{
-		bool[,] viewGrid = GetViewGrid ();
+		bool[,] viewGrid = GetViewGrid();
 		// Calcul de l'équation de droite y = a * x + b
 		// Source : https://fr.wikipedia.org/wiki/%C3%89quation_de_droite#Par_r%C3%A9solution_d'un_syst%C3%A8me_d'%C3%A9quations
 		float a = (v.y - u.y) / (v.x - u.x);
@@ -117,13 +117,11 @@ public class CustomGrid: MonoBehaviour {
 
 	public List<Vector2> MPRange(int x, int y, int range)
 	{
-		// Debug.Log("(" + x + ", " + y + ") - " + range);
 		List<Vector2> cells = new List<Vector2>();
 
 		for (int i = x - range; i <= x + range; ++i) {
 			for (int j = y - range; j <= y + range; ++j) {
 				try {
-					Debug.Log(i + " - " + j);
 					int reachable = IsReachable(new Vector2(x, y), new Vector2(i, j));
 					if (reachable > 0 && reachable <= range) {
 						cells.Add(new Vector2(i, j));

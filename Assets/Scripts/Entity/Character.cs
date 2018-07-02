@@ -39,7 +39,10 @@ public class Character {
         this.spells = spells;
 		effects = new List<Effect>();
 
-		UpdateStats ();
+		UpdateStats();
+		stats[Characteristic.CurrentLife] = stats[Characteristic.MaxLife];
+		stats[Characteristic.CurrentAP] = stats[Characteristic.MaxAP];
+		stats[Characteristic.CurrentMP] = stats[Characteristic.MaxMP];
 	}
 
 	public void UpdateStats()
