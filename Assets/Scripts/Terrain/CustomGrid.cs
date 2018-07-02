@@ -117,11 +117,13 @@ public class CustomGrid: MonoBehaviour {
 
 	public List<Vector2> MPRange(int x, int y, int range)
 	{
+		// Debug.Log("(" + x + ", " + y + ") - " + range);
 		List<Vector2> cells = new List<Vector2>();
 
-		for (int i = x - range; i < x + range; ++i) {
-			for (int j = y - range; j < y + range; ++j) {
+		for (int i = x - range; i <= x + range; ++i) {
+			for (int j = y - range; j <= y + range; ++j) {
 				try {
+					Debug.Log(i + " - " + j);
 					int reachable = IsReachable(new Vector2(x, y), new Vector2(i, j));
 					if (reachable > 0 && reachable <= range) {
 						cells.Add(new Vector2(i, j));

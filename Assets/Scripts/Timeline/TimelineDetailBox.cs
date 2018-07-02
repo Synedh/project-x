@@ -25,7 +25,7 @@ public class TimelineDetailBox : MonoBehaviour {
 	}
 
 	void Update() {
-
+		UpdateDetailbox();
 	}
 
 	public void UpdateDetailbox() {

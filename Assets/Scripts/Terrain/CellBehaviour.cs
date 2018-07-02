@@ -46,7 +46,7 @@ public class CellBehaviour : MonoBehaviour {
 			if (entity) {
 				entity.GetComponent<EntityBehaviour> ().MouseEnter ();
 			} else {
-                if (!GameManager.instance.selectedEntity.GetComponent<EntityBehaviour>().DoMove)
+                if (!GameManager.instance.selectedEntity.GetComponent<EntityBehaviour>().doMove)
                 {
                     EntityBehaviour entityBehaviour = GameManager.instance.selectedEntity.GetComponent<EntityBehaviour>();
                     List<Vector2> path = entityBehaviour.SetMoveTargets(grid, cell);
@@ -85,7 +85,7 @@ public class CellBehaviour : MonoBehaviour {
 			if (entity)
 				entity.GetComponent<EntityBehaviour>().MouseDown();
 			else
-				GameManager.instance.selectedEntity.GetComponent<EntityBehaviour>().DoMove = true;
+				GameManager.instance.selectedEntity.GetComponent<EntityBehaviour>().doMove = true;
 		}
     }
 

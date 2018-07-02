@@ -7,13 +7,13 @@ public class TimelineEntity : MonoBehaviour {
 
     Character character;
     EntityBehaviour entityBehaviour;
-	GameObject detailContainer;
+	// GameObject detailContainer;
 	GameObject detailBox;
 
 	// Use this for initialization
 	void Start () {
 		// /!\ Caution, called after SetEntity /!\
-		detailContainer = GameObject.Find("DetailContainer");
+		// detailContainer = GameObject.Find("DetailContainer");
 		detailBox = null;
     }
 	
