@@ -65,6 +65,11 @@ public class CustomGrid: MonoBehaviour {
         return drawGrid;
 	}
 
+    public GameObject GetCellObject(int x, int y)
+    {
+        return drawnGrid[x, y];
+    }
+
 	public GameObject AddEntity(GameObject entity)
 	{
 		foreach (GameObject tmpEntity in entities)

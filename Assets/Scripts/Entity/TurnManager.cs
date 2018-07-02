@@ -24,6 +24,11 @@ public class TurnManager {
     {
         try
         {
+            entityTurns[entityTurn - 1].EndTurn();
+        }
+        catch (ArgumentOutOfRangeException) { }
+        try
+        {
             entityTurns[entityTurn].Play();
             entityTurn++;
         }

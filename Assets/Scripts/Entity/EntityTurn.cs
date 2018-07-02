@@ -11,7 +11,7 @@ public class EntityTurn {
     public EntityTurn(GameObject entity)
     {
         this.entity = entity;
-		character = entity.GetComponent<EntityBehaviour> ().character;
+		character = entity.GetComponent<EntityBehaviour>().character;
         turn = 0;
     }
 

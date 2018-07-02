@@ -11,6 +11,7 @@ public class CellBehaviour : MonoBehaviour {
     public Cell cell;
 	GameObject cellColor;
     CustomGrid grid;
+    List<Vector2> coloredCells;
 
 	// Use this for initialization
 	void Start () {
@@ -18,6 +19,7 @@ public class CellBehaviour : MonoBehaviour {
             transform.position = new Vector3(transform.position.x, transform.position.y + 0.25f, transform.position.z);
         grid = GameObject.Find("Grid").GetComponent<CustomGrid>();
 		cellColor = null;
+        coloredCells = new List<Vector2>();
 	}
 	
 	// Update is called once per frame
@@ -44,8 +46,19 @@ public class CellBehaviour : MonoBehaviour {
 			if (entity) {
 				entity.GetComponent<EntityBehaviour> ().MouseEnter ();
 			} else {
-				if (!GameManager.instance.selectedEntity.GetComponent<EntityBehaviour>().DoMove)
-					GameManager.instance.selectedEntity.GetComponent<EntityBehaviour>().SetMoveTargets(grid, cell);
+                if (!GameManager.instance.selectedEntity.GetComponent<EntityBehaviour>().DoMove)
+                {
+                    EntityBehaviour entityBehaviour = GameManager.instance.selectedEntity.GetComponent<EntityBehaviour>();
+                    List<Vector2> path = entityBehaviour.SetMoveTargets(grid, cell);
+                    if (path.Count <= entityBehaviour.character.Stats[Characteristic.CurrentMP])
+                    {
+                        foreach (Vector2 cell in path)
+                        {
+                            coloredCells.Add(new Vector2(cell.x, cell.y));
+                            grid.GetCellObject((int)cell.x, (int)cell.y).GetComponent<CellBehaviour>().colorCell(new Color(0.2f, 0.45f, 0.2f, 1f));
+                        }
+                    }
+                }
 			}
 		} else {
 			OnMouseExit ();
@@ -58,6 +71,11 @@ public class CellBehaviour : MonoBehaviour {
 		if (entity) {
 			entity.GetComponent<EntityBehaviour>().MouseExit();
 		}
+        if (coloredCells.Count > 0)
+        {
+            grid.CleanCells(coloredCells);
+            coloredCells.Clear();
+        }
     }
 
     void OnMouseDown()
@@ -80,6 +98,6 @@ public class CellBehaviour : MonoBehaviour {
 
 	public void removeColorCell() {
 		DestroyImmediate(cellColor);
-		cellColor = null;
+        cellColor = null;
 	}
 }

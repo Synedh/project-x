@@ -20,6 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4529021235340070}
   - component: {fileID: 212845545432216812}
+  - component: {fileID: 65433500137728558}
   m_Layer: 0
   m_Name: CellColor
   m_TagString: Untagged
@@ -40,6 +41,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+--- !u!65 &65433500137728558
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1226647150605222}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1.0000002, z: 0.20000005}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!212 &212845545432216812
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -76,7 +89,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 17a3e37f2e23f4d1c94ae4d255dab158, type: 3}
-  m_Color: {r: 0, g: 1, b: 0.2, a: 0.5019608}
+  m_Color: {r: 0.3077608, g: 0.7169812, b: 0.38696477, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

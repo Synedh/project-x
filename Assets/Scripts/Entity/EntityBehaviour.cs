@@ -17,7 +17,7 @@ public class EntityBehaviour : MonoBehaviour {
 	public int x;
 	public int y;
 
-    List<Vector3> moveTargets;
+    List<Vector2> moveTargets;
 	List<Vector2> MPRangeCells;
 	float speed;
 	bool doMove;
@@ -27,11 +27,11 @@ public class EntityBehaviour : MonoBehaviour {
 
         grid = GameObject.Find("Grid").GetComponent<CustomGrid>();
 
-		moveTargets = new List<Vector3>();
+		moveTargets = new List<Vector2>();
 		MPRangeCells = new List<Vector2>();
 
 		x = (int)transform.position.x;
-		y = (int)transform.position.y;
+		y = (int)transform.position.z;
 
 		speed = 3f;
 		doMove = false;
@@ -41,14 +41,9 @@ public class EntityBehaviour : MonoBehaviour {
         // Move
         if (moveTargets.Count != 0 && doMove)
 			Move(moveTargets[0]);
-	}
-
-	int[] Position() {
-		return new int[] {
-			(int)Math.Truncate(transform.position.x),
-			(int)Math.Truncate(transform.position.z)
-		};
-	}
+        x = (int)transform.position.x;
+        y = (int)transform.position.z;
+    }
 
     public void MouseDown()
     {
@@ -66,9 +61,9 @@ public class EntityBehaviour : MonoBehaviour {
 				renderer.material = hoverUnselected;
 			}
 		}
-		int[] position = Position ();
-		MPRangeCells = grid.MPRange(position[0], position[1], Convert.ToInt32(character.Stats[Characteristic.CurrentMP]));
-		grid.ColorCells(MPRangeCells, new Color(0f, 1f, 0.2f, 0.5f));
+
+		MPRangeCells = grid.MPRange(x, y, Convert.ToInt32(character.Stats[Characteristic.CurrentMP]));
+		grid.ColorCells(MPRangeCells, new Color(0.3f, 0.6f, 0.3f, 1f));
 	}
 
 	public void MouseExit()
@@ -94,20 +89,22 @@ public class EntityBehaviour : MonoBehaviour {
 		}
 	}
 
-	public void Move(Vector3 moveTarget) 
+	public void Move(Vector2 moveTarget) 
 	{
-		if (transform.position.x - moveTarget.x < 0 && transform.position.z - moveTarget.z == 0)
+        Debug.Log(moveTarget);
+		if (transform.position.x - moveTarget.x < 0 && transform.position.y - moveTarget.y == 0)
 			Rotate (0);
-		else if (transform.position.x - moveTarget.x == 0 && transform.position.z - moveTarget.z < 0)
+		else if (transform.position.x - moveTarget.x == 0 && transform.position.y - moveTarget.y < 0)
 			Rotate (270);
-		else if (transform.position.x - moveTarget.x == 0 && transform.position.z - moveTarget.z > 0)
+		else if (transform.position.x - moveTarget.x == 0 && transform.position.y - moveTarget.y > 0)
 			Rotate (90);
 		else
 			Rotate (180);
-		transform.position = Vector3.MoveTowards(transform.position, moveTarget, speed * Time.deltaTime);
+		transform.position = Vector3.MoveTowards(transform.position, new Vector3(moveTarget.x, transform.position.y, moveTarget.y), speed * Time.deltaTime);
 
-		if (transform.position.Equals(moveTargets[0])) {
+		if (new Vector2(transform.position.x, transform.position.z) == moveTarget) {
 			moveTargets.RemoveAt(0);
+            character.Stats[Characteristic.CurrentMP]--;
 			if (moveTargets.Count == 0)
 				doMove = false;
 		}
@@ -118,30 +115,25 @@ public class EntityBehaviour : MonoBehaviour {
 		transform.eulerAngles = new Vector3(0, angle, 0);
 	}
 
-    public void SetMoveTargets(CustomGrid grid, Cell target)
+    public List<Vector2> SetMoveTargets(CustomGrid grid, Cell target)
     {
         // Fill a targets list of point. Then this list is parsed by Update function.
         // Once a location is reached, element is remove and next one is targeted.
         // PathFinding module is used to search best way.
         bool[,] tilesmap = grid.GetWalkableGrid();
+        moveTargets = new List<Vector2>();
 
         NesScripts.Controls.PathFind.Grid pathGrid = new NesScripts.Controls.PathFind.Grid(tilesmap);
-        NesScripts.Controls.PathFind.Point _from;
-        if (moveTargets.Count == 0)
-        {
-            _from = new NesScripts.Controls.PathFind.Point(x, y);
-        }
-        else
-        {
-            _from = new NesScripts.Controls.PathFind.Point((int)moveTargets[moveTargets.Count - 1].x, (int)moveTargets[moveTargets.Count - 1].z);
-        }
+        NesScripts.Controls.PathFind.Point _from = new NesScripts.Controls.PathFind.Point(x, y);
         NesScripts.Controls.PathFind.Point _to = new NesScripts.Controls.PathFind.Point(target.x, target.y);
         List<NesScripts.Controls.PathFind.Point> path = NesScripts.Controls.PathFind.Pathfinding.FindPath(pathGrid, _from, _to, NesScripts.Controls.PathFind.Pathfinding.DistanceType.Manhattan);
 
+
         foreach (NesScripts.Controls.PathFind.Point point in path)
         {
-            moveTargets.Add(new Vector3(point.x, transform.position.y, point.y));
+            moveTargets.Add(new Vector2(point.x, point.y));
         }
+        return moveTargets;
 	}
 
     public static GameObject LoadEntity(CustomGrid grid, UnityEngine.Object prefab, Vector2 pos)
