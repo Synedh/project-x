@@ -18,7 +18,7 @@ public class EntityTurn {
     public void Play()
     {
         turn++;
-		BeginTurn();
+        BeginTurn();
 
         EntityBehaviour.SelectEntity(entity);
     }

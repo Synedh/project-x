@@ -21,8 +21,12 @@ public class EntityBehaviour : MonoBehaviour {
     List<Vector2> moveTargets;
 	List<Vector2> MPRangeCells;
 	float speed;
-    
-	void Start () {
+    // Doubleclick
+    bool one_click = false;
+    float timer_for_double_click;
+    const float delay = .5f;
+
+    void Start () {
 		GetComponent<BoxCollider>().enabled = false;
 
         grid = GameObject.Find("Grid").GetComponent<CustomGrid>();
@@ -49,7 +53,25 @@ public class EntityBehaviour : MonoBehaviour {
 
     public void MouseDown()
     {
-		Debug.Log(character.nickname);
+        // Debug.Log(character.nickname);
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            if (!one_click) // first click no previous clicks
+            {
+                one_click = true;
+                timer_for_double_click = Time.time;
+            }
+            else if ((Time.time - timer_for_double_click) > delay)
+            {
+                one_click = false;
+            }
+            else
+            {
+                one_click = false; // found a double click, now reset
+                CameraControl.instance.lookAt = transform;
+            }
+        }
     }
 
 	public void MouseEnter()
@@ -84,11 +106,11 @@ public class EntityBehaviour : MonoBehaviour {
 
 	public void Move(Vector2 moveTarget) 
 	{
-		if (x - moveTarget.x < 0 && y - moveTarget.y == 0)
+		if (transform.position.x - moveTarget.x < 0 && transform.position.z - moveTarget.y == 0)
 			Rotate (0);
-		else if (x - moveTarget.x == 0 && y - moveTarget.y < 0)
+		else if (transform.position.x - moveTarget.x == 0 && transform.position.z - moveTarget.y < 0)
 			Rotate (270);
-		else if (x - moveTarget.x == 0 && y - moveTarget.y >= 0)
+		else if (transform.position.x - moveTarget.x == 0 && transform.position.z - moveTarget.y >= 0)
 			Rotate (90);
 		else
 			Rotate (180);
@@ -157,5 +179,7 @@ public class EntityBehaviour : MonoBehaviour {
             renderer.material = entity.GetComponent<EntityBehaviour>().selected;
         }
         entity.GetComponent<EntityBehaviour>().timelineEntity.SetColor(Color.red);
+
+        CameraControl.instance.lookAt = entity.transform;
     }
 }

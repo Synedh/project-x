@@ -24,5 +24,7 @@ public class CurrentEntityBoxBehaviour : MonoBehaviour {
         currentHP.text = currentCharacter.stats[Characteristic.CurrentHP].ToString();
         currentAP.text = currentCharacter.stats[Characteristic.CurrentAP].ToString();
         currentMP.text = currentCharacter.stats[Characteristic.CurrentMP].ToString();
+        
+        transform.Find("Rotation").rotation = Quaternion.Euler(new Vector3(0, 0, 135 + CameraControl.instance.currentX));
 	}
 }

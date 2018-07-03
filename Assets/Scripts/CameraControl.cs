@@ -5,61 +5,38 @@ using UnityEngine;
 public class CameraControl : MonoBehaviour
 {
     private const float Y_ANGLE_MIN = 0.0f;
-    private const float Y_ANGLE_MAX = 50.0f;
+    private const float Y_ANGLE_MAX = 89.9f;
 
     public Transform lookAt;
     public Transform camTransform;
     public float distance = 10.0f;
 
-    private float currentX = 0.0f;
-    private float currentY = 45.0f;
-    private float sensitivityX = 4.0f;
-    private float sensitivityY = 1.0f;
+    public float currentX = 0.0f;
+    public float currentY = 45.0f;
+    public float sensitivityX = 3.0f;
+    public float sensitivityY = 1.0f;
+    public float sensitivityZ = 2.0f;
 
-    bool one_click = false;
-    bool timer_running;
-    float timer_for_double_click;
-    float delay = .25f;
+    public static CameraControl instance;
 
-    private void Start()
+    private void Awake()
     {
         camTransform = transform;
+        instance = this;
     }
 
     private void Update()
     {
-        lookAt = GameManager.instance.selectedEntity.transform;
-        if(Input.GetMouseButtonDown(0))
-        {
-            if(!one_click) // first click no previous clicks
-            {
-                one_click = true;
-
-                timer_for_double_click = Time.time; // save the current time
-                // do one click things;
-            } 
-            else
-            {
-                one_click = false; // found a double click, now reset
-                Debug.Log("Double click");
-                // TODO double click things
-            }
-        }
-        if (one_click)
-        {
-            if ((Time.time - timer_for_double_click) > delay)
-            {
-                one_click = false;
-            }
-        }
-
-
         if (Input.GetMouseButton(1)) 
         {
-            currentX += Input.GetAxis("Mouse X");
-            currentY -= Input.GetAxis("Mouse Y");
+            currentX += Input.GetAxis("Mouse X") * sensitivityX;
+            currentY -= Input.GetAxis("Mouse Y") * sensitivityY;
 
             currentY = Mathf.Clamp(currentY, Y_ANGLE_MIN, Y_ANGLE_MAX);
+        }
+        if (Input.GetAxis("Mouse ScrollWheel") != 0f) // forward
+        {
+            distance -= Input.GetAxis("Mouse ScrollWheel") * sensitivityZ;
         }
     }
 
