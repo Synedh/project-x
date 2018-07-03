@@ -10,13 +10,13 @@ public class TimelineDetailBox : MonoBehaviour {
 	Text nickname;
 	Dictionary<Characteristic, Text> textCaracts;
 	Dictionary<ItemType, TimelineDetailBoxItem> boxItems;
-	List<Spell> boxSpells;
+    List<GameObject> boxSpells;
 
 	void Awake () {
 		entity = null;
 		nickname = gameObject.transform.Find("Nickname").gameObject.GetComponent<Text>();
 		textCaracts = new Dictionary<Characteristic, Text>() {
-			{ Characteristic.CurrentLife, transform.Find("Life_content").gameObject.GetComponent<Text>() },
+			{ Characteristic.CurrentHP, transform.Find("HP_content").gameObject.GetComponent<Text>() },
 			{ Characteristic.CurrentAP, transform.Find("AP_content").gameObject.GetComponent<Text>() },
 			{ Characteristic.CurrentMP, transform.Find("MP_content").gameObject.GetComponent<Text>() },
 			{ Characteristic.ContactDamage, transform.Find("Contact_content").gameObject.GetComponent<Text>() },
@@ -31,20 +31,18 @@ public class TimelineDetailBox : MonoBehaviour {
 			{ ItemType.Ring, transform.Find("Items/Ring").gameObject.GetComponent<TimelineDetailBoxItem>() },
 			{ ItemType.Weapon, transform.Find("Items/Weapon").gameObject.GetComponent<TimelineDetailBoxItem>() }
 		};
-		boxSpells = new List<Spell>();
+        boxSpells = new List<GameObject>();
 	}
 
 	void Update() {
 		if (entity != null)
-			UpdateDetailbox();
+            UpdateStats();
 	}
 
-	public void UpdateDetailbox() {
-		Dictionary<Characteristic, float> stats = entity.character.Stats;
-		Dictionary<ItemType, Item> items = entity.character.Items;
+	public void UpdateStats() {
+		Dictionary<Characteristic, float> stats = entity.character.stats;
 
-		nickname.text = entity.character.Nickname;
-		textCaracts[Characteristic.CurrentLife].text = stats[Characteristic.CurrentLife] + " / " + stats[Characteristic.MaxLife];
+		textCaracts[Characteristic.CurrentHP].text = stats[Characteristic.CurrentHP] + " / " + stats[Characteristic.MaxHP];
 		textCaracts[Characteristic.CurrentAP].text = stats[Characteristic.CurrentAP] + " / " + stats[Characteristic.MaxAP];
 		textCaracts[Characteristic.CurrentMP].text = stats[Characteristic.CurrentMP] + " / " + stats[Characteristic.MaxMP];
 		textCaracts[Characteristic.ContactDamage].text = (stats[Characteristic.ContactDamage] * 100) + "% - " + (stats[Characteristic.ContactResistance] * 100) + "%";
@@ -52,17 +50,38 @@ public class TimelineDetailBox : MonoBehaviour {
 		textCaracts[Characteristic.PhysicalDamage].text = (stats[Characteristic.PhysicalDamage] * 100) + "% - " + (stats[Characteristic.PhysicalResistance] * 100) + "%";
 		textCaracts[Characteristic.MagicDamage].text = (stats[Characteristic.MagicDamage] * 100) + "% - " + (stats[Characteristic.MagicResistance] * 100) + "%";
 		textCaracts[Characteristic.Speed].text = string.Format("{0}", stats[Characteristic.Speed]);
-
-		if (items[ItemType.Necklace] != null) { boxItems[ItemType.Necklace].SetItem(items[ItemType.Necklace]); } 
-		if (items[ItemType.Bracelet] != null) { boxItems[ItemType.Bracelet].SetItem(items[ItemType.Bracelet]); }
-		if (items[ItemType.Ring] != null) { boxItems[ItemType.Ring].SetItem(items[ItemType.Ring]); }
-		if (items[ItemType.Weapon] != null) { boxItems[ItemType.Weapon].SetItem(items[ItemType.Weapon]); }
 	}
+
+    void SetItems() 
+    {
+        Dictionary<ItemType, Item> items = entity.character.items;
+        if (items[ItemType.Necklace] != null) { boxItems[ItemType.Necklace].SetItem(items[ItemType.Necklace]); } 
+        if (items[ItemType.Bracelet] != null) { boxItems[ItemType.Bracelet].SetItem(items[ItemType.Bracelet]); }
+        if (items[ItemType.Ring] != null) { boxItems[ItemType.Ring].SetItem(items[ItemType.Ring]); }
+        if (items[ItemType.Weapon] != null) { boxItems[ItemType.Weapon].SetItem(items[ItemType.Weapon]); }
+    }
+
+    void SetSpells() 
+    {
+        List<Spell> spells = entity.character.spells;
+        if (boxSpells != null)
+        {
+            for (int i = 0; i < spells.Count; ++i)
+            {
+                GameObject spellBox = Instantiate(Resources.Load("Prefabs/UI/DetailSpell"), transform.Find("Spells")) as GameObject;
+                spellBox.transform.position = new Vector3(spellBox.transform.position.x, spellBox.transform.position.y - i * 60, spellBox.transform.position.z);
+                spellBox.GetComponent<TimelineDetailBoxSpell>().SetSpell(spells[i]);
+            }
+        }
+    }
 
 	public void SetEntity (EntityBehaviour entity) {
 		this.entity = entity;
 
-		UpdateDetailbox();
-	}
+        nickname.text = entity.character.nickname.ToUpper();
+        UpdateStats();
+        SetItems();
+        SetSpells();
+    }
 }
 

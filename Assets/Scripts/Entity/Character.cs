@@ -4,18 +4,18 @@ using UnityEngine;
 
 public class Character {
 
-    string nickname;
-	Dictionary<Characteristic, float> stats;
-	Dictionary<ItemType, Item> items;
-    List<Spell> spells;
-	List<Effect> effects;
+    string _nickname;
+	Dictionary<Characteristic, float> _stats;
+	Dictionary<ItemType, Item> _items;
+    List<Spell> _spells;
+	List<Effect> _effects;
 
 	public Character (string nickname, Item necklace = null, Item bracelet = null, Item ring = null, Item weapon = null, List<Spell> spells = null) {
 
-		this.nickname = nickname;
-		stats = new Dictionary<Characteristic, float>() {
-			{ Characteristic.MaxLife, 60f },
-			{ Characteristic.CurrentLife, 60f },
+		_nickname = nickname;
+		_stats = new Dictionary<Characteristic, float>() {
+			{ Characteristic.MaxHP, 60f },
+			{ Characteristic.CurrentHP, 60f },
 			{ Characteristic.MaxAP, 6f },
 			{ Characteristic.CurrentAP, 6f },
 			{ Characteristic.MaxMP, 3f },
@@ -30,68 +30,68 @@ public class Character {
 			{ Characteristic.MagicResistance, 1f },
 			{ Characteristic.Speed, 0f }
         };
-		items = new Dictionary<ItemType, Item>() {
+		_items = new Dictionary<ItemType, Item>() {
 			{ ItemType.Necklace, necklace },
 			{ ItemType.Bracelet, bracelet },
 			{ ItemType.Ring, ring },
 			{ ItemType.Weapon, weapon }
         };
-        this.spells = spells;
-		effects = new List<Effect>();
+        _spells = spells;
+		_effects = new List<Effect>();
 
 		UpdateStats();
-		stats[Characteristic.CurrentLife] = stats[Characteristic.MaxLife];
-		stats[Characteristic.CurrentAP] = stats[Characteristic.MaxAP];
-		stats[Characteristic.CurrentMP] = stats[Characteristic.MaxMP];
+		_stats[Characteristic.CurrentHP] = _stats[Characteristic.MaxHP];
+		_stats[Characteristic.CurrentAP] = _stats[Characteristic.MaxAP];
+		_stats[Characteristic.CurrentMP] = _stats[Characteristic.MaxMP];
 	}
 
 	public void UpdateStats()
 	{
-		foreach (KeyValuePair<ItemType, Item> item in items)
+		foreach (KeyValuePair<ItemType, Item> item in _items)
 		{
 			if (item.Value != null)
 			{
-				foreach (KeyValuePair<Characteristic, float> stat in item.Value.Stats)
+				foreach (KeyValuePair<Characteristic, float> stat in item.Value.stats)
 				{
-					this.stats[stat.Key] += stat.Value;
+					_stats[stat.Key] += stat.Value;
 				}
 			}
 		}
 
-		foreach (Effect effect in effects)
+		foreach (Effect effect in _effects)
 		{
 			KeyValuePair<Characteristic, float> turnEffect = effect.GetEffect();
-			stats[turnEffect.Key] += turnEffect.Value;
+			_stats[turnEffect.Key] += turnEffect.Value;
 		}
 	}
 
-	public string Nickname {
+	public string nickname {
 		get {
-			return this.nickname;
+			return this._nickname;
 		}
 	}
 
-	public Dictionary<Characteristic, float> Stats {
+	public Dictionary<Characteristic, float> stats {
 		get {
-			return this.stats;
+			return this._stats;
 		}
 	}
 
-	public Dictionary<ItemType, Item> Items {
+	public Dictionary<ItemType, Item> items {
 		get {
-			return this.items;
+			return this._items;
 		}
 	}
 
-	public List<Spell> Spells {
+	public List<Spell> spells {
 		get {
-			return this.spells;
+			return this._spells;
 		}
 	}
 
-	public List<Effect> Effects {
+	public List<Effect> effects {
 		get {
-			return this.effects;
+			return this._effects;
 		}
 	}
 }

@@ -1,8 +1,8 @@
 ﻿using System;
 
 public enum Characteristic {
-	MaxLife,
-	CurrentLife,
+	MaxHP,
+	CurrentHP,
 	MaxAP,
 	CurrentAP,
 	MaxMP,

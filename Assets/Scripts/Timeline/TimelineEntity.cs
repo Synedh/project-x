@@ -26,7 +26,7 @@ public class TimelineEntity : MonoBehaviour {
         entityBehaviour = entity.GetComponent<EntityBehaviour>();
 		character = entityBehaviour.character;
         entityBehaviour.timelineEntity = this;
-        GetComponentInChildren<Text>().text = character.Nickname;
+        GetComponentInChildren<Text>().text = character.nickname;
     }
 
     public void SetColor(Color color)
@@ -38,7 +38,7 @@ public class TimelineEntity : MonoBehaviour {
 	{
 		if (detailBox == null)
 		{
-			detailBox = Instantiate(Resources.Load("Prefabs/DetailPannel"), transform) as GameObject;
+			detailBox = Instantiate(Resources.Load("Prefabs/UI/DetailPannel"), transform) as GameObject;
 			detailBox.GetComponent<TimelineDetailBox>().SetEntity(entityBehaviour);
 		} 
 		else 

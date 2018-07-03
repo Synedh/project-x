@@ -288,3 +288,6 @@ MonoBehaviour:
   hoverSelected: {fileID: 2100000, guid: c355411dd4a913b448dcc03ce3d3bbce, type: 2}
   hoverUnselected: {fileID: 2100000, guid: 5cf2772f8be5f6042a753daa02b833f8, type: 2}
   timelineEntity: {fileID: 0}
+  x: 0
+  y: 0
+  doMove: 0

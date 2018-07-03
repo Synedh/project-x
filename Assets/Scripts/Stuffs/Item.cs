@@ -4,64 +4,64 @@ using UnityEngine;
 
 public class Item {
 
-	string name;
-	int price;
-	Sprite image;
-	ItemType itemType;
-	string description;
-	List<KeyValuePair<Characteristic, float>> stats;
-	Spell spell; // For weapons only
+	string _name;
+	int _price;
+	Sprite _image;
+	ItemType _itemType;
+	string _description;
+	List<KeyValuePair<Characteristic, float>> _stats;
+	Spell _spell; // For weapons only
 
 	public Item(string name, int price, Sprite image, ItemType itemType, string description, List<KeyValuePair<Characteristic, float>> stats, Spell spell = null)
 	{
-		this.name = name;
-		this.price = price;
-		this.image = image;
-		this.itemType = itemType;
-		this.description = description;
-		this.stats = stats;
-		this.spell = spell; // /!\ For weapons only /!\
+		_name = name;
+		_price = price;
+		_image = image;
+		_itemType = itemType;
+		_description = description;
+		_stats = stats;
+		_spell = spell; // /!\ For weapons only /!\
 	}
 
-	public string Name {
+	public string name {
 		get {
-			return this.name;
+			return _name;
 		}
 	}
 
-	public int Price {
+	public int price {
 		get {
-			return this.price;
+			return _price;
 		}
 	}
 
-	public Sprite Image {
+	public Sprite image {
 		get {
-			return this.image;
+			return _image;
 		}
 	}
 
-	public ItemType ItemType {
+	public ItemType itemType {
 		get {
-			return this.itemType;
+			return _itemType;
 		}
 	}
 
-	public string Description {
+	public string description {
 		get {
-			return this.description;
+			return _description;
 		}
 	}
 
-	public List<KeyValuePair<Characteristic, float>> Stats {
+	public List<KeyValuePair<Characteristic, float>> stats {
 		get {
-			return this.stats;
+			return _stats;
 		}
 	}
 
-	public Spell Spell {
+	public Spell spell {
 		get {
-			return this.spell;
+			return _spell;
 		}
 	}
 }

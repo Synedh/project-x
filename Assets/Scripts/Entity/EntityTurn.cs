@@ -28,8 +28,8 @@ public class EntityTurn {
 	}
 		
 	public void EndTurn() {
-		character.Stats[Characteristic.CurrentAP] = character.Stats[Characteristic.MaxAP];
-		character.Stats[Characteristic.CurrentMP] = character.Stats[Characteristic.MaxMP];
+		character.stats[Characteristic.CurrentAP] = character.stats[Characteristic.MaxAP];
+		character.stats[Characteristic.CurrentMP] = character.stats[Characteristic.MaxMP];
 
 		// TODO : Remove one turn to effects inflicted by him
 	}

@@ -39,7 +39,7 @@ public class EntityBehaviour : MonoBehaviour {
 	
 	void Update () {
         // Move
-		if (doMove && moveTargets.Count > 0 && moveTargets.Count <= character.Stats[Characteristic.CurrentMP])
+		if (doMove && moveTargets.Count > 0 && moveTargets.Count <= character.stats[Characteristic.CurrentMP])
 			Move (moveTargets [0]);
 		else if (doMove)
 			doMove = false;
@@ -49,7 +49,7 @@ public class EntityBehaviour : MonoBehaviour {
 
     public void MouseDown()
     {
-		Debug.Log(character.Nickname);
+		Debug.Log(character.nickname);
     }
 
 	public void MouseEnter()
@@ -64,7 +64,7 @@ public class EntityBehaviour : MonoBehaviour {
 			}
 		}
 
-		MPRangeCells = grid.MPRange(x, y, (int)(character.Stats[Characteristic.CurrentMP]));
+		MPRangeCells = grid.MPRange(x, y, (int)(character.stats[Characteristic.CurrentMP]));
 		grid.ColorCells(MPRangeCells, new Color(0.3f, 0.6f, 0.3f, 1f));
 	}
 
@@ -100,7 +100,7 @@ public class EntityBehaviour : MonoBehaviour {
 
 		if (new Vector2(transform.position.x, transform.position.z) == moveTarget) {
 			moveTargets.RemoveAt(0);
-            character.Stats[Characteristic.CurrentMP]--;
+            character.stats[Characteristic.CurrentMP]--;
 			if (moveTargets.Count == 0)
 				doMove = false;
 		}

@@ -34,16 +34,38 @@ public class GameManager : MonoBehaviour {
         timelineBehaviour = GameObject.Find("Timeline").GetComponent<TimelineBehaviour>();
 
         entities = new List<GameObject> {
-            EntityBehaviour.LoadEntity(grid, Resources.Load("Prefabs/Entity"), new Vector2(1, 1)) as GameObject,
-            EntityBehaviour.LoadEntity(grid, Resources.Load("Prefabs/Entity"), new Vector2(2, 1)) as GameObject,
-            EntityBehaviour.LoadEntity(grid, Resources.Load("Prefabs/Entity"), new Vector2(2, 2)) as GameObject
+            EntityBehaviour.LoadEntity(grid, Resources.Load("Prefabs/Game/Entity"), new Vector2(1, 1)) as GameObject,
+            EntityBehaviour.LoadEntity(grid, Resources.Load("Prefabs/Game/Entity"), new Vector2(2, 1)) as GameObject,
+            EntityBehaviour.LoadEntity(grid, Resources.Load("Prefabs/Game/Entity"), new Vector2(2, 2)) as GameObject
         };
 
 		Item firstNecklace = new Item("Sauron's eye", 20, null, ItemType.Necklace, "C tré for", 
-			new List<KeyValuePair<Characteristic, float>>() { new KeyValuePair<Characteristic, float>(Characteristic.MaxMP, 2f)},
+            new List<KeyValuePair<Characteristic, float>>() { 
+                new KeyValuePair<Characteristic, float>(Characteristic.MaxAP, 1f),
+                new KeyValuePair<Characteristic, float>(Characteristic.MaxHP, 20f)
+            },
 			null
 		);
-		entities[0].GetComponent<EntityBehaviour>().character = new Character("Toto", firstNecklace);
+
+        Item firstRing = new Item("The One", 30, null, ItemType.Necklace, "Ca casse des culs", 
+            new List<KeyValuePair<Characteristic, float>>() { 
+                new KeyValuePair<Characteristic, float>(Characteristic.MaxMP, 1f),
+                new KeyValuePair<Characteristic, float>(Characteristic.MagicDamage, 0.5f),
+                new KeyValuePair<Characteristic, float>(Characteristic.DistantDamage, 0.5f)
+            },
+            null
+        );
+
+        Spell firstSpell = new Spell("Epée de Damocles", 50, 3, 1, 1, null, "Et paf !",
+                               new List<Effect>()
+            {
+                new Effect("hit", null, EffectType.Physical, "", "20 physical damages",
+                    new List<KeyValuePair<Characteristic, float>>
+                    {
+                        new KeyValuePair<Characteristic, float>(Characteristic.CurrentHP, 20f)
+                    })
+            }, new List<Vector2>() { new Vector2(0, 0)});
+        entities[0].GetComponent<EntityBehaviour>().character = new Character("Toto", firstNecklace, null, firstRing, null, new List<Spell>() {firstSpell});
 		entities[1].GetComponent<EntityBehaviour>().character = new Character("Bill");
 		entities[2].GetComponent<EntityBehaviour>().character = new Character("Boule");
 
@@ -71,9 +93,9 @@ public class GameManager : MonoBehaviour {
     public static Object GetPrefabFromId(int id)
     {
         if (id == 1)
-            return Resources.Load("Prefabs/Ground");
+            return Resources.Load("Prefabs/Game/Ground");
         if (id == 2)
-            return Resources.Load("Prefabs/Wall");
+            return Resources.Load("Prefabs/Game/Wall");
         return null;
     }
 }

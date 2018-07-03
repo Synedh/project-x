@@ -50,7 +50,7 @@ public class CellBehaviour : MonoBehaviour {
                 {
                     EntityBehaviour entityBehaviour = GameManager.instance.selectedEntity.GetComponent<EntityBehaviour>();
                     List<Vector2> path = entityBehaviour.SetMoveTargets(grid, cell);
-                    if (path.Count <= entityBehaviour.character.Stats[Characteristic.CurrentMP])
+                    if (path.Count <= entityBehaviour.character.stats[Characteristic.CurrentMP])
                     {
                         foreach (Vector2 cell in path)
                         {
@@ -92,7 +92,7 @@ public class CellBehaviour : MonoBehaviour {
 	public void colorCell(Color color) {
 		if (cellColor != null)
 			removeColorCell ();
-		cellColor = Instantiate(Resources.Load("Prefabs/CellColor"), transform) as GameObject;
+        cellColor = Instantiate(Resources.Load("Prefabs/Game/CellColor"), transform) as GameObject;
 		cellColor.GetComponent<SpriteRenderer> ().color = color;// new Color(0f, 1f, 0.2f, 0.5f);
 	}
 

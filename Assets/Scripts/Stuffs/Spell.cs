@@ -4,48 +4,80 @@ using UnityEngine;
 
 public class Spell {
 
-	string name;
-	int price;
-	Sprite image;
-	string description;
-	List<Effect> effects;
+	string _name;
+	int _price;
+	int _cost;
+	int _rangeMin;
+	int _rangeMax;
+	Sprite _image;
+	string _description;
+	List<Effect> _effects;
+	List<Vector2> _cells;
 
-	public Spell(string name, int price, Sprite image, string description, List<Effect> effects)
+	public Spell(string name, int price, int cost, int rangeMin, int rangeMax, Sprite image, string description, List<Effect> effects, List<Vector2> cells)
 	{
-		this.name = name;
-		this.price = price;
-		this.image = image;
-		this.description = description;
-		this.effects = effects;
+		_name = name;
+		_price = price;
+		_cost = cost;
+		_rangeMin = rangeMin;
+		_rangeMax = rangeMax;
+		_image = image;
+		_description = description;
+		_effects = effects;
+		_cells = cells;
 	}
 
-	public string Name {
+	public string name {
 		get {
-			return this.name;
+			return _name;
 		}
 	}
 
-	public int Price {
+	public int price {
 		get {
-			return this.price;
+			return _price;
 		}
 	}
 
-	public Sprite Image {
+	public int cost {
 		get {
-			return this.image;
+			return _cost;
 		}
 	}
 
-	public string Description {
+	public int rangeMin {
 		get {
-			return this.description;
+			return _rangeMin;
 		}
 	}
 
-	public List<Effect> Effects {
+	public int rangeMax {
 		get {
-			return this.effects;
+			return _rangeMax;
+		}
+	}
+
+	public Sprite image {
+		get {
+			return _image;
+		}
+	}
+
+	public string description {
+		get {
+			return _description;
+		}
+	}
+
+	public List<Effect> effects {
+		get {
+			return _effects;
+		}
+	}
+
+	public List<Vector2> cells {
+		get {
+			return _cells;
 		}
 	}
 }

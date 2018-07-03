@@ -13,21 +13,23 @@ using UnityEngine;
 
 public class Effect
 {
-	string name;
-	Sprite image;
-	string chatMessage;
-	string description;
-	List<KeyValuePair<Characteristic, float>> effects;
+	string _name;
+	Sprite _image;
+    EffectType _type;
+	string _chatMessage;
+	string _description;
+	List<KeyValuePair<Characteristic, float>> _effects;
 
 	int currentTurn;
 
-	public Effect(string name, Sprite image, string chatMessage, string description, List<KeyValuePair<Characteristic, float>> effects)
+    public Effect(string name, Sprite image, EffectType type, string chatMessage, string description, List<KeyValuePair<Characteristic, float>> effects)
 	{
-		this.name = name;
-		this.image = image;
-		this.chatMessage = chatMessage;
-		this.description = description;
-		this.effects = effects;
+		_name = name;
+		_image = image;
+        _type = type;
+		_chatMessage = chatMessage;
+		_description = description;
+		_effects = effects;
 
 		currentTurn = 0;
 	}
@@ -40,41 +42,59 @@ public class Effect
 
 	public KeyValuePair<Characteristic, float> GetEffect()
 	{
-		KeyValuePair<Characteristic, float> effect = effects[currentTurn];
+		KeyValuePair<Characteristic, float> effect = _effects[currentTurn];
 		PrintEffect(effect.Key, effect.Value);
 		currentTurn++;
 
 		return effect;
 	}
 
-	public string Name {
-		get {
-			return this.name;
-		}
-	}
+    public string name
+    {
+        get
+        {
+            return this._name;
+        }
+    }
 
-	public Sprite Image {
-		get {
-			return this.image;
-		}
-	}
+    public Sprite image
+    {
+        get
+        {
+            return this._image;
+        }
+    }
 
-	public string ChatMessage {
-		get {
-			return this.chatMessage;
-		}
-	}
+    public EffectType type
+    {
+        get
+        {
+            return this._type;
+        }
+    }
 
-	public string Description {
-		get {
-			return this.description;
-		}
-	}
+    public string chatMessage
+    {
+        get
+        {
+            return this._chatMessage;
+        }
+    }
 
-	public List<KeyValuePair<Characteristic, float>> Effects {
-		get {
-			return this.effects;
-		}
-	}
+    public string description
+    {
+        get
+        {
+            return this._description;
+        }
+    }
+
+    public List<KeyValuePair<Characteristic, float>> effects
+    {
+        get
+        {
+            return this._effects;
+        }
+    }
 }
 

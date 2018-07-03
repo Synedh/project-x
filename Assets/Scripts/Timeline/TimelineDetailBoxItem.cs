@@ -8,8 +8,8 @@ public class TimelineDetailBoxItem : MonoBehaviour {
 	Item item;
 	GameObject itemBox;
 
-	void Start() {
-		item = null;
+    void Start() {
+        // /!\ Called after SetSpell() /!\
 	}
 
 	void Update() {
@@ -17,12 +17,12 @@ public class TimelineDetailBoxItem : MonoBehaviour {
 
 	public void SetItem(Item item) {
 		this.item = item;
-		GetComponentInChildren<Text>().text = item.Name;
+		GetComponentInChildren<Text>().text = item.name;
 	}
 
 	public void OnEnter() {
 		if (item != null) {
-			itemBox = Instantiate (Resources.Load ("Prefabs/ItemBox"), GameObject.Find("ToolBoxes").transform) as GameObject;
+			itemBox = Instantiate(Resources.Load("Prefabs/UI/ItemBox"), GameObject.Find("ToolBoxes").transform) as GameObject;
 			itemBox.transform.position = Input.mousePosition;
 			itemBox.GetComponent<ItemBoxBehaviour>().SetItem(item);
 		}
