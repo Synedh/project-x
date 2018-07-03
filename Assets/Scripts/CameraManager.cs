@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CameraManager : MonoBehaviour {
+    /*
 
     Vector3 middle;
     CustomGrid grid;
@@ -16,7 +17,7 @@ public class CameraManager : MonoBehaviour {
     }
 	
 	// Update is called once per frame
-	void Update () {
+    void LateUpdate () {
         if (Input.GetKeyUp(KeyCode.UpArrow))
         {
             transform.position = new Vector3(grid.width, transform.position.y, grid.height);
@@ -48,4 +49,5 @@ public class CameraManager : MonoBehaviour {
             transform.LookAt(middle);
         }
     }
+    */
 }
