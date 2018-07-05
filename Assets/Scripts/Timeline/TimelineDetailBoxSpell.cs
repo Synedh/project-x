@@ -5,8 +5,9 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 public class TimelineDetailBoxSpell : MonoBehaviour {
+    public GameObject spellBoxPrefab;
 
-	Spell _spell;
+	Spell spell;
 	GameObject spellBox;
 
 	void Start() {
@@ -17,15 +18,14 @@ public class TimelineDetailBoxSpell : MonoBehaviour {
 	}
 
     public void SetSpell(Spell spell) {
-        _spell = spell;
+        this.spell = spell;
         GetComponentInChildren<Text>().text = spell.name;
 	}
 
 	public void OnEnter() {
-        if (_spell != null) {
-            spellBox = Instantiate(Resources.Load("Prefabs/UI/SpellBox"), GameObject.Find("ToolBoxes").transform) as GameObject;
-            spellBox.transform.position = Input.mousePosition;
-            spellBox.GetComponent<SpellBoxBehaviour>().SetSpell(_spell);
+        if (spell != null) {
+            spellBox = Instantiate(spellBoxPrefab, GameObject.Find("ToolBoxesContainer").transform) as GameObject;
+            spellBox.GetComponent<SpellBoxBehaviour>().SetSpell(spell);
 		}
 	}
 

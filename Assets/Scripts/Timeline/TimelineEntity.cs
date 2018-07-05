@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class TimelineEntity : MonoBehaviour {
 
+    public GameObject DetailPannel;
+
     Character character;
     EntityBehaviour entityBehaviour;
 	// GameObject detailContainer;
@@ -34,11 +36,21 @@ public class TimelineEntity : MonoBehaviour {
         GetComponentInChildren<Text>().color = color;
     }
 
+    public void OnEnter() 
+    {
+        entityBehaviour.MouseEnter();
+    }
+
+    public void OnExit() 
+    {
+        entityBehaviour.MouseExit();
+    }
+
 	public void OnClick()
 	{
 		if (detailBox == null)
 		{
-			detailBox = Instantiate(Resources.Load("Prefabs/UI/DetailPannel"), transform) as GameObject;
+            detailBox = Instantiate(DetailPannel, transform) as GameObject;
 			detailBox.GetComponent<TimelineDetailBox>().SetEntity(entityBehaviour);
 		} 
 		else 

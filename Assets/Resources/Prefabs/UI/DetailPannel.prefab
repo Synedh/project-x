@@ -38,8 +38,8 @@ GameObject:
   - component: {fileID: 224628239710185660}
   - component: {fileID: 222947654233328868}
   - component: {fileID: 114829196083256916}
-  - component: {fileID: 114313528789502018}
   - component: {fileID: 114759969464861064}
+  - component: {fileID: 114172481953715238}
   m_Layer: 5
   m_Name: Weapon
   m_TagString: Untagged
@@ -57,8 +57,8 @@ GameObject:
   - component: {fileID: 224784680183018462}
   - component: {fileID: 222505887947928892}
   - component: {fileID: 114905999051526900}
-  - component: {fileID: 114524493579442198}
   - component: {fileID: 114274583693087652}
+  - component: {fileID: 114663812583118892}
   m_Layer: 5
   m_Name: Ring
   m_TagString: Untagged
@@ -379,8 +379,8 @@ GameObject:
   - component: {fileID: 224006664220077870}
   - component: {fileID: 222204013064192760}
   - component: {fileID: 114659897386451094}
-  - component: {fileID: 114401239280059782}
   - component: {fileID: 114884086344144336}
+  - component: {fileID: 114388201314135710}
   m_Layer: 5
   m_Name: Bracelet
   m_TagString: Untagged
@@ -466,8 +466,8 @@ GameObject:
   - component: {fileID: 224860412814126922}
   - component: {fileID: 222610062539834294}
   - component: {fileID: 114905892082973058}
-  - component: {fileID: 114214483285409088}
   - component: {fileID: 114214237433593454}
+  - component: {fileID: 114214483285409088}
   m_Layer: 5
   m_Name: Necklace
   m_TagString: Untagged
@@ -635,6 +635,19 @@ MonoBehaviour:
     m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: 0
+--- !u!114 &114172481953715238
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1003599056480152}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d92cf972e277d4f949c0dd41d9cbdc02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemBoxPrefab: {fileID: 1622470139484518, guid: d5a506212bd7441bda3ba064c3fd880e,
+    type: 2}
 --- !u!114 &114214237433593454
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -693,6 +706,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d92cf972e277d4f949c0dd41d9cbdc02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemBoxPrefab: {fileID: 1622470139484518, guid: d5a506212bd7441bda3ba064c3fd880e,
+    type: 2}
 --- !u!114 &114231785034782660
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -720,7 +735,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 114524493579442198}
+        - m_Target: {fileID: 114663812583118892}
           m_MethodName: OnEnter
           m_Mode: 1
           m_Arguments:
@@ -737,7 +752,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 114524493579442198}
+        - m_Target: {fileID: 114663812583118892}
           m_MethodName: OnExit
           m_Mode: 1
           m_Arguments:
@@ -817,17 +832,6 @@ MonoBehaviour:
     m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: 0 - 0
---- !u!114 &114313528789502018
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1003599056480152}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d92cf972e277d4f949c0dd41d9cbdc02, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114356458253117660
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -894,7 +898,7 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: Ring
---- !u!114 &114401239280059782
+--- !u!114 &114388201314135710
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -905,6 +909,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d92cf972e277d4f949c0dd41d9cbdc02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemBoxPrefab: {fileID: 1622470139484518, guid: d5a506212bd7441bda3ba064c3fd880e,
+    type: 2}
 --- !u!114 &114445098161462650
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1031,17 +1037,6 @@ MonoBehaviour:
     m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: Magic
---- !u!114 &114524493579442198
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1123835295636226}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d92cf972e277d4f949c0dd41d9cbdc02, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114541077498968958
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1168,6 +1163,19 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114663812583118892
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1123835295636226}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d92cf972e277d4f949c0dd41d9cbdc02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemBoxPrefab: {fileID: 1622470139484518, guid: d5a506212bd7441bda3ba064c3fd880e,
+    type: 2}
 --- !u!114 &114705689625558378
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1217,7 +1225,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 114313528789502018}
+        - m_Target: {fileID: 114172481953715238}
           m_MethodName: OnEnter
           m_Mode: 1
           m_Arguments:
@@ -1234,7 +1242,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 114313528789502018}
+        - m_Target: {fileID: 114172481953715238}
           m_MethodName: OnExit
           m_Mode: 1
           m_Arguments:
@@ -1390,7 +1398,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 114401239280059782}
+        - m_Target: {fileID: 114388201314135710}
           m_MethodName: OnEnter
           m_Mode: 1
           m_Arguments:
@@ -1407,7 +1415,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 114401239280059782}
+        - m_Target: {fileID: 114388201314135710}
           m_MethodName: OnExit
           m_Mode: 1
           m_Arguments:

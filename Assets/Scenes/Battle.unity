@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.4465785, g: 0.49641252, b: 0.574817, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -201,7 +201,8 @@ RectTransform:
   - {fileID: 568921741}
   - {fileID: 615980101}
   - {fileID: 1233857640}
-  - {fileID: 2061598624}
+  - {fileID: 546762926}
+  - {fileID: 1930634399}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -322,7 +323,6 @@ GameObject:
   - component: {fileID: 282840811}
   - component: {fileID: 282840812}
   - component: {fileID: 282840815}
-  - component: {fileID: 282840816}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -410,25 +410,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99c4ff06694575d41ba7a8be0d3d7fbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &282840816
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 282840810}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 936730f53894d794596ae5e007cf59e2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
   lookAt: {fileID: 0}
-  camTransform: {fileID: 0}
-  distance: 10
   currentX: -135
   currentY: 45
-  sensitivityX: 2
-  sensitivityY: 1
-  sensitivityZ: 2
+  distance: 10
 --- !u!1 &285719340
 GameObject:
   m_ObjectHideFlags: 0
@@ -627,6 +612,53 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &546762925
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 546762926}
+  - component: {fileID: 546762927}
+  m_Layer: 5
+  m_Name: Spells
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &546762926
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 546762925}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4530023}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 120, y: 10}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0, y: 0}
+--- !u!114 &546762927
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 546762925}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec5ec55883328497196a5958f0fa3523, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spellIconPrefab: {fileID: 1402797587712582, guid: 3dbb7508242b34085b8fa9da0b831bb1,
+    type: 2}
 --- !u!1 &568921740
 GameObject:
   m_ObjectHideFlags: 0
@@ -831,7 +863,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 417b909c6ffde414ab730368a91f8883, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timelineEntityprefab: {fileID: 1564312390329966, guid: e1909fe88fdd39b4bb01bfcc0090a7ec,
+  timelineEntityPrefab: {fileID: 1564312390329966, guid: e1909fe88fdd39b4bb01bfcc0090a7ec,
     type: 2}
 --- !u!1 &828842271
 GameObject:
@@ -2212,33 +2244,35 @@ MonoBehaviour:
   tileMapFile: {fileID: 4900000, guid: 69bbf91059ae54448858b5783f4d22ec, type: 3}
   width: 6
   height: 6
---- !u!1 &2061598623
+--- !u!1 &1930634398
 GameObject:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
+  m_PrefabParentObject: {fileID: 1797138568561486, guid: 4e9a96ba186a44b4fa72153d13233a2e,
+    type: 2}
   m_PrefabInternal: {fileID: 0}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 2061598624}
+  - component: {fileID: 1930634399}
   m_Layer: 5
-  m_Name: ToolBoxes
+  m_Name: ToolBoxesContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!224 &2061598624
+--- !u!224 &1930634399
 RectTransform:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
+  m_PrefabParentObject: {fileID: 224765062735553636, guid: 4e9a96ba186a44b4fa72153d13233a2e,
+    type: 2}
   m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2061598623}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_GameObject: {fileID: 1930634398}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4530023}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}

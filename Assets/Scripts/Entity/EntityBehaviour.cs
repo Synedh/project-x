@@ -20,15 +20,14 @@ public class EntityBehaviour : MonoBehaviour {
 	static CustomGrid grid;
     List<Vector2> moveTargets;
 	List<Vector2> MPRangeCells;
-	float speed;
+	float speed = 3f;
+
     // Doubleclick
     bool one_click = false;
     float timer_for_double_click;
     const float delay = .5f;
 
-    void Start () {
-		GetComponent<BoxCollider>().enabled = false;
-
+    void Start() {
         grid = GameObject.Find("Grid").GetComponent<CustomGrid>();
 
 		moveTargets = new List<Vector2>();
@@ -41,7 +40,7 @@ public class EntityBehaviour : MonoBehaviour {
 		doMove = false;
     }
 	
-	void Update () {
+	void Update() {
         // Move
 		if (doMove && moveTargets.Count > 0 && moveTargets.Count <= character.stats[Characteristic.CurrentMP])
 			Move (moveTargets [0]);
@@ -69,14 +68,14 @@ public class EntityBehaviour : MonoBehaviour {
             else
             {
                 one_click = false; // found a double click, now reset
-                CameraControl.instance.lookAt = transform;
+                CameraManager.instance.lookAt = transform;
             }
         }
     }
 
 	public void MouseEnter()
 	{
-		if (GameManager.instance.selectedEntity == gameObject) {
+		if (GameManager.instance.currentEntity == gameObject) {
 			foreach (MeshRenderer renderer in gameObject.GetComponentsInChildren<MeshRenderer>()) {
 				renderer.material = hoverSelected;
 			}
@@ -92,7 +91,7 @@ public class EntityBehaviour : MonoBehaviour {
 
 	public void MouseExit()
 	{
-		if (GameManager.instance.selectedEntity == gameObject) {
+		if (GameManager.instance.currentEntity == gameObject) {
 			foreach (MeshRenderer renderer in gameObject.GetComponentsInChildren<MeshRenderer>()) {
 				renderer.material = selected;
 			}
@@ -159,27 +158,5 @@ public class EntityBehaviour : MonoBehaviour {
         GameManager.instance.entities.Add(entity);
         GameObject.Find("Timeline").GetComponent<TimelineBehaviour>().AddTimelineEntity(entity, GameManager.instance.entities.Count - 1);
         return grid.AddEntity(entity);
-    }
-
-
-    public static void SelectEntity(GameObject entity)
-    {
-        GameManager.instance.selectedEntity = entity;
-        foreach (GameObject tmpEntity in GameManager.instance.entities)
-        {
-            EntityBehaviour tmpEntityBehaviour = tmpEntity.GetComponent<EntityBehaviour>();
-            foreach (MeshRenderer renderer in tmpEntity.GetComponentsInChildren<MeshRenderer>())
-            {
-                renderer.material = tmpEntityBehaviour.unselected;
-            }
-            tmpEntityBehaviour.timelineEntity.SetColor(Color.black);
-        }
-        foreach (MeshRenderer renderer in entity.GetComponentsInChildren<MeshRenderer>())
-        {
-            renderer.material = entity.GetComponent<EntityBehaviour>().selected;
-        }
-        entity.GetComponent<EntityBehaviour>().timelineEntity.SetColor(Color.red);
-
-        CameraControl.instance.lookAt = entity.transform;
     }
 }

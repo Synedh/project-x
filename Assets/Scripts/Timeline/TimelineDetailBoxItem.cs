@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class TimelineDetailBoxItem : MonoBehaviour {
+    public GameObject itemBoxPrefab;
 
 	Item item;
 	GameObject itemBox;
@@ -22,8 +23,7 @@ public class TimelineDetailBoxItem : MonoBehaviour {
 
 	public void OnEnter() {
 		if (item != null) {
-			itemBox = Instantiate(Resources.Load("Prefabs/UI/ItemBox"), GameObject.Find("ToolBoxes").transform) as GameObject;
-			itemBox.transform.position = Input.mousePosition;
+            itemBox = Instantiate(itemBoxPrefab, GameObject.Find("ToolBoxesContainer").transform) as GameObject;
 			itemBox.GetComponent<ItemBoxBehaviour>().SetItem(item);
 		}
 	}

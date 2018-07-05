@@ -3,51 +3,51 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CameraManager : MonoBehaviour {
-    /*
+    
+    const float Y_ANGLE_MIN = 0f;
+    const float Y_ANGLE_MAX = 89.9f;
+    const float DISTANCE_MIN = 1.5f;
+    const float DISTANCE_MAX = 20f;
 
-    Vector3 middle;
-    CustomGrid grid;
+    Transform camTransform;
+    float sensitivityX = 3.0f;
+    float sensitivityY = 1.0f;
+    float sensitivityZ = 2.0f;
 
-	// Use this for initialization
-	void Start () {
-        grid = GameObject.Find("Grid").GetComponent<CustomGrid>();
-        middle = new Vector3(grid.width / 2, 0f, grid.height / 2);
-        transform.position = new Vector3(grid.width, 5f, grid.height);
-        transform.LookAt(middle);
+    public Transform lookAt;
+    public float currentX = 0.0f;
+    public float currentY = 45.0f;
+    public float distance = 10.0f;
+
+    public static CameraManager instance;
+
+    private void Awake()
+    {
+        camTransform = transform;
+        instance = this;
     }
-	
-	// Update is called once per frame
-    void LateUpdate () {
-        if (Input.GetKeyUp(KeyCode.UpArrow))
+
+    private void Update()
+    {
+        if (Input.GetMouseButton(1)) 
         {
-            transform.position = new Vector3(grid.width, transform.position.y, grid.height);
-            transform.LookAt(middle);
+            currentX += Input.GetAxis("Mouse X") * sensitivityX;
+            currentY -= Input.GetAxis("Mouse Y") * sensitivityY;
+
+            currentY = Mathf.Clamp(currentY, Y_ANGLE_MIN, Y_ANGLE_MAX);
         }
-        else if (Input.GetKeyUp(KeyCode.LeftArrow))
+        if (Input.GetAxis("Mouse ScrollWheel") != 0f) // forward
         {
-            transform.position = new Vector3(grid.width, transform.position.y, 0);
-            transform.LookAt(middle);
-        }
-        else if (Input.GetKeyUp(KeyCode.RightArrow))
-        {
-            transform.position = new Vector3(0, transform.position.y, grid.height);
-            transform.LookAt(middle);
-        }
-        else if (Input.GetKeyUp(KeyCode.DownArrow))
-        {
-            transform.position = new Vector3(0, transform.position.y, 0);
-            transform.LookAt(middle);
-        }
-        else if (Input.GetAxis("Mouse ScrollWheel") != 0f)
-        {
-            float newY = transform.position.y + 1 * Input.GetAxis("Mouse ScrollWheel");
-            if (newY < 0)
-                newY = 0;
-            else if (newY > 10)
-                newY = 10;
-            transform.position = new Vector3(transform.position.x, newY, transform.position.z);
-            transform.LookAt(middle);
+            distance -= Input.GetAxis("Mouse ScrollWheel") * sensitivityZ;
+            distance = Mathf.Clamp(distance, DISTANCE_MIN, DISTANCE_MAX);
         }
     }
-    */
+
+    private void LateUpdate()
+    {
+        Vector3 dir = new Vector3(0, 0, -distance);
+        Quaternion rotation = Quaternion.Euler(currentY, currentX, 0);
+        camTransform.position = lookAt.position + rotation * dir;
+        camTransform.LookAt(lookAt.position);
+    }
 }

@@ -22,19 +22,16 @@ public class TurnManager {
 
     public void Next()
     {
-        try
-        {
+        if (entityTurn != 0) // Si il ne s'agit pas du premier tour de match, finir le tour précédent.
             entityTurns[entityTurn - 1].EndTurn();
-        }
-        catch (ArgumentOutOfRangeException) { }
-        try
+        if (entityTurn < entityTurns.Count)
         {
-            entityTurns[entityTurn].Play();
+            entityTurns[entityTurn].BeginTurn();
             entityTurn++;
         }
-        catch (ArgumentOutOfRangeException)
+        else // Nouveau tour de jeu
         {
-            entityTurns[0].Play();
+            entityTurns[0].BeginTurn();
             entityTurn = 1;
             turn++;
         }

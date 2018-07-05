@@ -5,12 +5,12 @@ using UnityEngine;
 public class GameManager : MonoBehaviour {
 
     public static GameManager instance;
-    public GameObject selectedEntity;
+    public GameObject currentEntity;
+    public CustomGrid grid;
     public List<GameObject> entities;
 
     TimelineBehaviour timelineBehaviour;
     TurnManager turnManager;
-    CustomGrid grid;
 
     // Use this for initialization, called before Start()
     void Awake () {
@@ -24,7 +24,7 @@ public class GameManager : MonoBehaviour {
 
     void InitGame()
     {
-        selectedEntity = null;
+        currentEntity = null;
         entities = new List<GameObject>();
     }
 
@@ -64,8 +64,18 @@ public class GameManager : MonoBehaviour {
                     {
                         new KeyValuePair<Characteristic, float>(Characteristic.CurrentHP, 20f)
                     })
-            }, new List<Vector2>() { new Vector2(0, 0)});
-        entities[0].GetComponent<EntityBehaviour>().character = new Character("Toto", firstNecklace, null, firstRing, null, new List<Spell>() {firstSpell});
+            }, new List<Vector2>() { new Vector2(0, 0), new Vector2(1, 0), new Vector2(0, 1), new Vector2(-1, 0)});
+
+        Spell secondSpell = new Spell("Fireball", 50, 3, 3, 6, null, "Brule !",
+            new List<Effect>()
+            {
+                new Effect("hit", null, EffectType.Magic, "", "10 magical damages",
+                    new List<KeyValuePair<Characteristic, float>>
+                    {
+                        new KeyValuePair<Characteristic, float>(Characteristic.CurrentHP, 10f)
+                    })
+            }, new List<Vector2>() { new Vector2(0, 0), new Vector2(1, 0), new Vector2(0, 1), new Vector2(-1, 0)});
+        entities[0].GetComponent<EntityBehaviour>().character = new Character("Toto", firstNecklace, null, firstRing, null, new List<Spell>() {firstSpell, secondSpell});
 		entities[1].GetComponent<EntityBehaviour>().character = new Character("Bill");
 		entities[2].GetComponent<EntityBehaviour>().character = new Character("Boule");
 
@@ -87,7 +97,7 @@ public class GameManager : MonoBehaviour {
 
 	public void RotateTo(int rot)
 	{
-		instance.selectedEntity.GetComponent<EntityBehaviour>().Rotate(rot);
+		instance.currentEntity.GetComponent<EntityBehaviour>().Rotate(rot);
 	}
 
     public static Object GetPrefabFromId(int id)

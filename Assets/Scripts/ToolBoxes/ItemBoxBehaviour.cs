@@ -5,9 +5,16 @@ using UnityEngine.UI;
 
 public class ItemBoxBehaviour : MonoBehaviour {
 
-	Item _item;
-
-	void Start() {
+    void Awake() {
+        RectTransform rectTransform = GetComponent<RectTransform>();
+        Vector2 anchors = new Vector2(
+            (int)(Input.mousePosition.x * 2 / Camera.main.pixelWidth),
+            (int)(Input.mousePosition.y * 2 / Camera.main.pixelHeight)
+        );
+        rectTransform.anchorMin = anchors;
+        rectTransform.anchorMax = anchors;
+        rectTransform.pivot = anchors;
+        transform.position = Input.mousePosition;
 	}
 
 	void Update() {
@@ -15,7 +22,6 @@ public class ItemBoxBehaviour : MonoBehaviour {
 	}
 
 	public void SetItem(Item item) {
-		_item = item;
         transform.Find("ItemName").GetComponent<Text>().text = item.name.ToUpperInvariant();
         transform.Find("Price").GetComponent<Text>().text = item.price + " G";
         transform.Find("Description").GetComponent<Text>().text = item.description;

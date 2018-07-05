@@ -15,15 +15,18 @@ public class EntityTurn {
         turn = 0;
     }
 
-    public void Play()
-    {
+	public void BeginTurn() {
+        // Select entity.
+        GameManager.instance.currentEntity = entity;
+        CameraManager.instance.lookAt = entity.transform;
+        foreach (MeshRenderer renderer in entity.GetComponentsInChildren<MeshRenderer>())
+        {
+            renderer.material = entity.GetComponent<EntityBehaviour>().selected;
+        }
+        entity.GetComponent<EntityBehaviour>().timelineEntity.SetColor(Color.red);
+
         turn++;
-        BeginTurn();
 
-        EntityBehaviour.SelectEntity(entity);
-    }
-
-	void BeginTurn() {
 		// TODO : Use one effect.
 	}
 		
@@ -32,5 +35,12 @@ public class EntityTurn {
 		character.stats[Characteristic.CurrentMP] = character.stats[Characteristic.MaxMP];
 
 		// TODO : Remove one turn to effects inflicted by him
+
+        // Unselect entity.
+        foreach (MeshRenderer renderer in entity.GetComponentsInChildren<MeshRenderer>())
+        {
+            renderer.material = entity.GetComponent<EntityBehaviour>().unselected;
+        }
+        entity.GetComponent<EntityBehaviour>().timelineEntity.SetColor(Color.black);
 	}
 }

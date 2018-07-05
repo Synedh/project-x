@@ -8,8 +8,11 @@ public class CellBehaviour : MonoBehaviour {
     public bool isWalkable;
     public bool hideView;
 
+    public int x;
+    public int y;
+
     public Cell cell;
-	GameObject cellColor;
+	List<GameObject> cellsColor;
     CustomGrid grid;
     List<Vector2> coloredCells;
 
@@ -18,13 +21,18 @@ public class CellBehaviour : MonoBehaviour {
         if (!isWalkable) // Correction hauteur block temporaire
             transform.position = new Vector3(transform.position.x, transform.position.y + 0.25f, transform.position.z);
         grid = GameObject.Find("Grid").GetComponent<CustomGrid>();
-		cellColor = null;
+        cellsColor = new List<GameObject>();
         coloredCells = new List<Vector2>();
+
+        x = (int)transform.position.x;
+        y = (int)transform.position.z;
 	}
 	
 	// Update is called once per frame
-	void Update () {
-		
+    void Update () {
+
+        x = (int)transform.position.x;
+        y = (int)transform.position.z;		
 	}
 
     public GameObject IsThereAnEntity()
@@ -46,9 +54,9 @@ public class CellBehaviour : MonoBehaviour {
 			if (entity) {
 				entity.GetComponent<EntityBehaviour> ().MouseEnter ();
 			} else {
-                if (!GameManager.instance.selectedEntity.GetComponent<EntityBehaviour>().doMove)
+                if (!GameManager.instance.currentEntity.GetComponent<EntityBehaviour>().doMove)
                 {
-                    EntityBehaviour entityBehaviour = GameManager.instance.selectedEntity.GetComponent<EntityBehaviour>();
+                    EntityBehaviour entityBehaviour = GameManager.instance.currentEntity.GetComponent<EntityBehaviour>();
                     List<Vector2> path = entityBehaviour.SetMoveTargets(grid, cell);
                     if (path.Count <= entityBehaviour.character.stats[Characteristic.CurrentMP])
                     {
@@ -85,19 +93,17 @@ public class CellBehaviour : MonoBehaviour {
 			if (entity)
 				entity.GetComponent<EntityBehaviour>().MouseDown();
 			else
-				GameManager.instance.selectedEntity.GetComponent<EntityBehaviour>().doMove = true;
+				GameManager.instance.currentEntity.GetComponent<EntityBehaviour>().doMove = true;
 		}
     }
 
 	public void colorCell(Color color) {
-		if (cellColor != null)
-			removeColorCell ();
-        cellColor = Instantiate(Resources.Load("Prefabs/Game/CellColor"), transform) as GameObject;
-		cellColor.GetComponent<SpriteRenderer> ().color = color;// new Color(0f, 1f, 0.2f, 0.5f);
+        cellsColor.Add(Instantiate(Resources.Load("Prefabs/Game/CellColor"), transform) as GameObject);
+        cellsColor[cellsColor.Count - 1].GetComponent<SpriteRenderer>().color = color;
 	}
 
 	public void removeColorCell() {
-		DestroyImmediate(cellColor);
-        cellColor = null;
+        DestroyImmediate(cellsColor[cellsColor.Count - 1]);
+        cellsColor.RemoveAt(cellsColor.Count - 1);
 	}
 }

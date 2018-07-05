@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TimelineBehaviour : MonoBehaviour
 {
-    public GameObject timelineEntityprefab;
+    public GameObject timelineEntityPrefab;
 
     RectTransform prefabRectTransform;
     List<GameObject> entities;
@@ -13,7 +13,7 @@ public class TimelineBehaviour : MonoBehaviour
     // Use this for initialization
     void Awake()
     {
-        prefabRectTransform = timelineEntityprefab.GetComponent<RectTransform>();
+        prefabRectTransform = timelineEntityPrefab.GetComponent<RectTransform>();
         timelineEntities = new List<GameObject>();
         entities = new List<GameObject>();
     }
@@ -34,7 +34,7 @@ public class TimelineBehaviour : MonoBehaviour
 
         foreach (GameObject entity in entities)
         {
-			GameObject timelineEntity = Instantiate(timelineEntityprefab, transform);
+            GameObject timelineEntity = Instantiate(timelineEntityPrefab, transform);
 
             timelineEntity.GetComponent<RectTransform>().anchoredPosition = new Vector2(
                 prefabRectTransform.rect.width / 2 + prefabRectTransform.rect.width * timelineEntities.Count,

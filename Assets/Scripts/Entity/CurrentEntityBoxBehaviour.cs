@@ -20,11 +20,11 @@ public class CurrentEntityBoxBehaviour : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        currentCharacter = GameManager.instance.selectedEntity.GetComponent<EntityBehaviour>().character;
+        currentCharacter = GameManager.instance.currentEntity.GetComponent<EntityBehaviour>().character;
         currentHP.text = currentCharacter.stats[Characteristic.CurrentHP].ToString();
         currentAP.text = currentCharacter.stats[Characteristic.CurrentAP].ToString();
         currentMP.text = currentCharacter.stats[Characteristic.CurrentMP].ToString();
         
-        transform.Find("Rotation").rotation = Quaternion.Euler(new Vector3(0, 0, 135 + CameraControl.instance.currentX));
+        transform.Find("Rotation").rotation = Quaternion.Euler(new Vector3(0, 0, 135 + CameraManager.instance.currentX));
 	}
 }
