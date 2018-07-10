@@ -25,6 +25,7 @@ public class SpellBoxBehaviour : MonoBehaviour {
         transform.Find("SpellName").GetComponent<Text>().text = spell.name.ToUpperInvariant();
         transform.Find("Price").GetComponent<Text>().text = spell.price + " G";
         transform.Find("Description").GetComponent<Text>().text = spell.description;
+        transform.Find("Range").GetComponent<Text>().text = "PO " + spell.rangeMin + " - " + spell.rangeMax;
         for (int i = 0; i < spell.effects.Count; ++i)
         {
             GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, GetComponent<RectTransform>().sizeDelta.y + 18);

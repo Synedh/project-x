@@ -31,6 +31,7 @@ public class SpellIconBehaviour: MonoBehaviour {
     }
 
     void UnselectSpell() {
+        GameManager.instance.selectedSpell = null;
         grid.CleanCells(reachableCells);
         grid.CleanCells(unreachableCells);
         reachableCells.Clear();
@@ -38,11 +39,12 @@ public class SpellIconBehaviour: MonoBehaviour {
     }
         
     public void OnClick() {
+        GameManager.instance.selectedSpell = spell;
         EntityBehaviour entityBehavior = GameManager.instance.currentEntity.GetComponent<EntityBehaviour>();
         reachableCells = grid.SpellRange(entityBehavior.x, entityBehavior.y, spell.rangeMin, spell.rangeMax)[0];
         unreachableCells = grid.SpellRange(entityBehavior.x, entityBehavior.y, spell.rangeMin, spell.rangeMax)[1];
-        grid.ColorCells(reachableCells, new Color(0, 0, 1, 1));
-        grid.ColorCells(unreachableCells, Color.cyan);
+        grid.ColorCells(reachableCells, new Color(30f / 255f, 144f / 255f, 1f, 1f));
+        grid.ColorCells(unreachableCells, new Color(0.49f, 0.75f, 0.93f, 1f));
     }
 
     public void OnEnter() {

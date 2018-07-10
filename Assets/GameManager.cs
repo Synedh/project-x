@@ -8,6 +8,7 @@ public class GameManager : MonoBehaviour {
     public GameObject currentEntity;
     public CustomGrid grid;
     public List<GameObject> entities;
+    public Spell selectedSpell;
 
     TimelineBehaviour timelineBehaviour;
     TurnManager turnManager;
@@ -34,9 +35,9 @@ public class GameManager : MonoBehaviour {
         timelineBehaviour = GameObject.Find("Timeline").GetComponent<TimelineBehaviour>();
 
         entities = new List<GameObject> {
-            EntityBehaviour.LoadEntity(grid, Resources.Load("Prefabs/Game/Entity"), new Vector2(9, 9)) as GameObject,
-            //EntityBehaviour.LoadEntity(grid, Resources.Load("Prefabs/Game/Entity"), new Vector2(2, 1)) as GameObject,
-            //EntityBehaviour.LoadEntity(grid, Resources.Load("Prefabs/Game/Entity"), new Vector2(2, 2)) as GameObject
+            EntityBehaviour.LoadEntity(grid, Resources.Load("Prefabs/Game/Entity"), new Vector2(1, 1)) as GameObject,
+            EntityBehaviour.LoadEntity(grid, Resources.Load("Prefabs/Game/Entity"), new Vector2(2, 1)) as GameObject,
+            EntityBehaviour.LoadEntity(grid, Resources.Load("Prefabs/Game/Entity"), new Vector2(2, 2)) as GameObject
         };
 
 		Item firstNecklace = new Item("Sauron's eye", 20, null, ItemType.Necklace, "C tré for", 
@@ -56,7 +57,7 @@ public class GameManager : MonoBehaviour {
             null
         );
 
-        Spell firstSpell = new Spell("Epée de Damocles", 50, 3, 1, 1, null, "Et paf !",
+        Spell firstSpell = new Spell("Sword of  Damocles", 50, 3, 1, 1, null, "Et paf !",
                                new List<Effect>()
             {
                 new Effect("hit", null, EffectType.Physical, "", "20 physical damages",
@@ -66,7 +67,7 @@ public class GameManager : MonoBehaviour {
                     })
             }, new List<Vector2>() { new Vector2(0, 0), new Vector2(1, 0), new Vector2(0, 1), new Vector2(-1, 0)});
 
-        Spell secondSpell = new Spell("Fireball", 50, 3, 0, 18, null, "Brule !",
+        Spell secondSpell = new Spell("Fireball", 50, 3, 2, 4, null, "Brule !",
             new List<Effect>()
             {
                 new Effect("hit", null, EffectType.Magic, "", "10 magical damages",
@@ -76,8 +77,8 @@ public class GameManager : MonoBehaviour {
                     })
             }, new List<Vector2>() { new Vector2(0, 0), new Vector2(1, 0), new Vector2(0, 1), new Vector2(-1, 0)});
         entities[0].GetComponent<EntityBehaviour>().character = new Character("Toto", firstNecklace, null, firstRing, null, new List<Spell>() {firstSpell, secondSpell});
-		//entities[1].GetComponent<EntityBehaviour>().character = new Character("Bill");
-		//entities[2].GetComponent<EntityBehaviour>().character = new Character("Boule");
+		entities[1].GetComponent<EntityBehaviour>().character = new Character("Bill");
+		entities[2].GetComponent<EntityBehaviour>().character = new Character("Boule");
 
         timelineBehaviour.Refresh();
 

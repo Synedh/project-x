@@ -50,9 +50,20 @@ public class CellBehaviour : MonoBehaviour {
     void OnMouseEnter()
 	{
 		if (!EventSystem.current.IsPointerOverGameObject ()) {
-			GameObject entity = IsThereAnEntity ();
-			if (entity) {
-				entity.GetComponent<EntityBehaviour> ().MouseEnter ();
+            GameObject entity = IsThereAnEntity ();
+            if (entity)
+                entity.GetComponent<EntityBehaviour> ().MouseEnter ();
+            if (GameManager.instance.selectedSpell != null)
+            {
+                Spell currentSpell = GameManager.instance.selectedSpell;
+                EntityBehaviour currentEntityBehaviour = GameManager.instance.currentEntity.GetComponent<EntityBehaviour>();
+                float range = Mathf.Abs(x - currentEntityBehaviour.x) + Mathf.Abs(y - currentEntityBehaviour.y);
+                if (currentSpell.rangeMin <= range && range <= currentSpell.rangeMax
+                    && grid.Visibility(new Vector2(currentEntityBehaviour.x, currentEntityBehaviour.y), new Vector2(x, y)))
+                {
+                    coloredCells.Add(new Vector2(x, y));
+                    grid.GetCellObject((int)cell.x, (int)cell.y).GetComponent<CellBehaviour>().colorCell(Color.red);
+                }   
 			} else {
                 if (!GameManager.instance.currentEntity.GetComponent<EntityBehaviour>().doMove)
                 {
@@ -71,6 +82,18 @@ public class CellBehaviour : MonoBehaviour {
 		} else {
 			OnMouseExit ();
 		}
+        if (GameManager.instance.selectedSpell != null)
+        {
+            Spell currentSpell = GameManager.instance.selectedSpell;
+            EntityBehaviour currentEntityBehaviour = GameManager.instance.currentEntity.GetComponent<EntityBehaviour>();
+            float range = Mathf.Abs(x - currentEntityBehaviour.x) + Mathf.Abs(y - currentEntityBehaviour.y);
+            if (currentSpell.rangeMin <= range && range <= currentSpell.rangeMax
+                && grid.Visibility(new Vector2(currentEntityBehaviour.x, currentEntityBehaviour.y), new Vector2(x, y)))
+            {
+                coloredCells.Add(new Vector2(x, y));
+                grid.GetCellObject((int)cell.x, (int)cell.y).GetComponent<CellBehaviour>().colorCell(Color.red);
+            }   
+        }
     }
 
     void OnMouseExit()

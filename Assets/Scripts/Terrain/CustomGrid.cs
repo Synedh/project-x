@@ -141,7 +141,7 @@ public class CustomGrid: MonoBehaviour {
                     Math.Abs(j - y) + Math.Abs(i - x) >= rangeMin &&
                     i >= 0 && i < height && j >= 0 && j < width)
                 {
-                    if (!needView || visibility(new Vector2(x, y), new Vector2(i, j)))
+                    if (!needView || Visibility(new Vector2(x, y), new Vector2(i, j)))
                         reachableCells.Add(new Vector2(i, j));
                     else
                         unreachableCells.Add(new Vector2(i, j));
@@ -152,60 +152,12 @@ public class CustomGrid: MonoBehaviour {
         return new List<Vector2>[] { reachableCells, unreachableCells };
     }
 
-    public bool LineOfSight(Vector2 u, Vector2 v)
-    {
-        bool[,] viewGrid = GetViewGrid();
-        // Calcul de l'équation de droite y = a * x + b
-        // Source : https://fr.wikipedia.org/wiki/%C3%89quation_de_droite#Par_r%C3%A9solution_d'un_syst%C3%A8me_d'%C3%A9quations
-
-        float a = (v.y - u.y) / (v.x - u.x);
-        float b = u.y - a * u.x;
-
-        // On prend le côté le plus éloigné entre abscisses et ordonnées. 
-        // Pour chaque point on récupère les coordonnées ([x, a * x + b] ou [(y - b) / a, y]).
-        // Puis on vérifie si le point n'est pas bloquant
-
-        if (v.x - u.x == 0) { // Cas spécial même ligne
-            for (int y = (int)Math.Min(u.y, v.y); y < (int)Math.Max(u.y, v.y); ++y)
-            {
-                Vector2 cell = new Vector2(u.x, y);
-                if (!viewGrid[(int)cell.x, (int)cell.y] && !cell.Equals(u))
-                    return false;
-            }
-        }
-        else if (v.y - u.y == 0) { // Cas spécial même colonne
-            for (int x = (int)Math.Min(u.x, v.x); x < (int)Math.Max(u.x, v.x); ++x)
-            {
-                Vector2 cell = new Vector2(x, u.y);
-                if (!viewGrid[(int)cell.x, (int)cell.y] && !cell.Equals(u))
-                    return false;
-            }
-        } else if (v.x - u.x > v.y - u.y) { // Abscisses
-            for (int x = (int)Math.Min(u.x, v.x); x <= (int)Math.Max(u.x, v.x); ++x)
-            {
-                Debug.Log(new Vector2(x, a * x + b) + " => " + new Vector2(x, (float)Math.Ceiling(a * x + b)));
-                Vector2 cell = new Vector2(x, (float)Math.Ceiling(a * x + b));
-                if (!viewGrid[(int)cell.x, (int)cell.y] && !cell.Equals(u))
-                    return false;
-            }
-        } else { // Ordonnées
-            for (int y = (int)Math.Min(u.y, v.y); y <= (int)Math.Max(u.y, v.y); ++y)
-            {
-                Debug.Log(new Vector2((y - b) / a, y) + " => " + new Vector2((float)Math.Ceiling((y - b) / a), y));
-                Vector2 cell = new Vector2((float)Math.Ceiling((y - b) / a), y);
-                if (!viewGrid[(int)cell.x, (int)cell.y] && !cell.Equals(u))
-                    return false;
-            }
-        }
-        return true;
-    }
-
-    bool visibility(Vector2 u, Vector3 v){
+    public bool Visibility(Vector2 u, Vector3 v){
         int dx = (int)Mathf.Abs(v.x - u.x);
         int dy = (int)Mathf.Abs(v.y - u.y);
         int x = (int)u.x;
         int y = (int)u.y;
-        int n = -1 + dx + dy;
+        int n = dx + dy - 1;
         int x_inc = (v.x > u.x ? 1 : -1);
         int y_inc = (v.y > u.y ? 1 : -1);
         int error = dx - dy;
@@ -213,8 +165,8 @@ public class CustomGrid: MonoBehaviour {
         dy *= 2;
         bool[,] viewGrid = GetViewGrid();
 
-        while (n > 0){
-
+        while (n > 0)
+        {
             if (!viewGrid[y,x] && !u.Equals(new Vector2(x, y)))
             {
                 return false;
