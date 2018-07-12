@@ -65,6 +65,31 @@ public class Character {
 		}
 	}
 
+    public List<KeyValuePair<float, EffectType>> DamageCalculus(Spell spell) {
+        List<KeyValuePair<float, EffectType>> damages = new List<float>();
+        foreach (Effect effect in spell.effects)
+        {
+            if (effect.type == EffectType.Physical)
+            {
+                // TODO physical spell
+            }
+            else if (effect.type == EffectType.Magic)
+            {
+                // TODO magical spell
+            }
+            else
+            {
+                // TODO heal spell
+            }
+                
+        }
+        return damages;
+    }
+
+    public float DamageLost(Spell spell) {
+        return 0f;
+    }
+
 	public string nickname {
 		get {
 			return this._nickname;

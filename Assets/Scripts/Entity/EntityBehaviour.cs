@@ -54,6 +54,12 @@ public class EntityBehaviour : MonoBehaviour {
     {
         // Debug.Log(character.nickname);
 
+        if (GameManager.instance.selectedSpell != null)
+        {
+            Debug.Log(GameManager.instance.currentEntity.GetComponent<EntityBehaviour>().character.nickname + " attack " + character.nickname + " with " + GameManager.instance.selectedSpell.name);
+
+        }
+
         if (Input.GetMouseButtonDown(0))
         {
             if (!one_click) // first click no previous clicks

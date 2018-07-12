@@ -52,7 +52,8 @@ public class CellBehaviour : MonoBehaviour {
 		if (!EventSystem.current.IsPointerOverGameObject ()) {
             GameObject entity = IsThereAnEntity ();
             if (entity)
-                entity.GetComponent<EntityBehaviour> ().MouseEnter ();
+                entity.GetComponent<EntityBehaviour>().MouseEnter();
+            
             if (GameManager.instance.selectedSpell != null)
             {
                 Spell currentSpell = GameManager.instance.selectedSpell;
