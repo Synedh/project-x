@@ -139,3 +139,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isWalkable: 1
   hideView: 0
+  x: 0
+  y: 0

@@ -12,9 +12,8 @@ public class Spell {
 	Sprite _image;
 	string _description;
 	List<Effect> _effects;
-	List<Vector2> _cells;
 
-	public Spell(string name, int price, int cost, int rangeMin, int rangeMax, Sprite image, string description, List<Effect> effects, List<Vector2> cells)
+	public Spell(string name, int price, int cost, int rangeMin, int rangeMax, Sprite image, string description, List<Effect> effects)
 	{
 		_name = name;
 		_price = price;
@@ -24,7 +23,6 @@ public class Spell {
 		_image = image;
 		_description = description;
 		_effects = effects;
-		_cells = cells;
 	}
 
 	public string name {
@@ -72,12 +70,6 @@ public class Spell {
 	public List<Effect> effects {
 		get {
 			return _effects;
-		}
-	}
-
-	public List<Vector2> cells {
-		get {
-			return _cells;
 		}
 	}
 }

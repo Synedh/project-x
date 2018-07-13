@@ -18,11 +18,12 @@ public class Effect
     EffectType _type;
 	string _chatMessage;
 	string _description;
-	List<KeyValuePair<Characteristic, float>> _effects;
+    List<KeyValuePair<Characteristic, float>> _effects;
+    List<Vector2> _cells;
 
 	int currentTurn;
 
-    public Effect(string name, Sprite image, EffectType type, string chatMessage, string description, List<KeyValuePair<Characteristic, float>> effects)
+    public Effect(string name, Sprite image, EffectType type, string chatMessage, string description, List<KeyValuePair<Characteristic, float>> effects, List<Vector2> cells)
 	{
 		_name = name;
 		_image = image;
@@ -30,6 +31,7 @@ public class Effect
 		_chatMessage = chatMessage;
 		_description = description;
 		_effects = effects;
+        _cells = cells;
 
 		currentTurn = 0;
 	}
@@ -94,6 +96,12 @@ public class Effect
         get
         {
             return this._effects;
+        }
+    }
+
+    public List<Vector2> cells {
+        get {
+            return _cells;
         }
     }
 }

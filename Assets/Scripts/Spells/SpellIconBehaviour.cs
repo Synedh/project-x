@@ -43,8 +43,8 @@ public class SpellIconBehaviour: MonoBehaviour {
         EntityBehaviour entityBehavior = GameManager.instance.currentEntity.GetComponent<EntityBehaviour>();
         reachableCells = grid.SpellRange(entityBehavior.x, entityBehavior.y, spell.rangeMin, spell.rangeMax)[0];
         unreachableCells = grid.SpellRange(entityBehavior.x, entityBehavior.y, spell.rangeMin, spell.rangeMax)[1];
-        grid.ColorCells(reachableCells, new Color(30f / 255f, 144f / 255f, 1f, 1f));
-        grid.ColorCells(unreachableCells, new Color(0.49f, 0.75f, 0.93f, 1f));
+        grid.ColorCells(reachableCells, grid.reachableSpellRange);
+        grid.ColorCells(unreachableCells, grid.unreachableSpellRange);
     }
 
     public void OnEnter() {

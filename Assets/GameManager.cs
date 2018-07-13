@@ -64,18 +64,23 @@ public class GameManager : MonoBehaviour {
                     new List<KeyValuePair<Characteristic, float>>
                     {
                         new KeyValuePair<Characteristic, float>(Characteristic.CurrentHP, 20f)
-                    })
-            }, new List<Vector2>() { new Vector2(0, 0), new Vector2(1, 0), new Vector2(0, 1), new Vector2(-1, 0)});
+                    }, new List<Vector2>() { new Vector2(0, 0) })
+            });
 
-        Spell secondSpell = new Spell("Fireball", 50, 3, 2, 4, null, "Brule !",
+        Spell secondSpell = new Spell("Fireball", 50, 3, 0, 9, null, "Brule !",
             new List<Effect>()
             {
                 new Effect("hit", null, EffectType.Magic, "", "10 magical damages",
                     new List<KeyValuePair<Characteristic, float>>
                     {
                         new KeyValuePair<Characteristic, float>(Characteristic.CurrentHP, 10f)
-                    })
-            }, new List<Vector2>() { new Vector2(0, 0), new Vector2(1, 0), new Vector2(0, 1), new Vector2(-1, 0)});
+                    },  new List<Vector2>() { new Vector2(0, 0) }),
+                new Effect("Burn", null, EffectType.Magic, "", "6 AOE magical damages",
+                    new List<KeyValuePair<Characteristic, float>>
+                    {
+                        new KeyValuePair<Characteristic, float>(Characteristic.CurrentHP, 6f)
+                    }, new List<Vector2>() { new Vector2(1, 0), new Vector2(-1, 0), new Vector2(0, -1), new Vector2(0, 1)})
+            });
         entities[0].GetComponent<EntityBehaviour>().character = new Character("Toto", firstNecklace, null, firstRing, null, new List<Spell>() {firstSpell, secondSpell});
 		entities[1].GetComponent<EntityBehaviour>().character = new Character("Bill");
 		entities[2].GetComponent<EntityBehaviour>().character = new Character("Boule");

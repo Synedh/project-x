@@ -92,7 +92,7 @@ public class EntityBehaviour : MonoBehaviour {
 		}
 
 		MPRangeCells = grid.MPRange(x, y, (int)(character.stats[Characteristic.CurrentMP]));
-		grid.ColorCells(MPRangeCells, new Color(0.3f, 0.6f, 0.3f, 1f));
+        grid.ColorCells(MPRangeCells, grid.hoverMP);
 	}
 
 	public void MouseExit()
@@ -136,7 +136,53 @@ public class EntityBehaviour : MonoBehaviour {
 	public void Rotate(int angle)
 	{	
 		transform.eulerAngles = new Vector3(0, angle, 0);
-	}
+    }
+
+    public List<Vector2> GetAoeOfSpell(Spell spell, Vector2 target) {
+        List<Vector2> cells = new List<Vector2>();
+
+        if (target.x - x > target.y - y && (target.x - x) + (target.y - y) >= 0) // Front
+        {
+            foreach (Effect effect in spell.effects)
+            {
+                foreach (Vector2 cell in effect.cells)
+                    cells.Add(new Vector2(cell.x, cell.y));
+            }
+        }
+        else if (target.x - x >= target.y - y && (target.x - x) + (target.y - y) < 0) // Left
+        {
+            foreach (Effect effect in spell.effects)
+            {
+                foreach (Vector2 cell in effect.cells)
+                    cells.Add(new Vector2(cell.y, -cell.x));
+            }
+        }
+        else if (target.x - x < target.y - y && (target.x - x) + (target.y - y) <= 0) // Back
+        {
+            foreach (Effect effect in spell.effects)
+            {
+                foreach (Vector2 cell in effect.cells)
+                    cells.Add(new Vector2(-cell.x, -cell.y));
+            }
+        }
+        else if (target.x - x <= target.y - y && (target.x - x) + (target.y - y) > 0) // Right
+        {
+            foreach (Effect effect in spell.effects)
+            {
+                foreach (Vector2 cell in effect.cells)
+                    cells.Add(new Vector2(-cell.y, cell.x));
+            }
+        }
+        else // Center
+        {
+            foreach (Effect effect in spell.effects)
+            {
+                foreach (Vector2 cell in effect.cells)
+                    cells.Add(new Vector2(cell.x, cell.y));
+            }
+        }
+        return cells;
+    }
 
     public List<Vector2> SetMoveTargets(CustomGrid grid, Cell target)
     {

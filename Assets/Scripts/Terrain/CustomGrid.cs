@@ -5,6 +5,13 @@ using UnityEngine;
 
 public class CustomGrid: MonoBehaviour {
 
+    public Material defaultColor;
+    public Material hoverMP;
+    public Material pathMP;
+    public Material reachableSpellRange;
+    public Material unreachableSpellRange;
+    public Material aoeSpellRange;
+
     public TextAsset tileMapFile;
     public int width, height;
     
@@ -20,7 +27,7 @@ public class CustomGrid: MonoBehaviour {
 
     private void Start()
     {
-        drawnGrid = Draw();
+        drawnGrid = Draw(); 
     }
 
     void Update()
@@ -62,7 +69,10 @@ public class CustomGrid: MonoBehaviour {
 
     public GameObject GetCellObject(int x, int y)
     {
-        return drawnGrid[x, y];
+        if (x >= 0 && x < width && y >= 0 && y < height)
+            return drawnGrid[x, y];
+        else
+            return null;
     }
 
 	public GameObject AddEntity(GameObject entity)
@@ -237,11 +247,11 @@ public class CustomGrid: MonoBehaviour {
 		return 0;
     }
 
-    public void ColorCells(List<Vector2> cells, Color color)
+    public void ColorCells(List<Vector2> cells, Material material)
     {
         foreach (Vector2 cell in cells) {
             if (GetCellObject((int)cell.x, (int)cell.y) != null && GetCellObject((int)cell.x, (int)cell.y).GetComponent<CellBehaviour>().isWalkable)
-                GetCellObject((int)cell.x, (int)cell.y).GetComponent<CellBehaviour>().colorCell(color);
+                GetCellObject((int)cell.x, (int)cell.y).GetComponent<CellBehaviour>().colorCell(material);
         }
     }
 

@@ -2241,6 +2241,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13f6a499975851740b2f32e0c5f06a36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  defaultColor: {fileID: 2100000, guid: 3139354da03c1ea459d9f1a4dd4bcdc4, type: 2}
+  hoverMP: {fileID: 2100000, guid: 5cf2772f8be5f6042a753daa02b833f8, type: 2}
+  pathMP: {fileID: 2100000, guid: 58abd474388cae34aa627a85e22298c4, type: 2}
+  reachableSpellRange: {fileID: 2100000, guid: ce6a5dd9e3684274d943b66edf1346c3, type: 2}
+  unreachableSpellRange: {fileID: 2100000, guid: c355411dd4a913b448dcc03ce3d3bbce,
+    type: 2}
+  aoeSpellRange: {fileID: 2100000, guid: 1adc702362df64aed9f9b1e69c60befc, type: 2}
   tileMapFile: {fileID: 4900000, guid: 69bbf91059ae54448858b5783f4d22ec, type: 3}
   width: 6
   height: 6
