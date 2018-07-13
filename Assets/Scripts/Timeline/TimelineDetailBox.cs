@@ -12,6 +12,8 @@ public class TimelineDetailBox : MonoBehaviour {
 	Dictionary<ItemType, TimelineDetailBoxItem> boxItems;
     List<GameObject> boxSpells;
 
+    Vector2 oldMousePosition;
+
 	void Awake () {
 		entity = null;
 		nickname = gameObject.transform.Find("Nickname").gameObject.GetComponent<Text>();
@@ -73,6 +75,18 @@ public class TimelineDetailBox : MonoBehaviour {
                 spellBox.GetComponent<TimelineDetailBoxSpell>().SetSpell(spells[i]);
             }
         }
+    }
+
+    public void OnClick() {
+        Destroy(gameObject);
+    }
+
+    public void OnDrag() {
+        if (oldMousePosition != new Vector2(0, 0))
+            transform.position = new Vector3(transform.position.x - oldMousePosition.x + Input.mousePosition.x, 
+                                             transform.position.y - oldMousePosition.y + Input.mousePosition.y,
+                                             transform.position.z);
+        oldMousePosition = Input.mousePosition;
     }
 
 	public void SetEntity (EntityBehaviour entity) {

@@ -50,12 +50,13 @@ public class TimelineEntity : MonoBehaviour {
 	{
 		if (detailBox == null)
 		{
-            detailBox = Instantiate(DetailPannel, transform) as GameObject;
+            detailBox = Instantiate(DetailPannel, transform.parent) as GameObject;
+            detailBox.transform.position = new Vector3(Input.mousePosition.x, Input.mousePosition.y, detailBox.transform.position.z);
 			detailBox.GetComponent<TimelineDetailBox>().SetEntity(entityBehaviour);
 		} 
 		else 
 		{
-			DestroyImmediate(detailBox);
+			Destroy(detailBox);
 		}
 	}
 }

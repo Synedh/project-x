@@ -55,7 +55,7 @@ public class SpellIconBehaviour: MonoBehaviour {
     }
 
     public void OnExit() {
-        DestroyImmediate(spellBox);
+        Destroy(spellBox);
     }
 }
 

@@ -30,7 +30,7 @@ public class TimelineDetailBoxSpell : MonoBehaviour {
 	}
 
 	public void OnExit() {
-        DestroyImmediate(spellBox);
+        Destroy(spellBox);
 	}
 }
 

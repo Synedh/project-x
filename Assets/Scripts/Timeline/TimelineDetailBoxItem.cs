@@ -29,7 +29,7 @@ public class TimelineDetailBoxItem : MonoBehaviour {
 	}
 
 	public void OnExit() {
-		DestroyImmediate(itemBox);
+		Destroy(itemBox);
 	}
 }
 

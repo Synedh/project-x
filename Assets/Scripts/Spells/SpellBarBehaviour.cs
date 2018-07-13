@@ -22,7 +22,7 @@ public class SpellBarBehaviour: MonoBehaviour {
             spells = currentEntity.GetComponent<EntityBehaviour>().character.spells;
 
             foreach (GameObject spellIcon in spellIcons)
-                DestroyImmediate(spellIcon);
+                Destroy(spellIcon);
             spellIcons.Clear();
 
             if (spells != null)
