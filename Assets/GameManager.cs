@@ -35,9 +35,9 @@ public class GameManager : MonoBehaviour {
         timelineBehaviour = GameObject.Find("Timeline").GetComponent<TimelineBehaviour>();
 
         entities = new List<GameObject> {
-            EntityBehaviour.LoadEntity(grid, Resources.Load("Prefabs/Game/Entity"), new Vector2(1, 1)) as GameObject,
-            EntityBehaviour.LoadEntity(grid, Resources.Load("Prefabs/Game/Entity"), new Vector2(2, 1)) as GameObject,
-            EntityBehaviour.LoadEntity(grid, Resources.Load("Prefabs/Game/Entity"), new Vector2(2, 2)) as GameObject
+            EntityBehaviour.LoadEntity(grid, Resources.Load("Prefabs/Game/Entity"), new Vector2(8, 7)) as GameObject,
+            EntityBehaviour.LoadEntity(grid, Resources.Load("Prefabs/Game/Entity"), new Vector2(8, 9)) as GameObject,
+            EntityBehaviour.LoadEntity(grid, Resources.Load("Prefabs/Game/Entity"), new Vector2(8, 11)) as GameObject
         };
 
 		Item firstNecklace = new Item("Sauron's eye", 20, null, ItemType.Necklace, "C tré for", 
@@ -67,7 +67,7 @@ public class GameManager : MonoBehaviour {
                     }, new List<Vector2>() { new Vector2(0, 0) })
             });
 
-        Spell secondSpell = new Spell("Fireball", 50, 3, 0, 9, null, "Brule !",
+        Spell secondSpell = new Spell("Fireball", 50, 3, 1, 18, null, "Brule !",
             new List<Effect>()
             {
                 new Effect("hit", null, EffectType.Magic, "", "10 magical damages",

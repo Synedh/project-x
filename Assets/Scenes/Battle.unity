@@ -2248,7 +2248,7 @@ MonoBehaviour:
   unreachableSpellRange: {fileID: 2100000, guid: c355411dd4a913b448dcc03ce3d3bbce,
     type: 2}
   aoeSpellRange: {fileID: 2100000, guid: 1adc702362df64aed9f9b1e69c60befc, type: 2}
-  tileMapFile: {fileID: 4900000, guid: 69bbf91059ae54448858b5783f4d22ec, type: 3}
+  tileMapFile: {fileID: 4900000, guid: 6d9e0e96b73ca4209a452490844c8cbd, type: 3}
   width: 6
   height: 6
 --- !u!1 &1930634398

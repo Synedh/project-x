@@ -66,7 +66,7 @@ public class TimelineDetailBox : MonoBehaviour {
     void SetSpells() 
     {
         List<Spell> spells = entity.character.spells;
-        if (boxSpells != null)
+        if (boxSpells != null && spells != null)
         {
             for (int i = 0; i < spells.Count; ++i)
             {

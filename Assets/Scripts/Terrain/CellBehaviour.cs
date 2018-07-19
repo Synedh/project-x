@@ -57,7 +57,8 @@ public class CellBehaviour : MonoBehaviour {
                 Spell currentSpell = GameManager.instance.selectedSpell;
                 EntityBehaviour currentEntityBehaviour = GameManager.instance.currentEntity.GetComponent<EntityBehaviour>();
                 float range = Mathf.Abs(x - currentEntityBehaviour.x) + Mathf.Abs(y - currentEntityBehaviour.y);
-                if (currentSpell.rangeMin <= range && range <= currentSpell.rangeMax
+                if (currentSpell.rangeMin <= range 
+                    && range <= currentSpell.rangeMax
                     && grid.Visibility(new Vector2(currentEntityBehaviour.x, currentEntityBehaviour.y), new Vector2(x, y)))
                 {
                     foreach (Vector2 cell in currentEntityBehaviour.GetAoeOfSpell(currentSpell, new Vector2(x, y)))
@@ -87,14 +88,14 @@ public class CellBehaviour : MonoBehaviour {
                 }
 			}
 		} else {
-			OnMouseExit ();
+			OnMouseExit();
 		}
     }
 
     void OnMouseExit()
 	{
 		GameObject entity = IsThereAnEntity ();
-		if (entity) {
+        if (entity && GameManager.instance.selectedSpell == null) {
 			entity.GetComponent<EntityBehaviour>().MouseExit();
 		}
         if (coloredCells.Count > 0)
@@ -106,8 +107,9 @@ public class CellBehaviour : MonoBehaviour {
 
     void OnMouseDown()
     {
-		if (!EventSystem.current.IsPointerOverGameObject ()) {
-			GameObject entity = IsThereAnEntity ();
+        if (!EventSystem.current.IsPointerOverGameObject ()) {
+            Debug.Log(x + ", " + y + " = " + grid.GetViewGrid()[x, y]);
+            GameObject entity = IsThereAnEntity ();
             if (entity)
                 entity.GetComponent<EntityBehaviour>().MouseDown();
             else

@@ -1,4 +1,4 @@
-﻿using System;
+﻿    using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;  
@@ -147,9 +147,12 @@ public class CustomGrid: MonoBehaviour {
 
         for (int i = x - rangeMax; i <= x + rangeMax; ++i) {
             for (int j = y - rangeMax; j <= y + rangeMax; ++j) {
-                if (Math.Abs(j - y) + Math.Abs(i - x) <= rangeMax &&
-                    Math.Abs(j - y) + Math.Abs(i - x) >= rangeMin &&
-                    i >= 0 && i < height && j >= 0 && j < width)
+                if (Math.Abs(j - y) + Math.Abs(i - x) <= rangeMax 
+                    && Math.Abs(j - y) + Math.Abs(i - x) >= rangeMin
+                    && i >= 0
+                    && i < height
+                    && j >= 0
+                    && j <= width)
                 {
                     if (!needView || Visibility(new Vector2(x, y), new Vector2(i, j)))
                         reachableCells.Add(new Vector2(i, j));
@@ -167,7 +170,7 @@ public class CustomGrid: MonoBehaviour {
         int dy = (int)Mathf.Abs(v.y - u.y);
         int x = (int)u.x;
         int y = (int)u.y;
-        int n = dx + dy - 1;
+        int n = dx + dy;
         int x_inc = (v.x > u.x ? 1 : -1);
         int y_inc = (v.y > u.y ? 1 : -1);
         int error = dx - dy;
@@ -177,7 +180,7 @@ public class CustomGrid: MonoBehaviour {
 
         while (n > 0)
         {
-            if (!viewGrid[y,x] && !u.Equals(new Vector2(x, y)))
+            if (!viewGrid[x, y] && !u.Equals(new Vector2(x, y)))
             {
                 return false;
             }
