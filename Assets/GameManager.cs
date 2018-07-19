@@ -9,9 +9,11 @@ public class GameManager : MonoBehaviour {
     public CustomGrid grid;
     public List<GameObject> entities;
     public Spell selectedSpell;
+    public System.Random randomSeed;
 
     TimelineBehaviour timelineBehaviour;
     TurnManager turnManager;
+
 
     // Use this for initialization, called before Start()
     void Awake () {
@@ -31,6 +33,7 @@ public class GameManager : MonoBehaviour {
 
     void Start()
     {
+        randomSeed = new System.Random();
         grid = GameObject.Find("Grid").GetComponent<CustomGrid>();
         timelineBehaviour = GameObject.Find("Timeline").GetComponent<TimelineBehaviour>();
 
@@ -57,29 +60,27 @@ public class GameManager : MonoBehaviour {
             null
         );
 
-        Spell firstSpell = new Spell("Sword of  Damocles", 50, 3, 1, 1, null, "Et paf !",
+        Spell firstSpell = new Spell("Sword of Damocles", 50, 3, 1, 1, null, "Et paf !",
                                new List<Effect>()
             {
-                new Effect("hit", null, EffectType.Physical, "", "20 physical damages",
-                    new List<KeyValuePair<Characteristic, float>>
-                    {
-                        new KeyValuePair<Characteristic, float>(Characteristic.CurrentHP, 20f)
-                    }, new List<Vector2>() { new Vector2(0, 0) })
+                new Effect("Sword of Damocles", null, EffectType.Physical, "", "18-22 physical damages",
+                    new List<UniqueEffect> { new UniqueEffect(18, 22, carac: Characteristic.CurrentHP) }, 
+                    new List<Vector2>() { new Vector2(0, 0) })
             });
 
         Spell secondSpell = new Spell("Fireball", 50, 3, 1, 18, null, "Brule !",
             new List<Effect>()
             {
-                new Effect("hit", null, EffectType.Magic, "", "10 magical damages",
-                    new List<KeyValuePair<Characteristic, float>>
-                    {
-                        new KeyValuePair<Characteristic, float>(Characteristic.CurrentHP, 10f)
-                    },  new List<Vector2>() { new Vector2(0, 0) }),
-                new Effect("Burn", null, EffectType.Magic, "", "6 AOE magical damages",
-                    new List<KeyValuePair<Characteristic, float>>
-                    {
-                        new KeyValuePair<Characteristic, float>(Characteristic.CurrentHP, 6f)
-                    }, new List<Vector2>() { new Vector2(1, 0), new Vector2(-1, 0), new Vector2(0, -1), new Vector2(0, 1)})
+                new Effect("Fireball", null, EffectType.Magic, "", "9-11 magical damages",
+                    new List<UniqueEffect> { new UniqueEffect(9, 11, carac: Characteristic.CurrentHP) },
+                    new List<Vector2>() { new Vector2(0, 0) }),
+                new Effect("Fireball AOE", null, EffectType.Magic, "", "6 AOE magical damages (2 turns)",
+                    new List<UniqueEffect> {
+                        null,
+                        new UniqueEffect(6, 6, carac: Characteristic.CurrentHP),
+                        new UniqueEffect(6, 6, carac: Characteristic.CurrentHP) 
+                    },
+                    new List<Vector2>() { new Vector2(0, 0), new Vector2(1, 0), new Vector2(0, -1), new Vector2(-1, 0), new Vector2(0, 1)})
             });
         entities[0].GetComponent<EntityBehaviour>().character = new Character("Toto", firstNecklace, null, firstRing, null, new List<Spell>() {firstSpell, secondSpell});
 		entities[1].GetComponent<EntityBehaviour>().character = new Character("Bill");

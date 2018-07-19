@@ -25,6 +25,14 @@ public class Spell {
 		_effects = effects;
 	}
 
+    public void Apply(EntityBehaviour sender, Vector2 cell)
+    {
+        Debug.Log(sender.character.nickname + " use " + _name);
+        foreach (Effect effect in _effects)
+            effect.Apply(sender, cell);
+        sender.character.stats[Characteristic.CurrentAP] -= this.cost;
+    }
+
 	public string name {
 		get {
 			return _name;

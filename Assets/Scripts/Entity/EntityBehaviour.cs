@@ -56,8 +56,7 @@ public class EntityBehaviour : MonoBehaviour {
 
         if (GameManager.instance.selectedSpell != null)
         {
-            Debug.Log(GameManager.instance.currentEntity.GetComponent<EntityBehaviour>().character.nickname + " attack " + character.nickname + " with " + GameManager.instance.selectedSpell.name);
-
+            Debug.Log(GameManager.instance.currentEntity.GetComponent<EntityBehaviour>().character.nickname + " use " + character.nickname + " with " + GameManager.instance.selectedSpell.name);
         }
 
         if (Input.GetMouseButtonDown(0))
@@ -136,6 +135,37 @@ public class EntityBehaviour : MonoBehaviour {
 	public void Rotate(int angle)
 	{	
 		transform.eulerAngles = new Vector3(0, angle, 0);
+    }
+
+    public List<Vector2> GetAoeOfEffect(Effect effect, Vector2 target) {
+        List<Vector2> cells = new List<Vector2>();
+
+        if (target.x - x > target.y - y && (target.x - x) + (target.y - y) >= 0) // Front
+        {
+            foreach (Vector2 cell in effect.cells)
+                cells.Add(new Vector2(target.x + cell.x, target.y + cell.y));
+        }
+        else if (target.x - x >= target.y - y && (target.x - x) + (target.y - y) < 0) // Left
+        {
+            foreach (Vector2 cell in effect.cells)
+                cells.Add(new Vector2(target.x + cell.y, target.y - cell.x));
+        }
+        else if (target.x - x < target.y - y && (target.x - x) + (target.y - y) <= 0) // Back
+        {
+            foreach (Vector2 cell in effect.cells)
+                cells.Add(new Vector2(target.x - cell.x, target.y - cell.y));
+        }
+        else if (target.x - x <= target.y - y && (target.x - x) + (target.y - y) > 0) // Right
+        {
+            foreach (Vector2 cell in effect.cells)
+                cells.Add(new Vector2(target.x - cell.y, target.y + cell.x));
+        }
+        else // Center
+        {
+            foreach (Vector2 cell in effect.cells)
+                cells.Add(new Vector2(x + cell.x, y + cell.y));
+        }
+        return cells;
     }
 
     public List<Vector2> GetAoeOfSpell(Spell spell, Vector2 target) {

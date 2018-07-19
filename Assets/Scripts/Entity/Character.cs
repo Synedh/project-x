@@ -8,7 +8,7 @@ public class Character {
 	Dictionary<Characteristic, float> _stats;
 	Dictionary<ItemType, Item> _items;
     List<Spell> _spells;
-	List<Effect> _effects;
+    List<KeyValuePair<Effect, EntityBehaviour>> _effects;
 
 	public Character (string nickname, Item necklace = null, Item bracelet = null, Item ring = null, Item weapon = null, List<Spell> spells = null) {
 
@@ -37,7 +37,7 @@ public class Character {
 			{ ItemType.Weapon, weapon }
         };
         _spells = spells;
-		_effects = new List<Effect>();
+        _effects = new List<KeyValuePair<Effect, EntityBehaviour>>();
 
 		UpdateStats();
 		_stats[Characteristic.CurrentHP] = _stats[Characteristic.MaxHP];
@@ -57,12 +57,12 @@ public class Character {
 				}
 			}
 		}
-
+        /*
 		foreach (Effect effect in _effects)
 		{
 			KeyValuePair<Characteristic, float> turnEffect = effect.GetEffect();
 			_stats[turnEffect.Key] += turnEffect.Value;
-		}
+		}*/
 	}
 
 	public string nickname {
@@ -89,7 +89,7 @@ public class Character {
 		}
 	}
 
-	public List<Effect> effects {
+    public List<KeyValuePair<Effect, EntityBehaviour>> effects {
 		get {
 			return this._effects;
 		}

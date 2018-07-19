@@ -9,8 +9,9 @@ public class TimelineDetailBox : MonoBehaviour {
 	EntityBehaviour entity;
 	Text nickname;
 	Dictionary<Characteristic, Text> textCaracts;
-	Dictionary<ItemType, TimelineDetailBoxItem> boxItems;
+    Dictionary<ItemType, TimelineDetailBoxItem> boxItems;
     List<GameObject> boxSpells;
+    List<GameObject> boxEffects;
 
     Vector2 oldMousePosition;
 
@@ -32,13 +33,17 @@ public class TimelineDetailBox : MonoBehaviour {
 			{ ItemType.Bracelet, transform.Find("Items/Bracelet").gameObject.GetComponent<TimelineDetailBoxItem>() },
 			{ ItemType.Ring, transform.Find("Items/Ring").gameObject.GetComponent<TimelineDetailBoxItem>() },
 			{ ItemType.Weapon, transform.Find("Items/Weapon").gameObject.GetComponent<TimelineDetailBoxItem>() }
-		};
+        };
         boxSpells = new List<GameObject>();
+        boxEffects = new List<GameObject>();
 	}
 
 	void Update() {
-		if (entity != null)
+        if (entity != null)
+        {
             UpdateStats();
+            SetEffects();
+        }
 	}
 
 	public void UpdateStats() {
@@ -66,13 +71,32 @@ public class TimelineDetailBox : MonoBehaviour {
     void SetSpells() 
     {
         List<Spell> spells = entity.character.spells;
-        if (boxSpells != null && spells != null)
+        if (spells != null)
         {
             for (int i = 0; i < spells.Count; ++i)
             {
                 GameObject spellBox = Instantiate(Resources.Load("Prefabs/UI/DetailSpell"), transform.Find("Spells")) as GameObject;
                 spellBox.transform.position = new Vector3(spellBox.transform.position.x, spellBox.transform.position.y - i * 60, spellBox.transform.position.z);
                 spellBox.GetComponent<TimelineDetailBoxSpell>().SetSpell(spells[i]);
+                boxSpells.Add(spellBox);
+            }
+        }
+    }
+
+    void SetEffects()
+    {
+        foreach (GameObject effectBox in boxEffects)
+            Destroy(effectBox);
+        boxEffects.Clear();
+
+        List<KeyValuePair<Effect,EntityBehaviour>> effects = entity.character.effects;
+        if (effects != null) {
+            for (int i = 0; i < effects.Count; ++i) 
+            {
+                GameObject effectBox = Instantiate(Resources.Load("Prefabs/UI/DetailEffect"), transform.Find("Effects")) as GameObject;
+                effectBox.transform.position = new Vector3(effectBox.transform.position.x + i * 60, effectBox.transform.position.y, effectBox.transform.position.z);
+                effectBox.GetComponent<TimelineDetailBoxEffect>().SetEffect(effects[i]);
+                boxEffects.Add(effectBox);
             }
         }
     }

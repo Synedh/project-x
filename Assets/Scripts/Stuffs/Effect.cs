@@ -18,12 +18,12 @@ public class Effect
     EffectType _type;
 	string _chatMessage;
 	string _description;
-    List<KeyValuePair<Characteristic, float>> _effects;
+    List<UniqueEffect> _effects;
     List<Vector2> _cells;
 
-	int currentTurn;
+	int _currentTurn;
 
-    public Effect(string name, Sprite image, EffectType type, string chatMessage, string description, List<KeyValuePair<Characteristic, float>> effects, List<Vector2> cells)
+    public Effect(string name, Sprite image, EffectType type, string chatMessage, string description, List<UniqueEffect> effects, List<Vector2> cells)
 	{
 		_name = name;
 		_image = image;
@@ -33,23 +33,40 @@ public class Effect
 		_effects = effects;
         _cells = cells;
 
-		currentTurn = 0;
+		_currentTurn = 0;
+
+        foreach (UniqueEffect effect in effects)
+        {
+            if (effect != null)
+                effect.type = type;
+        }
 	}
 
-	void PrintEffect(Characteristic type, float value)
+    public void Resolve(EntityBehaviour sender, EntityBehaviour reciever = null)
 	{
-		// Print effect to chat
-		Debug.Log("Effet " + type + " de " + value + ".");
+        UniqueEffect effect = _effects[_currentTurn];
+        if (effect != null)
+        {
+            int value = effect.ResolveUniqueEffect(sender, reciever);
+            Debug.Log(reciever.character.nickname + " : " + value + " " + effect.carac + " by " + _name + " from " + sender.character.nickname + ".");
+        }
 	}
 
-	public KeyValuePair<Characteristic, float> GetEffect()
-	{
-		KeyValuePair<Characteristic, float> effect = _effects[currentTurn];
-		PrintEffect(effect.Key, effect.Value);
-		currentTurn++;
-
-		return effect;
-	}
+    public void Apply(EntityBehaviour sender, Vector2 target) {
+        foreach (Vector2 cell in sender.GetAoeOfEffect(this, target))
+        {
+            GameObject entity = GameManager.instance.grid.GetEntityOnCell((int)cell.x, (int)cell.y);
+            if (entity != null)
+            {
+                List<KeyValuePair<Effect, EntityBehaviour>> entityEffects = entity.GetComponent<EntityBehaviour>().character.effects;
+                entityEffects.Add(new KeyValuePair<Effect, EntityBehaviour> (this.MemberwiseClone() as Effect, sender));
+                entityEffects[entityEffects.Count - 1].Key.Resolve(sender, entity.GetComponent<EntityBehaviour>());
+                entityEffects[entityEffects.Count - 1].Key.currentTurn++;
+                if (entityEffects[entityEffects.Count - 1].Key.currentTurn >= entityEffects[entityEffects.Count - 1].Key.effects.Count)
+                    entityEffects.RemoveAt(entityEffects.Count - 1);
+            }
+        }
+    }
 
     public string name
     {
@@ -91,7 +108,7 @@ public class Effect
         }
     }
 
-    public List<KeyValuePair<Characteristic, float>> effects
+    public List<UniqueEffect> effects
     {
         get
         {
@@ -102,6 +119,18 @@ public class Effect
     public List<Vector2> cells {
         get {
             return _cells;
+        }
+    }
+
+    public int currentTurn
+    {
+        get
+        {
+            return this._currentTurn;
+        }
+        set
+        {
+            _currentTurn = value;
         }
     }
 }

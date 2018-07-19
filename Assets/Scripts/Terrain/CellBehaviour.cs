@@ -108,9 +108,12 @@ public class CellBehaviour : MonoBehaviour {
     void OnMouseDown()
     {
         if (!EventSystem.current.IsPointerOverGameObject ()) {
-            Debug.Log(x + ", " + y + " = " + grid.GetViewGrid()[x, y]);
             GameObject entity = IsThereAnEntity ();
-            if (entity)
+            if (GameManager.instance.selectedSpell != null)
+            {
+                GameManager.instance.selectedSpell.Apply(GameManager.instance.currentEntity.GetComponent<EntityBehaviour>(), new Vector2(x, y));
+            }
+            else if (entity)
                 entity.GetComponent<EntityBehaviour>().MouseDown();
             else
             {

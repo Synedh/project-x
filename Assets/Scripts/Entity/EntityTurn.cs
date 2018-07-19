@@ -27,14 +27,17 @@ public class EntityTurn {
 
         turn++;
 
-		// TODO : Use one effect.
+        foreach (KeyValuePair<Effect, EntityBehaviour> effect in character.effects)
+        {
+            effect.Key.Resolve(entity.GetComponent<EntityBehaviour>(), effect.Value);
+        }
+
+        // TODO : Remove one turn to effects inflicted by him
 	}
 		
 	public void EndTurn() {
 		character.stats[Characteristic.CurrentAP] = character.stats[Characteristic.MaxAP];
 		character.stats[Characteristic.CurrentMP] = character.stats[Characteristic.MaxMP];
-
-		// TODO : Remove one turn to effects inflicted by him
 
         // Unselect entity.
         foreach (MeshRenderer renderer in entity.GetComponentsInChildren<MeshRenderer>())

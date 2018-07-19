@@ -4,5 +4,7 @@ using System.Collections.Generic;
 public enum EffectType {
     Physical,
     Magic,
-    Heal
+    Heal,
+    Move,
+    Create
 }
