@@ -32,5 +32,10 @@ public class TimelineDetailBoxEffect : MonoBehaviour {
 	public void OnExit() {
         Destroy(effectBox);
 	}
+
+    public void OnDestroy()
+    {
+        Destroy(effectBox);
+    }
 }
 

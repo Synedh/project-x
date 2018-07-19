@@ -42,7 +42,8 @@ public class TimelineDetailBox : MonoBehaviour {
         if (entity != null)
         {
             UpdateStats();
-            SetEffects();
+            if (boxEffects.Count != entity.character.effects.Count)
+                UpdateEffects();
         }
 	}
 
@@ -83,10 +84,10 @@ public class TimelineDetailBox : MonoBehaviour {
         }
     }
 
-    void SetEffects()
+    void UpdateEffects()
     {
         foreach (GameObject effectBox in boxEffects)
-            Destroy(effectBox);
+            DestroyImmediate(effectBox);
         boxEffects.Clear();
 
         List<KeyValuePair<Effect,EntityBehaviour>> effects = entity.character.effects;
