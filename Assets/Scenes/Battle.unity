@@ -467,13 +467,19 @@ Transform:
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 22ce756f2737f1f40e739bda76632f5b365a3d19
 --- !u!224 &239027519 stripped
 RectTransform:
   m_PrefabParentObject: {fileID: 224167052573052140, guid: 201a4a1f42a064de38ee742f8d742795,
     type: 2}
   m_PrefabInternal: {fileID: 445111375}
+<<<<<<< HEAD
 =======
 >>>>>>> faa7db0... Dot done. Begining chat.
+=======
+>>>>>>> 22ce756f2737f1f40e739bda76632f5b365a3d19
 --- !u!1 &243643953
 GameObject:
   m_ObjectHideFlags: 0
@@ -918,6 +924,9 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 437700581}
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 22ce756f2737f1f40e739bda76632f5b365a3d19
 --- !u!1001 &445111375
 Prefab:
   m_ObjectHideFlags: 0
@@ -1048,8 +1057,11 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 201a4a1f42a064de38ee742f8d742795, type: 2}
   m_IsPrefabParent: 0
+<<<<<<< HEAD
 =======
 >>>>>>> faa7db0... Dot done. Begining chat.
+=======
+>>>>>>> 22ce756f2737f1f40e739bda76632f5b365a3d19
 --- !u!1 &546762925
 GameObject:
   m_ObjectHideFlags: 0
@@ -1541,11 +1553,16 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
 <<<<<<< HEAD
+<<<<<<< HEAD
   m_Children:
   - {fileID: 239027519}
 =======
   m_Children: []
 >>>>>>> faa7db0... Dot done. Begining chat.
+=======
+  m_Children:
+  - {fileID: 239027519}
+>>>>>>> 22ce756f2737f1f40e739bda76632f5b365a3d19
   m_Father: {fileID: 1090219117}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1556,6 +1573,7 @@ RectTransform:
   m_Pivot: {x: 0.5, y: 0}
 --- !u!222 &860079565
 CanvasRenderer:
+<<<<<<< HEAD
 <<<<<<< HEAD
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
@@ -1600,6 +1618,8 @@ RectTransform:
 MonoBehaviour:
 =======
 >>>>>>> faa7db0... Dot done. Begining chat.
+=======
+>>>>>>> 22ce756f2737f1f40e739bda76632f5b365a3d19
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
