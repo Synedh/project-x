@@ -33,6 +33,9 @@ public class GameManager : MonoBehaviour {
 
     void Start()
     {
+        // ChatBehaviour.instance.WriteMessage("test");
+        ChatBehaviour.instance.WriteMessage("test");
+
         randomSeed = new System.Random();
         grid = GameObject.Find("Grid").GetComponent<CustomGrid>();
         timelineBehaviour = GameObject.Find("Timeline").GetComponent<TimelineBehaviour>();
@@ -68,7 +71,7 @@ public class GameManager : MonoBehaviour {
                     new List<Vector2>() { new Vector2(0, 0) })
             });
 
-        Spell secondSpell = new Spell("Fireball", 50, 3, 1, 18, null, "Brule !",
+        Spell secondSpell = new Spell("Fireball", 50, 3, 2, 5, null, "Brule !",
             new List<Effect>()
             {
                 new Effect("Fireball", null, EffectType.Magic, "", "9-11 magical damages",
@@ -77,8 +80,9 @@ public class GameManager : MonoBehaviour {
                 new Effect("Fireball AOE", null, EffectType.Magic, "", "6 AOE magical damages (2 turns)",
                     new List<UniqueEffect> {
                         null,
-                        new UniqueEffect(6, 6, carac: Characteristic.CurrentHP),
-                        new UniqueEffect(6, 6, carac: Characteristic.CurrentHP) 
+                    new UniqueEffect(6, 6, carac: Characteristic.CurrentHP),
+                    new UniqueEffect(6, 6, carac: Characteristic.CurrentHP),
+                    new UniqueEffect(6, 6, carac: Characteristic.CurrentHP)
                     },
                     new List<Vector2>() { new Vector2(0, 0), new Vector2(1, 0), new Vector2(0, -1), new Vector2(-1, 0), new Vector2(0, 1)})
             });

@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿    using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -63,9 +63,10 @@ public class UniqueEffect
         float rangeResistance = 1f;
         float typeDamage = 1f;
         float typeResistance = 1f;
+        int baseDamage = GameManager.instance.randomSeed.Next(valueMin, valueMax + 1);
         if (carac == Characteristic.CurrentHP)
         {
-            if (true)
+            if (Mathf.Abs(sender.x - reciever.x) + Mathf.Abs(sender.y - reciever.y) <= 1)
             {
                 rangeDamage = sender.character.stats[Characteristic.ContactDamage];
                 rangeResistance = reciever.character.stats[Characteristic.ContactResistance];
@@ -86,7 +87,11 @@ public class UniqueEffect
                 typeResistance = reciever.character.stats[Characteristic.PhysicalResistance];
             }
         }
-        return Mathf.RoundToInt(GameManager.instance.randomSeed.Next(valueMin, valueMax + 1) * rangeDamage * typeDamage / (rangeResistance * typeResistance));
+        return Mathf.RoundToInt(
+            baseDamage 
+            + (baseDamage * (rangeDamage / rangeResistance - 1)) 
+            + (baseDamage * (typeDamage / typeResistance - 1))
+        );
     }
 
     public EffectType type

@@ -15,6 +15,7 @@ public class TimelineDetailBoxEffect : MonoBehaviour {
 	}
 
 	void Update() {
+        transform.Find("TurnIcon").GetComponentInChildren<Text>().text = (effect.effects.Count - effect.currentTurn).ToString();;
 	}
 
     public void SetEffect(KeyValuePair<Effect,EntityBehaviour> effect) {

@@ -111,7 +111,15 @@ public class CellBehaviour : MonoBehaviour {
             GameObject entity = IsThereAnEntity ();
             if (GameManager.instance.selectedSpell != null)
             {
-                GameManager.instance.selectedSpell.Apply(GameManager.instance.currentEntity.GetComponent<EntityBehaviour>(), new Vector2(x, y));
+                Spell currentSpell = GameManager.instance.selectedSpell;
+                EntityBehaviour currentEntityBehaviour = GameManager.instance.currentEntity.GetComponent<EntityBehaviour>();
+                float range = Mathf.Abs(x - currentEntityBehaviour.x) + Mathf.Abs(y - currentEntityBehaviour.y);
+                if (currentSpell.rangeMin <= range
+                    && range <= currentSpell.rangeMax
+                    && grid.Visibility(new Vector2(currentEntityBehaviour.x, currentEntityBehaviour.y), new Vector2(x, y)))
+                {
+                    GameManager.instance.selectedSpell.Apply(GameManager.instance.currentEntity.GetComponent<EntityBehaviour>(), new Vector2(x, y));
+                }
             }
             else if (entity)
                 entity.GetComponent<EntityBehaviour>().MouseDown();

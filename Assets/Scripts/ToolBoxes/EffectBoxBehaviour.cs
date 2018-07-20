@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class EffectBoxBehaviour : MonoBehaviour {
 
+    Effect effect;
+
     void Awake() {
         RectTransform rectTransform = GetComponent<RectTransform>();
         Vector2 anchors = new Vector2(
@@ -19,9 +21,17 @@ public class EffectBoxBehaviour : MonoBehaviour {
 
 	void Update() {
         transform.position = Input.mousePosition;
+
+        if (effect != null)
+        {
+            int turns = effect.effects.Count - effect.currentTurn;
+            transform.Find("Turns").GetComponent<Text>().text = turns + (turns > 1 ? " turns remaining" : " turn remaining");
+        }
 	}
 
     public void SetEffect(Effect effect) {
+        this.effect = effect;
         transform.Find("EffectName").GetComponent<Text>().text = effect.name.ToUpperInvariant();
+        transform.Find("Description").GetComponent<Text>().text = effect.description;
 	}
 }
