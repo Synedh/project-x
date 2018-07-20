@@ -44,7 +44,7 @@ public class Effect
 
     public void Resolve(EntityBehaviour sender, EntityBehaviour reciever = null)
 	{
-        UniqueEffect effect = _effects[_currentTurn];
+        UniqueEffect effect = _effects[_currentTurn++];
         if (effect != null)
         {
             int value = effect.ResolveUniqueEffect(sender, reciever);
@@ -61,7 +61,6 @@ public class Effect
                 List<KeyValuePair<Effect, EntityBehaviour>> entityEffects = entity.GetComponent<EntityBehaviour>().character.effects;
                 entityEffects.Add(new KeyValuePair<Effect, EntityBehaviour> (this.MemberwiseClone() as Effect, sender));
                 entityEffects[entityEffects.Count - 1].Key.Resolve(sender, entity.GetComponent<EntityBehaviour>());
-                entityEffects[entityEffects.Count - 1].Key.currentTurn++;
                 if (entityEffects[entityEffects.Count - 1].Key.currentTurn >= entityEffects[entityEffects.Count - 1].Key.effects.Count)
                     entityEffects.RemoveAt(entityEffects.Count - 1);
             }

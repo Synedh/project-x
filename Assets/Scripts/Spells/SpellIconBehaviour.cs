@@ -30,7 +30,7 @@ public class SpellIconBehaviour: MonoBehaviour {
         GetComponentInChildren<Text>().text = spell.name;
     }
 
-    void UnselectSpell() {
+    public void UnselectSpell() {
         GameManager.instance.selectedSpell = null;
         grid.CleanCells(reachableCells);
         grid.CleanCells(unreachableCells);
@@ -39,6 +39,12 @@ public class SpellIconBehaviour: MonoBehaviour {
     }
         
     public void OnClick() {
+        if (GameManager.instance.selectedSpell != null)
+        {
+            foreach (GameObject spellIcon in SpellBarBehaviour.instance.spellIcons) {
+                spellIcon.GetComponent<SpellIconBehaviour>().UnselectSpell();
+            }
+        }
         GameManager.instance.selectedSpell = spell;
         EntityBehaviour entityBehavior = GameManager.instance.currentEntity.GetComponent<EntityBehaviour>();
         reachableCells = grid.SpellRange(entityBehavior.x, entityBehavior.y, spell.rangeMin, spell.rangeMax)[0];

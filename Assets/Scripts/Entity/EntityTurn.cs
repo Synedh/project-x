@@ -27,11 +27,24 @@ public class EntityTurn {
 
         turn++;
 
+        // Résolution d'effets
         foreach (KeyValuePair<Effect, EntityBehaviour> effect in character.effects)
         {
-            effect.Key.Resolve(entity.GetComponent<EntityBehaviour>(), effect.Value);
+            effect.Key.Resolve(effect.Value, entity.GetComponent<EntityBehaviour>());
         }
 
+        // Remove effects inflicted by him if no turn left
+        foreach (GameObject entity in GameManager.instance.entities)
+        {
+            List<KeyValuePair<Effect, EntityBehaviour>> effects = entity.GetComponent<EntityBehaviour>().character.effects;
+            for (int i = 0; i < effects.Count; ++i) {
+                if (effects[i].Value == this.entity.GetComponent<EntityBehaviour>()
+                    && effects[i].Key.effects.Count <= effects[i].Key.currentTurn)
+                {
+                    effects.RemoveAt(i--);
+                }
+            }
+        }
         // TODO : Remove one turn to effects inflicted by him
 	}
 		

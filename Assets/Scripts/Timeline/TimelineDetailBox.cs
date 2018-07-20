@@ -92,10 +92,12 @@ public class TimelineDetailBox : MonoBehaviour {
 
         List<KeyValuePair<Effect,EntityBehaviour>> effects = entity.character.effects;
         if (effects != null) {
+            Debug.Log(effects.Count);
             for (int i = 0; i < effects.Count; ++i) 
             {
                 GameObject effectBox = Instantiate(Resources.Load("Prefabs/UI/DetailEffect"), transform.Find("Effects")) as GameObject;
-                effectBox.transform.position = new Vector3(effectBox.transform.position.x + i * 60, effectBox.transform.position.y, effectBox.transform.position.z);
+                effectBox.transform.SetSiblingIndex(0);
+                effectBox.transform.position = new Vector3(effectBox.transform.position.x + (i % 4) * 60, effectBox.transform.position.y - (int)(i / 4) * 60, effectBox.transform.position.z);
                 effectBox.GetComponent<TimelineDetailBoxEffect>().SetEffect(effects[i]);
                 boxEffects.Add(effectBox);
             }

@@ -9,9 +9,13 @@ public class SpellBarBehaviour: MonoBehaviour {
 
     GameObject currentEntity;
     List<Spell> spells;
-    List<GameObject> spellIcons;
+    public List<GameObject> spellIcons;
+
+    public static SpellBarBehaviour instance;
 
     void Start() {
+        instance = this;
+        spells = new List<Spell>();
         spellIcons = new List<GameObject>();
     }
 
@@ -33,6 +37,17 @@ public class SpellBarBehaviour: MonoBehaviour {
                     spellIcon.transform.position = new Vector3(spellIcon.transform.position.x + 60 * i, spellIcon.transform.position.y, spellIcon.transform.position.z);
                     spellIcon.GetComponent<SpellIconBehaviour>().SetSpell(spells[i]);
                     spellIcons.Add(spellIcon);
+                }
+            }
+        }
+
+        if (spells != null)
+        {
+            for (int i = 0; i < spells.Count; ++i) // Deactivate non usable spells
+            {
+                if (currentEntity.GetComponent<EntityBehaviour>().character.stats[Characteristic.CurrentAP] < spells[i].cost)
+                {
+                    spellIcons[i].GetComponent<Button>().interactable = false;
                 }
             }
         }

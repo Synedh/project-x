@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class CameraManager : MonoBehaviour {
     
@@ -29,17 +30,20 @@ public class CameraManager : MonoBehaviour {
 
     private void Update()
     {
-        if (Input.GetMouseButton(1)) 
+        if (!EventSystem.current.IsPointerOverGameObject())
         {
-            currentX += Input.GetAxis("Mouse X") * sensitivityX;
-            currentY -= Input.GetAxis("Mouse Y") * sensitivityY;
+            if (Input.GetMouseButton(1))
+            {
+                currentX += Input.GetAxis("Mouse X") * sensitivityX;
+                currentY -= Input.GetAxis("Mouse Y") * sensitivityY;
 
-            currentY = Mathf.Clamp(currentY, Y_ANGLE_MIN, Y_ANGLE_MAX);
-        }
-        if (Input.GetAxis("Mouse ScrollWheel") != 0f) // forward
-        {
-            distance -= Input.GetAxis("Mouse ScrollWheel") * sensitivityZ;
-            distance = Mathf.Clamp(distance, DISTANCE_MIN, DISTANCE_MAX);
+                currentY = Mathf.Clamp(currentY, Y_ANGLE_MIN, Y_ANGLE_MAX);
+            }
+            if (Input.GetAxis("Mouse ScrollWheel") != 0f) // forward
+            {
+                distance -= Input.GetAxis("Mouse ScrollWheel") * sensitivityZ;
+                distance = Mathf.Clamp(distance, DISTANCE_MIN, DISTANCE_MAX);
+            }
         }
     }
 
