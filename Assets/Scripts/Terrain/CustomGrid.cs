@@ -67,6 +67,12 @@ public class CustomGrid: MonoBehaviour {
         return drawGrid;
 	}
 
+    public CellBehaviour GetCellBehaviour(int x, int y)
+    {
+        GameObject cellObject = GetCellObject(x, y);
+        return (cellObject != null) ? GetCellObject(x, y).GetComponent<CellBehaviour>() : null;
+    }
+
     public GameObject GetCellObject(int x, int y)
     {
         if (x >= 0 && x < width && y >= 0 && y < height)
@@ -253,16 +259,18 @@ public class CustomGrid: MonoBehaviour {
     public void ColorCells(List<Vector2> cells, Material material)
     {
         foreach (Vector2 cell in cells) {
-            if (GetCellObject((int)cell.x, (int)cell.y) != null && GetCellObject((int)cell.x, (int)cell.y).GetComponent<CellBehaviour>().isWalkable)
-                GetCellObject((int)cell.x, (int)cell.y).GetComponent<CellBehaviour>().colorCell(material);
+            CellBehaviour cellBehaviour = GetCellBehaviour((int)cell.x, (int)cell.y);
+            if (cellBehaviour != null && cellBehaviour.isWalkable)
+                cellBehaviour.colorCell(material);
         }
     }
 
     public void CleanCells(List<Vector2> cells)
     {
         foreach (Vector2 cell in cells) {
-            if (GetCellObject((int)cell.x, (int)cell.y) != null && GetCellObject((int)cell.x, (int)cell.y).GetComponent<CellBehaviour>().isWalkable)
-                GetCellObject((int)cell.x, (int)cell.y).GetComponent<CellBehaviour>().removeColorCell();
+            CellBehaviour cellBehaviour = GetCellBehaviour((int)cell.x, (int)cell.y);
+            if (cellBehaviour != null && cellBehaviour.isWalkable)
+                cellBehaviour.removeColorCell();
         }
     }
 

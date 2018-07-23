@@ -63,10 +63,11 @@ public class CellBehaviour : MonoBehaviour {
                 {
                     foreach (Vector2 cell in currentEntityBehaviour.GetAoeOfSpell(currentSpell, new Vector2(x, y)))
                     {
-                        if (grid.GetCellObject(x + (int)cell.x, y + (int)cell.y) != null && grid.GetCellObject(x + (int)cell.x, y + (int)cell.y).GetComponent<CellBehaviour>().isWalkable)
+                        CellBehaviour cellBehaviour = grid.GetCellBehaviour(x + (int)cell.x, y + (int)cell.y);
+                        if (cellBehaviour != null && cellBehaviour.isWalkable)
                         {
                             coloredCells.Add(new Vector2(x + (int)cell.x, y + (int)cell.y));
-                            grid.GetCellObject(x + (int)cell.x, y + (int)cell.y).GetComponent<CellBehaviour>().colorCell(grid.aoeSpellRange);
+                            cellBehaviour.colorCell(grid.aoeSpellRange);
                         }
                     }
                 }   
@@ -76,13 +77,13 @@ public class CellBehaviour : MonoBehaviour {
                 if (!GameManager.instance.currentEntity.GetComponent<EntityBehaviour>().doMove)
                 {
                     EntityBehaviour entityBehaviour = GameManager.instance.currentEntity.GetComponent<EntityBehaviour>();
-                    List<Vector2> path = entityBehaviour.SetMoveTargets(grid, cell);
+                    List<Vector2> path = entityBehaviour.SetMoveTargets(cell);
                     if (path.Count <= entityBehaviour.character.stats[Characteristic.CurrentMP])
                     {
                         foreach (Vector2 cell in path)
                         {
                             coloredCells.Add(new Vector2(cell.x, cell.y));
-                            grid.GetCellObject((int)cell.x, (int)cell.y).GetComponent<CellBehaviour>().colorCell(grid.pathMP);
+                            grid.GetCellBehaviour((int)cell.x, (int)cell.y).colorCell(grid.pathMP);
                         }
                     }
                 }

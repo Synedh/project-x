@@ -12,16 +12,21 @@ public class EntityBehaviour : MonoBehaviour {
 
     public TimelineEntity timelineEntity;
     public Character character;
+    public Team team;
 
 	public int x;
 	public int y;
     public int orientation;
-	public bool doMove;
+    public bool doMove;
+    public bool doPush;
 
-	static CustomGrid grid;
+    static CustomGrid grid;
     List<Vector2> moveTargets;
+    List<Vector2> pushTargets;
 	List<Vector2> MPRangeCells;
+
 	float speed = 3f;
+    float pushSpeed = 10f;
 
     // Doubleclick
     bool one_click = false;
@@ -32,25 +37,31 @@ public class EntityBehaviour : MonoBehaviour {
         grid = GameObject.Find("Grid").GetComponent<CustomGrid>();
 
 		moveTargets = new List<Vector2>();
+        pushTargets = new List<Vector2>();
 		MPRangeCells = new List<Vector2>();
 
 		x = (int)transform.position.x;
 		y = (int)transform.position.z;
 
-		speed = 3f;
         orientation = (int)transform.eulerAngles.y;
 		doMove = false;
     }
 	
 	void Update() {
         // Move
-		if (doMove && moveTargets.Count > 0 && moveTargets.Count <= character.stats[Characteristic.CurrentMP])
-			Move (moveTargets [0]);
-		else if (doMove)
-			doMove = false;
+        if (doMove && moveTargets.Count > 0 && moveTargets.Count <= character.stats[Characteristic.CurrentMP])
+            Move(moveTargets[0]);
+        else if (doMove)
+            doMove = false;
+
+        // Push
+        if (doPush && pushTargets.Count > 0)
+            Push(pushTargets[0]);
+        else if (doPush)
+            doMove = false;
+        
         x = (int)transform.position.x;
         y = (int)transform.position.z;
-        // orientation = (int)transform.eulerAngles.y;
     }
 
     public void MouseDown()
@@ -120,13 +131,28 @@ public class EntityBehaviour : MonoBehaviour {
 			speed * Time.deltaTime
 		);
 
-		if (new Vector2(transform.position.x, transform.position.z) == moveTarget) {
+        if (new Vector2(transform.position.x, transform.position.z).Equals(moveTarget)) {
 			moveTargets.RemoveAt(0);
             character.stats[Characteristic.CurrentMP]--;
 			if (moveTargets.Count == 0)
 				doMove = false;
 		}
-	}
+    }
+
+    public void Push(Vector2 pushTarget)
+    {
+        transform.position = Vector3.MoveTowards(
+            transform.position, 
+            new Vector3(pushTarget.x, transform.position.y, pushTarget.y), 
+            pushSpeed * Time.deltaTime
+        );
+
+        if (new Vector2(transform.position.x, transform.position.z).Equals(pushTarget)) {
+            pushTargets.RemoveAt(0);
+            if (pushTargets.Count == 0)
+                doPush = false;
+        }
+    }
 
     public void Rotate(Vector2 cell)
     {
@@ -224,7 +250,7 @@ public class EntityBehaviour : MonoBehaviour {
         return cells;
     }
 
-    public List<Vector2> SetMoveTargets(CustomGrid grid, Cell target)
+    public List<Vector2> SetMoveTargets(Cell target)
     {
         // Fill a targets list of point. Then this list is parsed by Update function.
         // Once a location is reached, element is remove and next one is targeted.
@@ -241,7 +267,66 @@ public class EntityBehaviour : MonoBehaviour {
         foreach (NesScripts.Controls.PathFind.Point point in path)
             moveTargets.Add(new Vector2(point.x, point.y));
         return moveTargets;
-	}
+    }
+
+    public void SetPushTargets(Vector2 cell, int qty)
+    {
+        if (cell.x - x > cell.y - y && (cell.x - x) + (cell.y - y) >= 0) // Front
+        {
+            for (int i = 1; i <= qty; ++i)
+            {
+                CellBehaviour cellBehaviour = GameManager.instance.grid.GetCellBehaviour(x - i, y);
+                if (cellBehaviour == null
+                    || !cellBehaviour.isWalkable
+                    || GameManager.instance.grid.GetEntityOnCell(x - i, y) != null)
+                {
+                    break;
+                }
+                pushTargets.Add(new Vector2(x - i, y));
+            }
+        }
+        else if (cell.x - x >= cell.y - y && (cell.x - x) + (cell.y - y) < 0) // Left
+            for (int i = 1; i <= qty; ++i)
+            {
+                CellBehaviour cellBehaviour = GameManager.instance.grid.GetCellBehaviour(x, y + i);
+                if (cellBehaviour == null || !cellBehaviour.isWalkable
+                    || GameManager.instance.grid.GetEntityOnCell(x, y + i) != null)
+                {
+                    break;
+                }
+                pushTargets.Add(new Vector2(x, y + i));
+            }
+        else if (cell.x - x < cell.y - y && (cell.x - x) + (cell.y - y) <= 0) // Back
+            for (int i = 1; i <= qty; ++i)
+            {
+                CellBehaviour cellBehaviour = GameManager.instance.grid.GetCellBehaviour(x + i, y);
+                if (cellBehaviour == null
+                    || !cellBehaviour.isWalkable
+                    || GameManager.instance.grid.GetEntityOnCell(x + i, y) != null)
+                {
+                    break;
+                }
+                pushTargets.Add(new Vector2(x + i, y));
+            }
+        else if (cell.x - x <= cell.y - y && (cell.x - x) + (cell.y - y) > 0) // Right
+            for (int i = 1; i <= qty; ++i)
+            {
+                CellBehaviour cellBehaviour = GameManager.instance.grid.GetCellBehaviour(x, y - i);
+                if (cellBehaviour == null
+                    || !cellBehaviour.isWalkable
+                    || GameManager.instance.grid.GetEntityOnCell(x, y - i) != null)
+                {
+                    break;
+                }
+                pushTargets.Add(new Vector2(x, y - i));
+            }
+    }
+
+    public void SetTeam(Team team)
+    {
+        this.team = team;
+        team.Add(this);
+    }
 
     public static GameObject LoadEntity(CustomGrid grid, UnityEngine.Object prefab, Vector2 pos)
     {

@@ -50,14 +50,15 @@ public class Effect
         }
 	}
 
-    public void Resolve(EntityBehaviour sender, EntityBehaviour reciever = null)
+    public void Resolve(EntityBehaviour sender, EntityBehaviour reciever = null, Vector2 target = new Vector2())
 	{
         UniqueEffect effect = _effects[_currentTurn++];
         if (effect != null)
         {
-            int value = effect.ResolveUniqueEffect(sender, reciever);
+            int value = effect.ResolveUniqueEffect(sender, reciever, target);
+            if (_type == EffectType.Physical || _type == EffectType.Magic || _type == EffectType.Heal)
             ChatBehaviour.WriteMessage(
-                reciever.character.nickname + " : " + value + " " + effect.carac + " by " + _name + " from " + sender.character.nickname + ".",
+                    reciever.character.nickname + " : " + value + " " + effect.carac.ToString().Substring(7) + " by " + _name + " from " + sender.character.nickname + ".",
                 MessageType.Combat
             );
         }
@@ -67,11 +68,28 @@ public class Effect
         foreach (Vector2 cell in sender.GetAoeOfEffect(this, target))
         {
             GameObject entity = GameManager.instance.grid.GetEntityOnCell((int)cell.x, (int)cell.y);
-            if (entity != null)
+            if ((_type == EffectType.Physical || _type == EffectType.Magic || _type == EffectType.Heal)
+                && entity != null) // CurrentHP
             {
                 List<KeyValuePair<Effect, EntityBehaviour>> entityEffects = entity.GetComponent<EntityBehaviour>().character.effects;
-                entityEffects.Add(new KeyValuePair<Effect, EntityBehaviour> (this.MemberwiseClone() as Effect, sender));
-                entityEffects[entityEffects.Count - 1].Key.Resolve(sender, entity.GetComponent<EntityBehaviour>());
+                entityEffects.Add(new KeyValuePair<Effect, EntityBehaviour>(this.MemberwiseClone() as Effect, sender));
+                entityEffects[entityEffects.Count - 1].Key.Resolve(sender, reciever: entity.GetComponent<EntityBehaviour>());
+                if (entityEffects[entityEffects.Count - 1].Key.currentTurn >= entityEffects[entityEffects.Count - 1].Key.effects.Count)
+                    entityEffects.RemoveAt(entityEffects.Count - 1);
+            }
+            else if (_type == EffectType.Create) // Create
+            {
+                Resolve(sender, target: cell);
+                _currentTurn--;
+            }
+            else if (_type == EffectType.Move && entity != null) // Move
+            {
+                List<KeyValuePair<Effect, EntityBehaviour>> entityEffects = entity.GetComponent<EntityBehaviour>().character.effects;
+                entityEffects.Add(new KeyValuePair<Effect, EntityBehaviour>(this.MemberwiseClone() as Effect, sender));
+                if (target.Equals(cell))
+                    entityEffects[entityEffects.Count - 1].Key.Resolve(sender, reciever: entity.GetComponent<EntityBehaviour>(), target: new Vector2(sender.x, sender.y));
+                else
+                    entityEffects[entityEffects.Count - 1].Key.Resolve(sender, reciever: entity.GetComponent<EntityBehaviour>(), target: target);
                 if (entityEffects[entityEffects.Count - 1].Key.currentTurn >= entityEffects[entityEffects.Count - 1].Key.effects.Count)
                     entityEffects.RemoveAt(entityEffects.Count - 1);
             }

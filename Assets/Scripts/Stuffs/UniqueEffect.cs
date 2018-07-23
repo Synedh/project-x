@@ -11,27 +11,26 @@ public class UniqueEffect
     Characteristic _carac;
     Resources _prefab;
 
-    public UniqueEffect(int valueMin, int valueMax = 0, Vector2 position = new Vector2(), Characteristic carac = Characteristic.CurrentHP, Resources prefab = null)
+    public UniqueEffect(int valueMin, int valueMax = -1, Characteristic carac = Characteristic.CurrentHP, Resources prefab = null)
     {
         _valueMin = valueMin;
         _valueMax = valueMax;
-        _position = position;
         _carac = carac;
         _prefab = prefab;
     }
 
-    public int ResolveUniqueEffect(EntityBehaviour sender, EntityBehaviour reciever = null)
+    public int ResolveUniqueEffect(EntityBehaviour sender, EntityBehaviour reciever = null, Vector2 target = new Vector2())
     {
         switch (_type)
         {
             case EffectType.Heal:
-                return ResolveHeal(sender, reciever, _valueMin, _valueMax);
+                return ResolveHeal(reciever, _valueMin, _valueMax);
                 break;
             case EffectType.Move:
-                return ResolveMove(sender, reciever, _position, _valueMin);
+                return ResolveMove(reciever, target, (int)_valueMin);
                 break;
             case EffectType.Create:
-                return ResolveCreate(sender, _position, _prefab);
+                return ResolveCreate(target, _prefab);
                 break;
             default:
                 return ResolveCarac(sender, reciever, _type, _valueMin, _valueMax, _carac);
@@ -39,19 +38,19 @@ public class UniqueEffect
         }
     }
 
-    static int ResolveHeal(EntityBehaviour sender, EntityBehaviour reciever, int valueMin, int valueMax)
+    static int ResolveHeal(EntityBehaviour reciever, int valueMin, int valueMax)
     {
-        Debug.Log("Heal");
+        return GameManager.instance.randomSeed.Next(valueMin, valueMax + 1);
+    }
+
+    static int ResolveMove(EntityBehaviour reciever, Vector2 cell, int qty)
+    {
+        reciever.SetPushTargets(cell, qty);
+        reciever.doPush = true;
         return 0;
     }
 
-    static int ResolveMove(EntityBehaviour sender, EntityBehaviour reciever, Vector2 position, float qty)
-    {
-        Debug.Log("Move");
-        return 0;
-    }
-
-    static int ResolveCreate(EntityBehaviour sender, Vector2 position, Resources prefab)
+    static int ResolveCreate(Vector2 position, Resources prefab)
     {
         Debug.Log("Create");
         return 0;
@@ -97,7 +96,7 @@ public class UniqueEffect
         else
             orientation = 1.25f;
 
-        return Mathf.RoundToInt(
+        return - Mathf.RoundToInt(
             (baseDamage 
             + (baseDamage * (rangeDamage / rangeResistance - 1)) 
             + (baseDamage * (typeDamage / typeResistance - 1)))

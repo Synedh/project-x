@@ -37,7 +37,9 @@ public class EntityTurn {
         foreach (GameObject entity in GameManager.instance.entities)
         {
             List<KeyValuePair<Effect, EntityBehaviour>> effects = entity.GetComponent<EntityBehaviour>().character.effects;
-            for (int i = 0; i < effects.Count; ++i) {
+
+            for (int i = 0; i < effects.Count; ++i)
+            {
                 if (effects[i].Value == this.entity.GetComponent<EntityBehaviour>()
                     && effects[i].Key.effects.Count <= effects[i].Key.currentTurn)
                 {
@@ -45,7 +47,6 @@ public class EntityTurn {
                 }
             }
         }
-        // TODO : Remove one turn to effects inflicted by him
 	}
 		
 	public void EndTurn() {

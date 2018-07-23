@@ -5,14 +5,18 @@ using UnityEngine;
 public class GameManager : MonoBehaviour {
 
     public static GameManager instance;
+    public System.Random randomSeed;
+
+    public Team team1;
+    public Team team2;
+    public List<GameObject> entities;
     public GameObject currentEntity;
     public CustomGrid grid;
-    public List<GameObject> entities;
     public Spell selectedSpell;
-    public System.Random randomSeed;
 
     TimelineBehaviour timelineBehaviour;
     TurnManager turnManager;
+
 
 
     // Use this for initialization, called before Start()
@@ -28,6 +32,8 @@ public class GameManager : MonoBehaviour {
     void InitGame()
     {
         currentEntity = null;
+        team1 = new Team();
+        team2 = new Team();
         entities = new List<GameObject>();
     }
 
@@ -38,9 +44,10 @@ public class GameManager : MonoBehaviour {
         timelineBehaviour = GameObject.Find("Timeline").GetComponent<TimelineBehaviour>();
 
         entities = new List<GameObject> {
+            EntityBehaviour.LoadEntity(grid, Resources.Load("Prefabs/Game/Entity"), new Vector2(8, 5)) as GameObject,
             EntityBehaviour.LoadEntity(grid, Resources.Load("Prefabs/Game/Entity"), new Vector2(8, 7)) as GameObject,
-            EntityBehaviour.LoadEntity(grid, Resources.Load("Prefabs/Game/Entity"), new Vector2(8, 9)) as GameObject,
-            EntityBehaviour.LoadEntity(grid, Resources.Load("Prefabs/Game/Entity"), new Vector2(8, 11)) as GameObject
+            EntityBehaviour.LoadEntity(grid, Resources.Load("Prefabs/Game/Entity"), new Vector2(8, 10)) as GameObject,
+            EntityBehaviour.LoadEntity(grid, Resources.Load("Prefabs/Game/Entity"), new Vector2(8, 12)) as GameObject
         };
 
 		Item firstNecklace = new Item("Sauron's eye", 20, null, ItemType.Necklace, "C tré for", 
@@ -83,9 +90,28 @@ public class GameManager : MonoBehaviour {
                     },
                     new List<Vector2>() { new Vector2(0, 0), new Vector2(1, 0), new Vector2(0, -1), new Vector2(-1, 0), new Vector2(0, 1)})
             });
-        entities[0].GetComponent<EntityBehaviour>().character = new Character("Toto", firstNecklace, null, firstRing, null, new List<Spell>() {firstSpell, secondSpell});
+
+        Spell thirdSpell = new Spell("Dispelol", 50, 3, 1, 6, null, "Falcon punch !",
+            new List<Effect>()
+            {
+                new Effect("Punch", null, EffectType.Physical, "", "1-3 physical damages",
+                    new List<UniqueEffect> { new UniqueEffect(12, 14, carac: Characteristic.CurrentHP) }, 
+                    new List<Vector2>() { new Vector2(0, 0) }),
+                new Effect("Punch", null, EffectType.Move, "", "Push 2 cells",
+                    new List<UniqueEffect> { new UniqueEffect(2) }, 
+                    new List<Vector2>() { new Vector2(0, 0), new Vector2(1, 0),new Vector2(0, -1),new Vector2(-1, 0),new Vector2(0, 1),
+                                                             new Vector2(2, 0),new Vector2(0, -2),new Vector2(-2, 0),new Vector2(0, 2),})
+            });
+        
+        entities[0].GetComponent<EntityBehaviour>().character = new Character("Toto", firstNecklace, null, firstRing, null, new List<Spell>() {firstSpell, secondSpell, thirdSpell});
 		entities[1].GetComponent<EntityBehaviour>().character = new Character("Bill");
-		entities[2].GetComponent<EntityBehaviour>().character = new Character("Boule");
+        entities[2].GetComponent<EntityBehaviour>().character = new Character("Boule");
+        entities[3].GetComponent<EntityBehaviour>().character = new Character("Bidule");
+
+        team1.Add(entities[0].GetComponent<EntityBehaviour>());
+        team1.Add(entities[1].GetComponent<EntityBehaviour>());
+        team2.Add(entities[2].GetComponent<EntityBehaviour>());
+        team2.Add(entities[3].GetComponent<EntityBehaviour>());
 
         timelineBehaviour.Refresh();
 
