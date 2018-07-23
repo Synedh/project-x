@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Character {
-
-    string _nickname;
-	Dictionary<Characteristic, float> _stats;
-	Dictionary<ItemType, Item> _items;
-    List<Spell> _spells;
-    List<KeyValuePair<Effect, EntityBehaviour>> _effects;
+    readonly string _nickname;
+    readonly Dictionary<Characteristic, float> _stats;
+    readonly Dictionary<ItemType, Item> _items;
+    readonly List<Spell> _spells;
+    readonly List<KeyValuePair<Effect, EntityBehaviour>> _effects;
 
 	public Character (string nickname, Item necklace = null, Item bracelet = null, Item ring = null, Item weapon = null, List<Spell> spells = null) {
 
@@ -56,13 +55,14 @@ public class Character {
 					_stats[stat.Key] += stat.Value;
 				}
 			}
-		}
-        /*
-		foreach (Effect effect in _effects)
-		{
-			KeyValuePair<Characteristic, float> turnEffect = effect.GetEffect();
-			_stats[turnEffect.Key] += turnEffect.Value;
-		}*/
+		} /*
+        foreach (KeyValuePair<Effect, EntityBehaviour> effect in _effects)
+        {
+            if (effect.Key.type == EffectType.Stats) {
+                KeyValuePair<Characteristic, float> turnEffect = effect.Key.Resolve(effect.Value);
+                _stats[turnEffect.Key] += turnEffect.Value;
+            }
+		} */
 	}
 
 	public string nickname {

@@ -15,19 +15,20 @@ public enum EffectType {
     Physical,
     Magic,
     Heal,
+    Charac,
     Move,
     Create
 }
 
 public class Effect
 {
-	string _name;
-	Sprite _image;
-    EffectType _type;
-	string _chatMessage;
-	string _description;
-    List<UniqueEffect> _effects;
-    List<Vector2> _cells;
+    readonly string _name;
+    readonly Sprite _image;
+    readonly EffectType _type;
+    readonly string _chatMessage;
+    readonly string _description;
+    readonly List<UniqueEffect> _effects;
+    readonly List<Vector2> _cells;
 
 	int _currentTurn;
 
@@ -55,12 +56,18 @@ public class Effect
         UniqueEffect effect = _effects[_currentTurn++];
         if (effect != null)
         {
-            int value = effect.ResolveUniqueEffect(sender, reciever, target);
-            if (_type == EffectType.Physical || _type == EffectType.Magic || _type == EffectType.Heal)
-            ChatBehaviour.WriteMessage(
-                    reciever.character.nickname + " : " + value + " " + effect.carac.ToString().Substring(7) + " by " + _name + " from " + sender.character.nickname + ".",
-                MessageType.Combat
-            );
+            string value = effect.ResolveUniqueEffect(sender, reciever, target);
+            if (_type == EffectType.Physical || _type == EffectType.Magic || _type == EffectType.Heal || _type == EffectType.Charac)
+            {
+                string effectType = effect.charac.ToString();
+                if (effect.charac.ToString().StartsWith("current"))
+                    effectType = effect.charac.ToString().Substring(7);
+
+                ChatBehaviour.WriteMessage(
+                    reciever.character.nickname + " : " + value + " " + effect.charac.ToString() + " by " + _name + " from " + sender.character.nickname + ".",
+                    MessageType.Combat
+                );
+            }
         }
 	}
 
@@ -92,6 +99,12 @@ public class Effect
                     entityEffects[entityEffects.Count - 1].Key.Resolve(sender, reciever: entity.GetComponent<EntityBehaviour>(), target: target);
                 if (entityEffects[entityEffects.Count - 1].Key.currentTurn >= entityEffects[entityEffects.Count - 1].Key.effects.Count)
                     entityEffects.RemoveAt(entityEffects.Count - 1);
+            }
+            else if (_type == EffectType.Charac && entity != null) // Stats move
+            {
+                List<KeyValuePair<Effect, EntityBehaviour>> entityEffects = entity.GetComponent<EntityBehaviour>().character.effects;
+                entityEffects.Add(new KeyValuePair<Effect, EntityBehaviour>(this.MemberwiseClone() as Effect, sender));
+                entityEffects[entityEffects.Count - 1].Key.Resolve(sender, reciever: entity.GetComponent<EntityBehaviour>());
             }
         }
     }

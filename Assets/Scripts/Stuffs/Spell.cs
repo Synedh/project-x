@@ -2,24 +2,33 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum RangeType
+{
+    Classical,
+    Line,
+    Diagonal
+}
+
 public class Spell {
 
-	string _name;
-	int _price;
-	int _cost;
-	int _rangeMin;
-	int _rangeMax;
-	Sprite _image;
-	string _description;
-	List<Effect> _effects;
+    readonly string _name;
+    readonly int _price;
+    readonly int _cost;
+    readonly int _rangeMin;
+    readonly int _rangeMax;
+    readonly RangeType _rangeType;
+    readonly Sprite _image;
+    readonly string _description;
+    readonly List<Effect> _effects;
 
-	public Spell(string name, int price, int cost, int rangeMin, int rangeMax, Sprite image, string description, List<Effect> effects)
+	public Spell(string name, int price, int cost, int rangeMin, int rangeMax, RangeType rangeType, Sprite image, string description, List<Effect> effects)
 	{
 		_name = name;
 		_price = price;
 		_cost = cost;
 		_rangeMin = rangeMin;
 		_rangeMax = rangeMax;
+        _rangeType = rangeType;
 		_image = image;
 		_description = description;
 		_effects = effects;
@@ -56,15 +65,25 @@ public class Spell {
 		get {
 			return _rangeMin;
 		}
-	}
+    }
 
-	public int rangeMax {
-		get {
-			return _rangeMax;
-		}
-	}
+    public int rangeMax
+    {
+        get
+        {
+            return _rangeMax;
+        }
+    }
 
-	public Sprite image {
+    public RangeType rangeType
+    {
+        get
+        {
+            return _rangeType;
+        }
+    }
+
+    public Sprite image {
 		get {
 			return _image;
 		}

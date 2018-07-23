@@ -18,15 +18,14 @@ public class EntityBehaviour : MonoBehaviour {
 	public int y;
     public int orientation;
     public bool doMove;
-    public bool doPush;
 
     static CustomGrid grid;
-    List<Vector2> moveTargets;
-    List<Vector2> pushTargets;
+    public List<Vector2> moveTargets;
+    public List<Vector2> pushTargets;
 	List<Vector2> MPRangeCells;
 
-	float speed = 3f;
-    float pushSpeed = 10f;
+	const float speed = 3f;
+    const float pushSpeed = 10f;
 
     // Doubleclick
     bool one_click = false;
@@ -55,13 +54,12 @@ public class EntityBehaviour : MonoBehaviour {
             doMove = false;
 
         // Push
-        if (doPush && pushTargets.Count > 0)
+        if (pushTargets.Count > 0)
             Push(pushTargets[0]);
-        else if (doPush)
-            doMove = false;
-        
+
         x = (int)transform.position.x;
         y = (int)transform.position.z;
+        
     }
 
     public void MouseDown()
@@ -149,8 +147,6 @@ public class EntityBehaviour : MonoBehaviour {
 
         if (new Vector2(transform.position.x, transform.position.z).Equals(pushTarget)) {
             pushTargets.RemoveAt(0);
-            if (pushTargets.Count == 0)
-                doPush = false;
         }
     }
 
@@ -164,7 +160,6 @@ public class EntityBehaviour : MonoBehaviour {
             Rotate(180);
         else if (cell.x - x <= cell.y - y && (cell.x - x) + (cell.y - y) > 0) // Right
             Rotate(270);
-        // else // Center
     }
 
 	public void Rotate(int angle)
@@ -271,9 +266,11 @@ public class EntityBehaviour : MonoBehaviour {
 
     public void SetPushTargets(Vector2 cell, int qty)
     {
+        int i = qty < 0 ? -1 : 1;
+        int incr = qty < 0 ? -1 : 1;
         if (cell.x - x > cell.y - y && (cell.x - x) + (cell.y - y) >= 0) // Front
         {
-            for (int i = 1; i <= qty; ++i)
+            while (i != qty + incr)
             {
                 CellBehaviour cellBehaviour = GameManager.instance.grid.GetCellBehaviour(x - i, y);
                 if (cellBehaviour == null
@@ -283,10 +280,11 @@ public class EntityBehaviour : MonoBehaviour {
                     break;
                 }
                 pushTargets.Add(new Vector2(x - i, y));
+                i += qty < 0 ? -1 : 1;
             }
         }
         else if (cell.x - x >= cell.y - y && (cell.x - x) + (cell.y - y) < 0) // Left
-            for (int i = 1; i <= qty; ++i)
+            while (i != qty + incr)
             {
                 CellBehaviour cellBehaviour = GameManager.instance.grid.GetCellBehaviour(x, y + i);
                 if (cellBehaviour == null || !cellBehaviour.isWalkable
@@ -295,9 +293,10 @@ public class EntityBehaviour : MonoBehaviour {
                     break;
                 }
                 pushTargets.Add(new Vector2(x, y + i));
+                i += qty < 0 ? -1 : 1;
             }
         else if (cell.x - x < cell.y - y && (cell.x - x) + (cell.y - y) <= 0) // Back
-            for (int i = 1; i <= qty; ++i)
+            while (i != qty + incr)
             {
                 CellBehaviour cellBehaviour = GameManager.instance.grid.GetCellBehaviour(x + i, y);
                 if (cellBehaviour == null
@@ -307,9 +306,10 @@ public class EntityBehaviour : MonoBehaviour {
                     break;
                 }
                 pushTargets.Add(new Vector2(x + i, y));
+                i += qty < 0 ? -1 : 1;
             }
         else if (cell.x - x <= cell.y - y && (cell.x - x) + (cell.y - y) > 0) // Right
-            for (int i = 1; i <= qty; ++i)
+            while (i != qty + incr)
             {
                 CellBehaviour cellBehaviour = GameManager.instance.grid.GetCellBehaviour(x, y - i);
                 if (cellBehaviour == null
@@ -319,6 +319,7 @@ public class EntityBehaviour : MonoBehaviour {
                     break;
                 }
                 pushTargets.Add(new Vector2(x, y - i));
+                i += qty < 0 ? -1 : 1;
             }
     }
 

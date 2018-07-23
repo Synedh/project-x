@@ -21,8 +21,7 @@ public class CellBehaviour : MonoBehaviour {
         if (!isWalkable) // Correction hauteur block temporaire
             transform.position = new Vector3(transform.position.x, transform.position.y + 0.25f, transform.position.z);
         grid = GameObject.Find("Grid").GetComponent<CustomGrid>();
-        cellsColor = new List<Material>();
-        cellsColor.Add(grid.defaultColor);
+        cellsColor = new List<Material> { grid.defaultColor };
         coloredCells = new List<Vector2>();
 
         x = (int)transform.position.x;
@@ -31,9 +30,7 @@ public class CellBehaviour : MonoBehaviour {
 	
 	// Update is called once per frame
     void Update () {
-
-        x = (int)transform.position.x;
-        y = (int)transform.position.z;		
+        
 	}
 
     public GameObject IsThereAnEntity()
@@ -51,17 +48,13 @@ public class CellBehaviour : MonoBehaviour {
     void OnMouseEnter()
 	{
 		if (!EventSystem.current.IsPointerOverGameObject ()) {
-            GameObject entity = IsThereAnEntity ();             
+            GameObject entity = IsThereAnEntity ();
+            EntityBehaviour currentEntityBehaviour = GameManager.instance.currentEntity.GetComponent<EntityBehaviour>();
             if (GameManager.instance.selectedSpell != null)
             {
-                Spell currentSpell = GameManager.instance.selectedSpell;
-                EntityBehaviour currentEntityBehaviour = GameManager.instance.currentEntity.GetComponent<EntityBehaviour>();
-                float range = Mathf.Abs(x - currentEntityBehaviour.x) + Mathf.Abs(y - currentEntityBehaviour.y);
-                if (currentSpell.rangeMin <= range 
-                    && range <= currentSpell.rangeMax
-                    && grid.Visibility(new Vector2(currentEntityBehaviour.x, currentEntityBehaviour.y), new Vector2(x, y)))
+                if (cellsColor[ cellsColor.Count - 1] == grid.reachableSpellRange)
                 {
-                    foreach (Vector2 cell in currentEntityBehaviour.GetAoeOfSpell(currentSpell, new Vector2(x, y)))
+                    foreach (Vector2 cell in currentEntityBehaviour.GetAoeOfSpell(GameManager.instance.selectedSpell, new Vector2(x, y)))
                     {
                         CellBehaviour cellBehaviour = grid.GetCellBehaviour(x + (int)cell.x, y + (int)cell.y);
                         if (cellBehaviour != null && cellBehaviour.isWalkable)
@@ -76,9 +69,8 @@ public class CellBehaviour : MonoBehaviour {
 			} else {
                 if (!GameManager.instance.currentEntity.GetComponent<EntityBehaviour>().doMove)
                 {
-                    EntityBehaviour entityBehaviour = GameManager.instance.currentEntity.GetComponent<EntityBehaviour>();
-                    List<Vector2> path = entityBehaviour.SetMoveTargets(cell);
-                    if (path.Count <= entityBehaviour.character.stats[Characteristic.CurrentMP])
+                    List<Vector2> path = currentEntityBehaviour.SetMoveTargets(cell);
+                    if (path.Count <= currentEntityBehaviour.character.stats[Characteristic.CurrentMP])
                     {
                         foreach (Vector2 cell in path)
                         {
@@ -109,41 +101,34 @@ public class CellBehaviour : MonoBehaviour {
     void OnMouseDown()
     {
         if (!EventSystem.current.IsPointerOverGameObject ()) {
-            GameObject entity = IsThereAnEntity ();
-            if (GameManager.instance.selectedSpell != null)
+            GameObject entity = IsThereAnEntity();
+            EntityBehaviour currentEntityBehaviour = GameManager.instance.currentEntity.GetComponent<EntityBehaviour>();
+            if (GameManager.instance.selectedSpell != null && cellsColor[cellsColor.Count - 1] == grid.aoeSpellRange)
             {
-                Spell currentSpell = GameManager.instance.selectedSpell;
-                EntityBehaviour currentEntityBehaviour = GameManager.instance.currentEntity.GetComponent<EntityBehaviour>();
-                float range = Mathf.Abs(x - currentEntityBehaviour.x) + Mathf.Abs(y - currentEntityBehaviour.y);
-                if (currentSpell.rangeMin <= range
-                    && range <= currentSpell.rangeMax
-                    && grid.Visibility(new Vector2(currentEntityBehaviour.x, currentEntityBehaviour.y), new Vector2(x, y)))
-                {
-                    GameManager.instance.selectedSpell.Apply(GameManager.instance.currentEntity.GetComponent<EntityBehaviour>(), new Vector2(x, y));
-                }
+                GameManager.instance.selectedSpell.Apply(currentEntityBehaviour, new Vector2(x, y));
             }
             else if (entity)
+            {
                 entity.GetComponent<EntityBehaviour>().MouseDown();
+            }
             else
             {
                 grid.CleanCells(coloredCells);
-                GameManager.instance.currentEntity.GetComponent<EntityBehaviour>().doMove = true;
+                currentEntityBehaviour.doMove = true;
             }
 		}
     }
 
     public void colorCell(Material material) {
-        // cellsColor.Add(Instantiate(Resources.Load("Prefabs/Game/CellColor"), transform) as GameObject);
-        // cellsColor[cellsColor.Count - 1].GetComponent<SpriteRenderer>().color = color;
         cellsColor.Add(material);
 
-        foreach (MeshRenderer renderer in gameObject.GetComponentsInChildren<MeshRenderer>()) {
+        foreach (MeshRenderer renderer in gameObject.GetComponentsInChildren<MeshRenderer>())
+        {
             renderer.material = material;
         }
 	}
 
 	public void removeColorCell() {
-        // DestroyImmediate(cellsColor[cellsColor.Count - 1]);
         if (cellsColor.Count > 1)
         {
             cellsColor.RemoveAt(cellsColor.Count - 1);

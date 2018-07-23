@@ -47,8 +47,27 @@ public class SpellIconBehaviour: MonoBehaviour {
         }
         GameManager.instance.selectedSpell = spell;
         EntityBehaviour entityBehavior = GameManager.instance.currentEntity.GetComponent<EntityBehaviour>();
-        reachableCells = grid.SpellRange(entityBehavior.x, entityBehavior.y, spell.rangeMin, spell.rangeMax)[0];
-        unreachableCells = grid.SpellRange(entityBehavior.x, entityBehavior.y, spell.rangeMin, spell.rangeMax)[1];
+        int posX = 0;
+        int posY = 0;
+
+        if (entityBehavior.doMove)
+        {
+            posX = (int)entityBehavior.moveTargets[entityBehavior.moveTargets.Count - 1].x;
+            posY = (int)entityBehavior.moveTargets[entityBehavior.moveTargets.Count - 1].y;
+        }
+        else if (entityBehavior.pushTargets.Count > 0)
+        {
+            posX = (int)entityBehavior.pushTargets[entityBehavior.pushTargets.Count - 1].x;
+            posY = (int)entityBehavior.pushTargets[entityBehavior.pushTargets.Count - 1].y;
+        }
+        else
+        {
+            posX = entityBehavior.x;
+            posY = entityBehavior.y;
+        }
+
+        reachableCells = grid.SpellRange(posX, posY, spell.rangeMin, spell.rangeMax, spell.rangeType)[0];
+        unreachableCells = grid.SpellRange(posX, posY, spell.rangeMin, spell.rangeMax, spell.rangeType)[1];
         grid.ColorCells(reachableCells, grid.reachableSpellRange);
         grid.ColorCells(unreachableCells, grid.unreachableSpellRange);
     }

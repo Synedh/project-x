@@ -5,58 +5,60 @@ using UnityEngine;
 public class UniqueEffect 
 {
     EffectType _type;
-    int _valueMin;
-    int _valueMax;
-    Vector2 _position;
-    Characteristic _carac;
-    Resources _prefab;
+    readonly float _valueMin;
+    readonly float _valueMax;
+    readonly Characteristic _carac;
+    readonly Resources _prefab;
 
-    public UniqueEffect(int valueMin, int valueMax = -1, Characteristic carac = Characteristic.CurrentHP, Resources prefab = null)
+    public UniqueEffect(float valueMin, float valueMax = -1, Characteristic charac = Characteristic.CurrentHP, Resources prefab = null)
     {
         _valueMin = valueMin;
         _valueMax = valueMax;
-        _carac = carac;
+        _carac = charac;
         _prefab = prefab;
     }
 
-    public int ResolveUniqueEffect(EntityBehaviour sender, EntityBehaviour reciever = null, Vector2 target = new Vector2())
+    public string ResolveUniqueEffect(EntityBehaviour sender, EntityBehaviour reciever = null, Vector2 target = new Vector2())
     {
         switch (_type)
         {
             case EffectType.Heal:
-                return ResolveHeal(reciever, _valueMin, _valueMax);
-                break;
+                return ResolveHeal(reciever, (int)_valueMin, (int)_valueMax).ToString();
             case EffectType.Move:
-                return ResolveMove(reciever, target, (int)_valueMin);
-                break;
+                return ResolveMove(reciever, target, (int)_valueMin).ToString();
             case EffectType.Create:
-                return ResolveCreate(target, _prefab);
-                break;
+                return ResolveCreate(target, _prefab).ToString();
+            case EffectType.Charac:
+                return ResolveCarac(reciever, _valueMin, _carac);
             default:
-                return ResolveCarac(sender, reciever, _type, _valueMin, _valueMax, _carac);
-                break;
+                return ResolveDamage(sender, reciever, _type, (int)_valueMin, (int)_valueMax, _carac).ToString();
         }
     }
 
-    static int ResolveHeal(EntityBehaviour reciever, int valueMin, int valueMax)
+    int ResolveHeal(EntityBehaviour reciever, int valueMin, int valueMax)
     {
         return GameManager.instance.randomSeed.Next(valueMin, valueMax + 1);
     }
 
-    static int ResolveMove(EntityBehaviour reciever, Vector2 cell, int qty)
+    int ResolveMove(EntityBehaviour reciever, Vector2 cell, int qty)
     {
         reciever.SetPushTargets(cell, qty);
-        reciever.doPush = true;
         return 0;
     }
 
-    static int ResolveCreate(Vector2 position, Resources prefab)
+    int ResolveCreate(Vector2 position, Resources prefab)
     {
         Debug.Log("Create");
         return 0;
     }
 
-    static int ResolveCarac(EntityBehaviour sender, EntityBehaviour reciever, EffectType type, int valueMin, int valueMax, Characteristic carac)
+    string ResolveCarac(EntityBehaviour reciever, float value, Characteristic charac)
+    {
+        reciever.character.stats[_carac] += value;
+        return (int)(value * 100) + "%";
+    }
+
+    int ResolveDamage(EntityBehaviour sender, EntityBehaviour reciever, EffectType type, int valueMin, int valueMax, Characteristic charac)
     {
         int baseDamage = GameManager.instance.randomSeed.Next(valueMin, valueMax + 1);
         float rangeDamage = 1f;
@@ -65,7 +67,7 @@ public class UniqueEffect
         float typeResistance = 1f;
         float orientation = 1f;
 
-        if (carac == Characteristic.CurrentHP)
+        if (charac == Characteristic.CurrentHP)
         {
             if (Mathf.Abs(sender.x - reciever.x) + Mathf.Abs(sender.y - reciever.y) <= 1)
             {
@@ -132,15 +134,7 @@ public class UniqueEffect
         }
     }
 
-    public Vector2 position
-    {
-        get
-        {
-            return this._position;
-        }
-    }
-
-    public Characteristic carac
+    public Characteristic charac
     {
         get
         {

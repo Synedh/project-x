@@ -11,9 +11,9 @@ public class CameraManager : MonoBehaviour {
     const float DISTANCE_MAX = 20f;
 
     Transform camTransform;
-    float sensitivityX = 3.0f;
-    float sensitivityY = 1.0f;
-    float sensitivityZ = 2.0f;
+    readonly float sensitivityX = 3.0f;
+    readonly float sensitivityY = 1.0f;
+    readonly float sensitivityZ = 2.0f;
 
     public Transform lookAt;
     public float currentX = 0.0f;

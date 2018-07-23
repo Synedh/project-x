@@ -67,43 +67,64 @@ public class GameManager : MonoBehaviour {
             null
         );
 
-        Spell firstSpell = new Spell("Sword of Damocles", 50, 3, 1, 1, null, "Et paf !",
+        Spell firstSpell = new Spell("Sword of Damocles", 50, 3, 1, 1, RangeType.Classical, null, "Et paf !",
                                new List<Effect>()
             {
-                new Effect("Sword of Damocles", null, EffectType.Physical, "", "12-14 physical damages",
-                    new List<UniqueEffect> { new UniqueEffect(12, 14, carac: Characteristic.CurrentHP) }, 
+                new Effect("Sword of Damocles", null, EffectType.Physical, "", "12-14 physical damage",
+                    new List<UniqueEffect> { new UniqueEffect(12, 14, charac: Characteristic.CurrentHP) }, 
                     new List<Vector2>() { new Vector2(0, 0) })
             });
 
-        Spell secondSpell = new Spell("Fireball", 50, 3, 2, 5, null, "Brule !",
+        Spell secondSpell = new Spell("Fireball", 50, 3, 2, 5, RangeType.Classical, null, "Brule !",
             new List<Effect>()
             {
-                new Effect("Fireball", null, EffectType.Magic, "", "6-8 magical damages",
-                    new List<UniqueEffect> { new UniqueEffect(6, 8, carac: Characteristic.CurrentHP) },
+                new Effect("Fireball", null, EffectType.Magic, "", "6-8 magical damage",
+                    new List<UniqueEffect> { new UniqueEffect(6, 8, charac: Characteristic.CurrentHP) },
                     new List<Vector2>() { new Vector2(0, 0) }),
-                new Effect("Fireball AOE", null, EffectType.Magic, "", "4 AOE magical damages (2 turns)",
+                new Effect("Fireball AOE", null, EffectType.Magic, "", "4 AOE magical damage (2 turns)",
                     new List<UniqueEffect> {
                         null,
-                    new UniqueEffect(4, 4, carac: Characteristic.CurrentHP),
-                    new UniqueEffect(4, 4, carac: Characteristic.CurrentHP),
-                    new UniqueEffect(4, 4, carac: Characteristic.CurrentHP)
+                    new UniqueEffect(4, 4, charac: Characteristic.CurrentHP),
+                    new UniqueEffect(4, 4, charac: Characteristic.CurrentHP)
                     },
                     new List<Vector2>() { new Vector2(0, 0), new Vector2(1, 0), new Vector2(0, -1), new Vector2(-1, 0), new Vector2(0, 1)})
             });
 
-        Spell thirdSpell = new Spell("Dispelol", 50, 3, 1, 6, null, "Falcon punch !",
+        Spell thirdSpell = new Spell("Punch", 50, 3, 1, 2, RangeType.Line, null, "Falcon punch !",
             new List<Effect>()
             {
-                new Effect("Punch", null, EffectType.Physical, "", "1-3 physical damages",
-                    new List<UniqueEffect> { new UniqueEffect(12, 14, carac: Characteristic.CurrentHP) }, 
+                new Effect("Punch", null, EffectType.Physical, "", "1-3 physical damage",
+                    new List<UniqueEffect> { new UniqueEffect(1, 3, charac: Characteristic.CurrentHP) },
                     new List<Vector2>() { new Vector2(0, 0) }),
                 new Effect("Punch", null, EffectType.Move, "", "Push 2 cells",
-                    new List<UniqueEffect> { new UniqueEffect(2) }, 
-                    new List<Vector2>() { new Vector2(0, 0), new Vector2(1, 0),new Vector2(0, -1),new Vector2(-1, 0),new Vector2(0, 1),
-                                                             new Vector2(2, 0),new Vector2(0, -2),new Vector2(-2, 0),new Vector2(0, 2),})
+                    new List<UniqueEffect> { new UniqueEffect(2) },
+                    new List<Vector2>() { new Vector2(0, 0)})
             });
-        
-        entities[0].GetComponent<EntityBehaviour>().character = new Character("Toto", firstNecklace, null, firstRing, null, new List<Spell>() {firstSpell, secondSpell, thirdSpell});
+
+        Spell fourthSpell = new Spell("Attirance", 50, 3, 2, 8, RangeType.Line, null, "Ahhhttirance !",
+            new List<Effect>()
+            {
+                new Effect("Attirance", null, EffectType.Move, "", "6 cells attirance",
+                    new List<UniqueEffect> { new UniqueEffect(-6) },
+                    new List<Vector2>() { new Vector2(0, 0) })
+            });
+
+        Spell fifthSpell = new Spell("Coup de bambou", 50, 3, 0, 6, RangeType.Classical, null, "Un coup de mou ?",
+            new List<Effect>()
+            {
+                new Effect("Vulné", null, EffectType.Charac, "", "20% de résistance contact en moins",
+                    new List<UniqueEffect> {
+                        new UniqueEffect(-0.2f, charac: Characteristic.ContactResistance),
+                        null },
+                    new List<Vector2>() { new Vector2(0, 0) }),
+                new Effect("Vulné", null, EffectType.Charac, "", "20% de résistance distance en moins",
+                    new List<UniqueEffect> {
+                        new UniqueEffect(-0.2f, charac: Characteristic.DistantResistance),
+                        null },
+                    new List<Vector2>() { new Vector2(0, 0) })
+            });
+
+        entities[0].GetComponent<EntityBehaviour>().character = new Character("Toto", firstNecklace, null, firstRing, null, new List<Spell>() {firstSpell, secondSpell, thirdSpell, fourthSpell, fifthSpell});
 		entities[1].GetComponent<EntityBehaviour>().character = new Character("Bill");
         entities[2].GetComponent<EntityBehaviour>().character = new Character("Boule");
         entities[3].GetComponent<EntityBehaviour>().character = new Character("Bidule");

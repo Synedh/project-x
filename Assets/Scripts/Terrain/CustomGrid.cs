@@ -147,7 +147,7 @@ public class CustomGrid: MonoBehaviour {
         return walkableGrid;
     }
 
-    public List<Vector2>[] SpellRange(int x, int y, int rangeMin, int rangeMax, bool needView = true) {
+    public List<Vector2>[] SpellRange(int x, int y, int rangeMin, int rangeMax, RangeType rangeType, bool needView = true) {
         List<Vector2> reachableCells = new List<Vector2>();
         List<Vector2> unreachableCells = new List<Vector2>();
 
@@ -158,7 +158,10 @@ public class CustomGrid: MonoBehaviour {
                     && i >= 0
                     && i < height
                     && j >= 0
-                    && j <= width)
+                    && j <= width
+                    && (rangeType == RangeType.Classical 
+                        || rangeType == RangeType.Line && (i == x || j == y) 
+                        || rangeType == RangeType.Diagonal && (i + j == x + y  || i - j == x - y)))
                 {
                     if (!needView || Visibility(new Vector2(x, y), new Vector2(i, j)))
                         reachableCells.Add(new Vector2(i, j));

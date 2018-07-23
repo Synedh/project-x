@@ -10,14 +10,13 @@ public enum ItemType {
 }
 
 public class Item {
-
-	string _name;
-	int _price;
-	Sprite _image;
-	ItemType _itemType;
-	string _description;
-	List<KeyValuePair<Characteristic, float>> _stats;
-	Spell _spell; // For weapons only
+    readonly string _name;
+    readonly int _price;
+    readonly Sprite _image;
+    readonly ItemType _itemType;
+    readonly string _description;
+    readonly List<KeyValuePair<Characteristic, float>> _stats;
+    readonly Spell _spell; // For weapons only
 
 	public Item(string name, int price, Sprite image, ItemType itemType, string description, List<KeyValuePair<Characteristic, float>> stats, Spell spell = null)
 	{

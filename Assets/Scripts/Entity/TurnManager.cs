@@ -26,8 +26,7 @@ public class TurnManager {
             entityTurns[entityTurn - 1].EndTurn();
         if (entityTurn < entityTurns.Count)
         {
-            entityTurns[entityTurn].BeginTurn();
-            entityTurn++;
+            entityTurns[entityTurn++].BeginTurn();
         }
         else // Nouveau tour de jeu
         {
