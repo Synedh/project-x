@@ -27,7 +27,8 @@ public class Spell {
 
     public void Apply(EntityBehaviour sender, Vector2 cell)
     {
-        Debug.Log(sender.character.nickname + " use " + _name);
+        ChatBehaviour.WriteMessage(sender.character.nickname + " use " + _name, MessageType.Combat);
+        sender.Rotate(cell);
         foreach (Effect effect in _effects)
             effect.Apply(sender, cell);
         sender.character.stats[Characteristic.CurrentAP] -= this.cost;

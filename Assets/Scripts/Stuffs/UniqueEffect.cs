@@ -59,11 +59,13 @@ public class UniqueEffect
 
     static int ResolveCarac(EntityBehaviour sender, EntityBehaviour reciever, EffectType type, int valueMin, int valueMax, Characteristic carac)
     {
+        int baseDamage = GameManager.instance.randomSeed.Next(valueMin, valueMax + 1);
         float rangeDamage = 1f;
         float rangeResistance = 1f;
         float typeDamage = 1f;
         float typeResistance = 1f;
-        int baseDamage = GameManager.instance.randomSeed.Next(valueMin, valueMax + 1);
+        float orientation = 1f;
+
         if (carac == Characteristic.CurrentHP)
         {
             if (Mathf.Abs(sender.x - reciever.x) + Mathf.Abs(sender.y - reciever.y) <= 1)
@@ -87,10 +89,19 @@ public class UniqueEffect
                 typeResistance = reciever.character.stats[Characteristic.PhysicalResistance];
             }
         }
+
+        if (sender.orientation == reciever.orientation)
+            orientation = 1.5f;
+        else if (sender.orientation == (reciever.orientation + 180) % 360)
+            orientation = 1.0f;
+        else
+            orientation = 1.25f;
+
         return Mathf.RoundToInt(
-            baseDamage 
+            (baseDamage 
             + (baseDamage * (rangeDamage / rangeResistance - 1)) 
-            + (baseDamage * (typeDamage / typeResistance - 1))
+            + (baseDamage * (typeDamage / typeResistance - 1)))
+            * orientation
         );
     }
 

@@ -3,6 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+public enum MessageType {
+    Say,
+    Wisp,
+    Group,
+    Combat,
+    Information,
+    Warning,
+    Danger
+}
+
 public class MessageBehaviour : MonoBehaviour {
 
     Text text;

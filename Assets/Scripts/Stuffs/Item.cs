@@ -2,6 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum ItemType {
+    Necklace,
+    Bracelet,
+    Ring,
+    Weapon
+}
+
 public class Item {
 
 	string _name;

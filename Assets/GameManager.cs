@@ -33,9 +33,6 @@ public class GameManager : MonoBehaviour {
 
     void Start()
     {
-        // ChatBehaviour.instance.WriteMessage("test");
-        ChatBehaviour.instance.WriteMessage("test");
-
         randomSeed = new System.Random();
         grid = GameObject.Find("Grid").GetComponent<CustomGrid>();
         timelineBehaviour = GameObject.Find("Timeline").GetComponent<TimelineBehaviour>();
@@ -66,23 +63,23 @@ public class GameManager : MonoBehaviour {
         Spell firstSpell = new Spell("Sword of Damocles", 50, 3, 1, 1, null, "Et paf !",
                                new List<Effect>()
             {
-                new Effect("Sword of Damocles", null, EffectType.Physical, "", "18-22 physical damages",
-                    new List<UniqueEffect> { new UniqueEffect(18, 22, carac: Characteristic.CurrentHP) }, 
+                new Effect("Sword of Damocles", null, EffectType.Physical, "", "12-14 physical damages",
+                    new List<UniqueEffect> { new UniqueEffect(12, 14, carac: Characteristic.CurrentHP) }, 
                     new List<Vector2>() { new Vector2(0, 0) })
             });
 
         Spell secondSpell = new Spell("Fireball", 50, 3, 2, 5, null, "Brule !",
             new List<Effect>()
             {
-                new Effect("Fireball", null, EffectType.Magic, "", "9-11 magical damages",
-                    new List<UniqueEffect> { new UniqueEffect(9, 11, carac: Characteristic.CurrentHP) },
+                new Effect("Fireball", null, EffectType.Magic, "", "6-8 magical damages",
+                    new List<UniqueEffect> { new UniqueEffect(6, 8, carac: Characteristic.CurrentHP) },
                     new List<Vector2>() { new Vector2(0, 0) }),
-                new Effect("Fireball AOE", null, EffectType.Magic, "", "6 AOE magical damages (2 turns)",
+                new Effect("Fireball AOE", null, EffectType.Magic, "", "4 AOE magical damages (2 turns)",
                     new List<UniqueEffect> {
                         null,
-                    new UniqueEffect(6, 6, carac: Characteristic.CurrentHP),
-                    new UniqueEffect(6, 6, carac: Characteristic.CurrentHP),
-                    new UniqueEffect(6, 6, carac: Characteristic.CurrentHP)
+                    new UniqueEffect(4, 4, carac: Characteristic.CurrentHP),
+                    new UniqueEffect(4, 4, carac: Characteristic.CurrentHP),
+                    new UniqueEffect(4, 4, carac: Characteristic.CurrentHP)
                     },
                     new List<Vector2>() { new Vector2(0, 0), new Vector2(1, 0), new Vector2(0, -1), new Vector2(-1, 0), new Vector2(0, 1)})
             });

@@ -15,6 +15,7 @@ public class EntityBehaviour : MonoBehaviour {
 
 	public int x;
 	public int y;
+    public int orientation;
 	public bool doMove;
 
 	static CustomGrid grid;
@@ -37,6 +38,7 @@ public class EntityBehaviour : MonoBehaviour {
 		y = (int)transform.position.z;
 
 		speed = 3f;
+        orientation = (int)transform.eulerAngles.y;
 		doMove = false;
     }
 	
@@ -48,6 +50,7 @@ public class EntityBehaviour : MonoBehaviour {
 			doMove = false;
         x = (int)transform.position.x;
         y = (int)transform.position.z;
+        // orientation = (int)transform.eulerAngles.y;
     }
 
     public void MouseDown()
@@ -110,14 +113,7 @@ public class EntityBehaviour : MonoBehaviour {
 
 	public void Move(Vector2 moveTarget) 
 	{
-		if (transform.position.x - moveTarget.x < 0 && transform.position.z - moveTarget.y == 0)
-			Rotate (0);
-		else if (transform.position.x - moveTarget.x == 0 && transform.position.z - moveTarget.y < 0)
-			Rotate (270);
-		else if (transform.position.x - moveTarget.x == 0 && transform.position.z - moveTarget.y >= 0)
-			Rotate (90);
-		else
-			Rotate (180);
+        Rotate(moveTarget);
 		transform.position = Vector3.MoveTowards(
 			transform.position, 
 			new Vector3(moveTarget.x, transform.position.y, moveTarget.y), 
@@ -132,9 +128,23 @@ public class EntityBehaviour : MonoBehaviour {
 		}
 	}
 
+    public void Rotate(Vector2 cell)
+    {
+        if (cell.x - x > cell.y - y && (cell.x - x) + (cell.y - y) >= 0) // Front
+            Rotate(0);
+        else if (cell.x - x >= cell.y - y && (cell.x - x) + (cell.y - y) < 0) // Left
+            Rotate(90);
+        else if (cell.x - x < cell.y - y && (cell.x - x) + (cell.y - y) <= 0) // Back
+            Rotate(180);
+        else if (cell.x - x <= cell.y - y && (cell.x - x) + (cell.y - y) > 0) // Right
+            Rotate(270);
+        // else // Center
+    }
+
 	public void Rotate(int angle)
 	{	
 		transform.eulerAngles = new Vector3(0, angle, 0);
+        orientation = angle;
     }
 
     public List<Vector2> GetAoeOfEffect(Effect effect, Vector2 target) {

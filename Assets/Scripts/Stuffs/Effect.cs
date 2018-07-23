@@ -11,6 +11,14 @@ using UnityEngine;
 	Pour une baisse de stats, la baisse s'applique instantannément, puis est remonté au dernier tour.
 */
 
+public enum EffectType {
+    Physical,
+    Magic,
+    Heal,
+    Move,
+    Create
+}
+
 public class Effect
 {
 	string _name;
@@ -48,7 +56,10 @@ public class Effect
         if (effect != null)
         {
             int value = effect.ResolveUniqueEffect(sender, reciever);
-            Debug.Log(reciever.character.nickname + " : " + value + " " + effect.carac + " by " + _name + " from " + sender.character.nickname + ".");
+            ChatBehaviour.WriteMessage(
+                reciever.character.nickname + " : " + value + " " + effect.carac + " by " + _name + " from " + sender.character.nickname + ".",
+                MessageType.Combat
+            );
         }
 	}
 
