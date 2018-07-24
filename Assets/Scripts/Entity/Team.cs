@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using System.IO;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Newtonsoft.Json;
 
 
 public class Team
@@ -15,6 +17,12 @@ public class Team
         else
             _entities = entities;
         _colorMaterial = colorMaterial;
+    }
+
+    public static List<Character> TeamLoader(int teamId)
+    {
+        using (StreamReader r = new StreamReader(GameManager.spellPath + teamId.ToString() + ".json"))
+            return JsonConvert.DeserializeObject<List<Character>>(r.ReadToEnd());
     }
 
     public void Add(EntityBehaviour entity)

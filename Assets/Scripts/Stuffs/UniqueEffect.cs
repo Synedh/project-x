@@ -58,7 +58,7 @@ public class UniqueEffect
         return (int)(value * 100) + "%";
     }
 
-    string ResolveDamage(EntityBehaviour sender, EntityBehaviour reciever, EffectType type, int valueMin, int valueMax, Characteristic charac)
+    string ResolveDamage(EntityBehaviour sender, EntityBehaviour reciever, EffectType type, int valueMin, int valueMax, Characteristic charac = Characteristic.CurrentHP)
     {
         int baseDamage = GameManager.instance.randomSeed.Next(valueMin, valueMax + 1);
         float rangeDamage = 1f;

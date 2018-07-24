@@ -16,7 +16,8 @@
             "effects": [
                 {
                     "valueMin": 6,
-                    "valueMax": 8
+                    "valueMax": 8,
+                    "charac":  1
                 }
             ],
             "cells": [
@@ -35,11 +36,13 @@
                 null,
                 {
                     "valueMin": 4,
-                    "valueMax": 4
+                    "valueMax": 4,
+                    "charac": 1
                 },
                 {
                     "valueMin": 4,
-                    "valueMax": 4
+                    "valueMax": 4,
+                    "charac": 1
                 }
             ],
             "cells": [
