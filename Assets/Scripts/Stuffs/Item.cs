@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using System.IO;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Newtonsoft.Json;
 
 public enum ItemType {
     Necklace,
@@ -10,13 +12,14 @@ public enum ItemType {
 }
 
 public class Item {
-    readonly string _name;
-    readonly int _price;
-    readonly Sprite _image;
-    readonly ItemType _itemType;
-    readonly string _description;
-    readonly List<KeyValuePair<Characteristic, float>> _stats;
-    readonly Spell _spell; // For weapons only
+
+    string _name;
+    int _price;
+    Sprite _image;
+    ItemType _itemType;
+    string _description;
+    List<KeyValuePair<Characteristic, float>> _stats;
+    Spell _spell; // For weapons only
 
 	public Item(string name, int price, Sprite image, ItemType itemType, string description, List<KeyValuePair<Characteristic, float>> stats, Spell spell = null)
 	{
@@ -28,6 +31,11 @@ public class Item {
 		_stats = stats;
 		_spell = spell; // /!\ For weapons only /!\
 	}
+
+    public static Item ItemLoader(int itemId) {
+        using (StreamReader r = new StreamReader(GameManager.itemPath + itemId.ToString() + ".json"))
+            return JsonConvert.DeserializeObject<Item>(r.ReadToEnd());
+    }
 
 	public string name {
 		get {

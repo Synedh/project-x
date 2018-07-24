@@ -31,7 +31,7 @@ public class UniqueEffect
             case EffectType.Charac:
                 return ResolveCarac(reciever, _valueMin, _carac);
             default:
-                return ResolveDamage(sender, reciever, _type, (int)_valueMin, (int)_valueMax, _carac).ToString();
+                return ResolveDamage(sender, reciever, _type, (int)_valueMin, (int)_valueMax, _carac);
         }
     }
 
@@ -58,7 +58,7 @@ public class UniqueEffect
         return (int)(value * 100) + "%";
     }
 
-    int ResolveDamage(EntityBehaviour sender, EntityBehaviour reciever, EffectType type, int valueMin, int valueMax, Characteristic charac)
+    string ResolveDamage(EntityBehaviour sender, EntityBehaviour reciever, EffectType type, int valueMin, int valueMax, Characteristic charac)
     {
         int baseDamage = GameManager.instance.randomSeed.Next(valueMin, valueMax + 1);
         float rangeDamage = 1f;
@@ -98,12 +98,21 @@ public class UniqueEffect
         else
             orientation = 1.25f;
 
-        return - Mathf.RoundToInt(
+        int damage = - Mathf.RoundToInt(
             (baseDamage 
             + (baseDamage * (rangeDamage / rangeResistance - 1)) 
             + (baseDamage * (typeDamage / typeResistance - 1)))
             * orientation
         );
+        if (reciever.character.stats[Characteristic.CurrentHP] <= -damage)
+        {
+            damage = (int)reciever.character.stats[Characteristic.CurrentHP];
+            reciever.character.stats[Characteristic.CurrentHP] = 0f;
+            reciever.Die();
+            return - damage + " (die)";
+        }
+        reciever.character.stats[Characteristic.CurrentHP] += damage;
+        return damage.ToString();
     }
 
     public EffectType type

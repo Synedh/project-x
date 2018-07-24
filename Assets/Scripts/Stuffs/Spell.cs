@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using System.IO;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Newtonsoft.Json;
 
 public enum RangeType
 {
@@ -41,6 +43,11 @@ public class Spell {
         foreach (Effect effect in _effects)
             effect.Apply(sender, cell);
         sender.character.stats[Characteristic.CurrentAP] -= this.cost;
+    }
+
+    public static Spell SpellLoader(int spellId) {
+        using (StreamReader r = new StreamReader(GameManager.spellPath + spellId.ToString() + ".json"))
+            return JsonConvert.DeserializeObject<Spell>(r.ReadToEnd());
     }
 
 	public string name {

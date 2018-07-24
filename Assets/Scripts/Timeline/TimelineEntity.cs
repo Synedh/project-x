@@ -21,6 +21,11 @@ public class TimelineEntity : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        if (character.stats[Characteristic.CurrentHP] <= 0)
+        {
+            transform.Find("Background").GetComponent<Image>().color = new Color(0.5f, 0.5f, 0.5f);
+            transform.Find("Nickname").GetComponent<Text>().color = new Color(0.5f, 0.5f, 0.5f);
+        }
 	}
 
     public void SetEntity(GameObject entity)

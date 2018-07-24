@@ -25,19 +25,17 @@ public class Effect
     readonly string _name;
     readonly Sprite _image;
     readonly EffectType _type;
-    readonly string _chatMessage;
     readonly string _description;
     readonly List<UniqueEffect> _effects;
     readonly List<Vector2> _cells;
 
 	int _currentTurn;
 
-    public Effect(string name, Sprite image, EffectType type, string chatMessage, string description, List<UniqueEffect> effects, List<Vector2> cells)
+    public Effect(string name, Sprite image, EffectType type, string description, List<UniqueEffect> effects, List<Vector2> cells)
 	{
 		_name = name;
 		_image = image;
         _type = type;
-		_chatMessage = chatMessage;
 		_description = description;
 		_effects = effects;
         _cells = cells;
@@ -54,7 +52,7 @@ public class Effect
     public void Resolve(EntityBehaviour sender, EntityBehaviour reciever = null, Vector2 target = new Vector2())
 	{
         UniqueEffect effect = _effects[_currentTurn++];
-        if (effect != null)
+        if (effect != null && (reciever == null || reciever != null && reciever.isAlive))
         {
             string value = effect.ResolveUniqueEffect(sender, reciever, target);
             if (_type == EffectType.Physical || _type == EffectType.Magic || _type == EffectType.Heal || _type == EffectType.Charac)
@@ -64,7 +62,7 @@ public class Effect
                     effectType = effect.charac.ToString().Substring(7);
 
                 ChatBehaviour.WriteMessage(
-                    reciever.character.nickname + " : " + value + " " + effect.charac.ToString() + " by " + _name + " from " + sender.character.nickname + ".",
+                    reciever.character.nickname + " : " + value + " " + effectType + " by " + _name + " from " + sender.character.nickname + ".",
                     MessageType.Combat
                 );
             }
@@ -75,6 +73,7 @@ public class Effect
         foreach (Vector2 cell in sender.GetAoeOfEffect(this, target))
         {
             GameObject entity = GameManager.instance.grid.GetEntityOnCell((int)cell.x, (int)cell.y);
+
             if ((_type == EffectType.Physical || _type == EffectType.Magic || _type == EffectType.Heal)
                 && entity != null) // CurrentHP
             {
@@ -100,7 +99,7 @@ public class Effect
                 if (entityEffects[entityEffects.Count - 1].Key.currentTurn >= entityEffects[entityEffects.Count - 1].Key.effects.Count)
                     entityEffects.RemoveAt(entityEffects.Count - 1);
             }
-            else if (_type == EffectType.Charac && entity != null) // Stats move
+            else if (_type == EffectType.Charac && entity != null) // Charac
             {
                 List<KeyValuePair<Effect, EntityBehaviour>> entityEffects = entity.GetComponent<EntityBehaviour>().character.effects;
                 entityEffects.Add(new KeyValuePair<Effect, EntityBehaviour>(this.MemberwiseClone() as Effect, sender));
@@ -130,14 +129,6 @@ public class Effect
         get
         {
             return this._type;
-        }
-    }
-
-    public string chatMessage
-    {
-        get
-        {
-            return this._chatMessage;
         }
     }
 

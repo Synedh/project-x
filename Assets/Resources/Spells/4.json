@@ -1,0 +1,50 @@
+{
+    "name": "Coup de bambou",
+    "price": 50,
+    "image": null,
+    "cost": 3,
+    "rangeMin": 1,
+    "rangeMax": 6,
+    "rangeType": 0,
+    "description": "Un coup de mou ?",
+    "effects": [
+        {
+            "name": "Coup de bambou",
+            "image": null,
+            "type": 3,
+            "description": "20% de résistance contact en moins (1 tour).",
+            "effects": [
+                {
+                    "valueMin": -0.2,
+                    "charac": 10
+                },
+                null
+            ],
+            "cells": [
+                {
+                    "x": 0,
+                    "y": 0
+                }
+            ]
+        },
+        {
+            "name": "Coup de bambou",
+            "image": null,
+            "type": 3,
+            "description": "20% de résistance distance en moins (1 tour).",
+            "effects": [
+                {
+                    "valueMin": -0.2,
+                    "charac": 11
+                },
+                null
+            ],
+            "cells": [
+                {
+                    "x": 0,
+                    "y": 0
+                }
+            ]
+        }
+    ]
+}

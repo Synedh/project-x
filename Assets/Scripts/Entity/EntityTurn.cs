@@ -20,6 +20,7 @@ public class EntityTurn {
         character = entity.GetComponent<EntityBehaviour>().character;
         GameManager.instance.currentEntity = entity;
         CameraManager.instance.lookAt = entity.transform;
+
         foreach (MeshRenderer renderer in entity.GetComponentsInChildren<MeshRenderer>())
         {
             renderer.material = entity.GetComponent<EntityBehaviour>().selected;
@@ -51,6 +52,9 @@ public class EntityTurn {
                 }
             }
         }
+
+        if (!entity.GetComponent<EntityBehaviour>().isAlive)
+            GameManager.instance.NextTurn();
 	}
 		
 	public void EndTurn()

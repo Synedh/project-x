@@ -1,0 +1,30 @@
+{
+    "name": "Sword of Damocles",
+    "price": 50,
+    "image": null,
+    "cost": 3,
+    "rangeMin": 1,
+    "rangeMax": 1,
+    "rangeType": 0,
+    "description": "With great power comes great responsibility.",
+    "effects": [
+        {
+            "name": "Sword of Damocles",
+            "image": null,
+            "type": 0,
+            "description": "12-14 physical damage",
+            "effects": [
+                {
+                    "valueMin": 12,
+                    "valueMax": 14
+                }
+            ],
+            "cells": [
+                {
+                    "x": 0,
+                    "y": 0
+                }
+            ]
+        }
+    ]
+}

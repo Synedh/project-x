@@ -3,6 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum Orientation {
+    Front,
+    Left,
+    Right,
+    Back
+}
+
 public class EntityBehaviour : MonoBehaviour {
 
     public Material selected;
@@ -18,6 +25,7 @@ public class EntityBehaviour : MonoBehaviour {
 	public int y;
     public int orientation;
     public bool doMove;
+    public bool isAlive = true;
 
     static CustomGrid grid;
     public List<Vector2> moveTargets;
@@ -57,6 +65,8 @@ public class EntityBehaviour : MonoBehaviour {
         if (pushTargets.Count > 0)
             Push(pushTargets[0]);
 
+        // grid.GetCellBehaviour((int)transform.position.x, (int)transform.position.z).colorCell(team.colorMaterial);
+
         x = (int)transform.position.x;
         y = (int)transform.position.z;
         
@@ -64,13 +74,6 @@ public class EntityBehaviour : MonoBehaviour {
 
     public void MouseDown()
     {
-        // Debug.Log(character.nickname);
-
-        if (GameManager.instance.selectedSpell != null)
-        {
-            Debug.Log(GameManager.instance.currentEntity.GetComponent<EntityBehaviour>().character.nickname + " use " + character.nickname + " with " + GameManager.instance.selectedSpell.name);
-        }
-
         if (Input.GetMouseButtonDown(0))
         {
             if (!one_click) // first click no previous clicks
@@ -166,6 +169,16 @@ public class EntityBehaviour : MonoBehaviour {
 	{	
 		transform.eulerAngles = new Vector3(0, angle, 0);
         orientation = angle;
+    }
+
+    public void Die() {
+        // TODO Die
+        isAlive = false;
+        transform.position = new Vector3(10000 + x, transform.position.y, 10000 + y);
+    }
+
+    void GetOrientation(Vector2 u, Vector2 v) {
+
     }
 
     public List<Vector2> GetAoeOfEffect(Effect effect, Vector2 target) {

@@ -1,0 +1,11 @@
+{
+    "name": "Eye of Sauron",
+    "price": 20,
+    "image": null,
+    "item_type": 0,
+    "description": "The Eye of Sauron the Terrible few could endure.",
+    "stats": [
+        {"key": 1, "value": 20},
+        {"key": 2, "value": 1}
+    ]
+}

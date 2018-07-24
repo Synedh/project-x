@@ -1,0 +1,69 @@
+{
+    "name": "Fireball",
+    "price": 50,
+    "image": null,
+    "cost": 3,
+    "rangeMin": 2,
+    "rangeMax": 5,
+    "rangeType": 0,
+    "description": "Burn fool !",
+    "effects": [
+        {
+            "name": "Fireball",
+            "image": null,
+            "type": 1,
+            "description": "6-8 magical damage.",
+            "effects": [
+                {
+                    "valueMin": 6,
+                    "valueMax": 8
+                }
+            ],
+            "cells": [
+                {
+                    "x": 0,
+                    "y": 0
+                }
+            ]
+        },
+        {
+            "name": "Fireball AOE",
+            "image": null,
+            "type": 1,
+            "description": "4 AOE magical damage (2 turns).",
+            "effects": [
+                null,
+                {
+                    "valueMin": 4,
+                    "valueMax": 4
+                },
+                {
+                    "valueMin": 4,
+                    "valueMax": 4
+                }
+            ],
+            "cells": [
+                {
+                    "x": 0,
+                    "y": 0
+                },
+                {
+                    "x": 1,
+                    "y": 0
+                },
+                {
+                    "x": 0,
+                    "y": -1
+                },
+                {
+                    "x": -1,
+                    "y": 0
+                },
+                {
+                    "x": 0,
+                    "y": 1
+                }
+            ]
+        }
+    ]
+}

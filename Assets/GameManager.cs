@@ -14,6 +14,9 @@ public class GameManager : MonoBehaviour {
     public CustomGrid grid;
     public Spell selectedSpell;
 
+    public static string itemPath = "Assets/Resources/Items/";
+    public static string spellPath = "Assets/Resources/Spells/";
+
     TimelineBehaviour timelineBehaviour;
     TurnManager turnManager;
 
@@ -50,79 +53,14 @@ public class GameManager : MonoBehaviour {
             EntityBehaviour.LoadEntity(grid, Resources.Load("Prefabs/Game/Entity"), new Vector2(8, 12)) as GameObject
         };
 
-		Item firstNecklace = new Item("Sauron's eye", 20, null, ItemType.Necklace, "C tré for", 
-            new List<KeyValuePair<Characteristic, float>>() { 
-                new KeyValuePair<Characteristic, float>(Characteristic.MaxAP, 1f),
-                new KeyValuePair<Characteristic, float>(Characteristic.MaxHP, 20f)
-            },
-			null
-		);
+        Item firstRing = Item.ItemLoader(0);
+        Item firstNecklace = Item.ItemLoader(1);
 
-        Item firstRing = new Item("The One", 30, null, ItemType.Necklace, "Ca casse des culs", 
-            new List<KeyValuePair<Characteristic, float>>() { 
-                new KeyValuePair<Characteristic, float>(Characteristic.MaxMP, 1f),
-                new KeyValuePair<Characteristic, float>(Characteristic.MagicDamage, 0.5f),
-                new KeyValuePair<Characteristic, float>(Characteristic.DistantDamage, 0.5f)
-            },
-            null
-        );
-
-        Spell firstSpell = new Spell("Sword of Damocles", 50, 3, 1, 1, RangeType.Classical, null, "Et paf !",
-                               new List<Effect>()
-            {
-                new Effect("Sword of Damocles", null, EffectType.Physical, "", "12-14 physical damage",
-                    new List<UniqueEffect> { new UniqueEffect(12, 14, charac: Characteristic.CurrentHP) }, 
-                    new List<Vector2>() { new Vector2(0, 0) })
-            });
-
-        Spell secondSpell = new Spell("Fireball", 50, 3, 2, 5, RangeType.Classical, null, "Brule !",
-            new List<Effect>()
-            {
-                new Effect("Fireball", null, EffectType.Magic, "", "6-8 magical damage",
-                    new List<UniqueEffect> { new UniqueEffect(6, 8, charac: Characteristic.CurrentHP) },
-                    new List<Vector2>() { new Vector2(0, 0) }),
-                new Effect("Fireball AOE", null, EffectType.Magic, "", "4 AOE magical damage (2 turns)",
-                    new List<UniqueEffect> {
-                        null,
-                    new UniqueEffect(4, 4, charac: Characteristic.CurrentHP),
-                    new UniqueEffect(4, 4, charac: Characteristic.CurrentHP)
-                    },
-                    new List<Vector2>() { new Vector2(0, 0), new Vector2(1, 0), new Vector2(0, -1), new Vector2(-1, 0), new Vector2(0, 1)})
-            });
-
-        Spell thirdSpell = new Spell("Punch", 50, 3, 1, 2, RangeType.Line, null, "Falcon punch !",
-            new List<Effect>()
-            {
-                new Effect("Punch", null, EffectType.Physical, "", "1-3 physical damage",
-                    new List<UniqueEffect> { new UniqueEffect(1, 3, charac: Characteristic.CurrentHP) },
-                    new List<Vector2>() { new Vector2(0, 0) }),
-                new Effect("Punch", null, EffectType.Move, "", "Push 2 cells",
-                    new List<UniqueEffect> { new UniqueEffect(2) },
-                    new List<Vector2>() { new Vector2(0, 0)})
-            });
-
-        Spell fourthSpell = new Spell("Attirance", 50, 3, 2, 8, RangeType.Line, null, "Ahhhttirance !",
-            new List<Effect>()
-            {
-                new Effect("Attirance", null, EffectType.Move, "", "6 cells attirance",
-                    new List<UniqueEffect> { new UniqueEffect(-6) },
-                    new List<Vector2>() { new Vector2(0, 0) })
-            });
-
-        Spell fifthSpell = new Spell("Coup de bambou", 50, 3, 0, 6, RangeType.Classical, null, "Un coup de mou ?",
-            new List<Effect>()
-            {
-                new Effect("Vulné", null, EffectType.Charac, "", "20% de résistance contact en moins",
-                    new List<UniqueEffect> {
-                        new UniqueEffect(-0.2f, charac: Characteristic.ContactResistance),
-                        null },
-                    new List<Vector2>() { new Vector2(0, 0) }),
-                new Effect("Vulné", null, EffectType.Charac, "", "20% de résistance distance en moins",
-                    new List<UniqueEffect> {
-                        new UniqueEffect(-0.2f, charac: Characteristic.DistantResistance),
-                        null },
-                    new List<Vector2>() { new Vector2(0, 0) })
-            });
+        Spell firstSpell = Spell.SpellLoader(0);
+        Spell secondSpell = Spell.SpellLoader(1);
+        Spell thirdSpell = Spell.SpellLoader(2);
+        Spell fourthSpell = Spell.SpellLoader(3);
+        Spell fifthSpell = Spell.SpellLoader(4);
 
         entities[0].GetComponent<EntityBehaviour>().character = new Character("Toto", firstNecklace, null, firstRing, null, new List<Spell>() {firstSpell, secondSpell, thirdSpell, fourthSpell, fifthSpell});
 		entities[1].GetComponent<EntityBehaviour>().character = new Character("Bill");
@@ -138,11 +76,23 @@ public class GameManager : MonoBehaviour {
 
         turnManager = new TurnManager(entities);
         NextTurn();
+        /*
+        Item item = Item.ItemLoader("Assets/Resources/Items/0.json");
+        Debug.Log(item.name);*/
     }
 
     void Update()
     {
-
+        if (!team1.checkTeam())
+        {
+            Debug.Log("Team 2 won !");
+            Application.Quit();
+        }
+        else if (!team2.checkTeam())
+        {
+            Debug.Log("Team 1 won !");
+            Application.Quit();
+        }
     }
 
     public void NextTurn()

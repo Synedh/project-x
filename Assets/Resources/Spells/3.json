@@ -1,0 +1,29 @@
+{
+    "name": "Attirance",
+    "price": 50,
+    "image": null,
+    "cost": 3,
+    "rangeMin": 2,
+    "rangeMax": 8,
+    "rangeType": 1,
+    "description": "Attirance",
+    "effects": [
+        {
+            "name": "Attirance",
+            "image": null,
+            "type": 4,
+            "description": "6 cells attirance",
+            "effects": [
+                {
+                    "valueMin": -6
+                }
+            ],
+            "cells": [
+                {
+                    "x": 0,
+                    "y": 0
+                }
+            ]
+        }
+    ]
+}

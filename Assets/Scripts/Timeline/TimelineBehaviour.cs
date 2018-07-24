@@ -37,7 +37,7 @@ public class TimelineBehaviour : MonoBehaviour
             GameObject timelineEntity = Instantiate(timelineEntityPrefab, transform);
 
             timelineEntity.GetComponent<RectTransform>().anchoredPosition = new Vector2(
-                prefabRectTransform.rect.width / 2 + prefabRectTransform.rect.width * timelineEntities.Count,
+                prefabRectTransform.rect.width / 2 + prefabRectTransform.rect.width * timelineEntities.Count + 40,
                 prefabRectTransform.rect.height / 2 - 10
             );
             timelineEntity.GetComponent<TimelineEntity>().SetEntity(entity);
