@@ -31,7 +31,14 @@ public class UniqueEffect
             case EffectType.Charac:
                 return ResolveCarac(reciever, _valueMin, _carac);
             default:
-                return ResolveDamage(sender, reciever, _type, (int)_valueMin, (int)_valueMax, _carac);
+                return ResolveDamage(
+                    sender,
+                    reciever,
+                    _type,
+                    (int)_valueMin,
+                    (int)_valueMax,
+                    _carac
+                );
         }
     }
 

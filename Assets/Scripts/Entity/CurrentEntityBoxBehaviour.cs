@@ -11,20 +11,25 @@ public class CurrentEntityBoxBehaviour : MonoBehaviour {
     Text currentAP;
     Text currentMP;
 
-	// Use this for initialization
+    // Use this for initialization
     void Start () {
         currentHP = transform.Find("HP/Text").GetComponent<Text>();
         currentAP = transform.Find("AP/Text").GetComponent<Text>();
         currentMP = transform.Find("MP/Text").GetComponent<Text>();
-	}
-	
-	// Update is called once per frame
-	void Update () {
-        currentCharacter = GameManager.instance.currentEntity.GetComponent<EntityBehaviour>().character;
-        currentHP.text = currentCharacter.stats[Characteristic.CurrentHP].ToString();
-        currentAP.text = currentCharacter.stats[Characteristic.CurrentAP].ToString();
-        currentMP.text = currentCharacter.stats[Characteristic.CurrentMP].ToString();
+    }
+    
+    // Update is called once per frame
+    void Update () {
+        currentCharacter = GameManager.instance.currentEntityBehaviour.character;
+        currentHP.text =
+            currentCharacter.stats[Characteristic.CurrentHP].ToString();
+        currentAP.text =
+            currentCharacter.stats[Characteristic.CurrentAP].ToString();
+        currentMP.text =
+            currentCharacter.stats[Characteristic.CurrentMP].ToString();
         
-        transform.Find("Rotation").rotation = Quaternion.Euler(new Vector3(0, 0, 135 + CameraManager.instance.currentX));
-	}
+        transform.Find("Rotation").rotation = Quaternion.Euler(
+            new Vector3(0, 0, 135 + CameraManager.instance.currentX)
+        );
+    }
 }

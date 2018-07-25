@@ -7,30 +7,33 @@ using UnityEngine.EventSystems;
 public class TimelineDetailBoxSpell : MonoBehaviour {
     public GameObject spellBoxPrefab;
 
-	Spell spell;
-	GameObject spellBox;
+    Spell spell;
+    GameObject spellBox;
 
-	void Start() {
+    void Start() {
         // /!\ Called after SetSpell() /!\
-	}
+    }
 
-	void Update() {
-	}
+    void Update() {
+    }
 
     public void SetSpell(Spell spell) {
         this.spell = spell;
         GetComponentInChildren<Text>().text = spell.name;
-	}
+    }
 
-	public void OnEnter() {
+    public void OnEnter() {
         if (spell != null) {
-            spellBox = Instantiate(spellBoxPrefab, GameObject.Find("ToolBoxesContainer").transform) as GameObject;
+            spellBox = Instantiate(
+                spellBoxPrefab,
+                GameObject.Find("ToolBoxesContainer").transform
+            ) as GameObject;
             spellBox.GetComponent<SpellBoxBehaviour>().SetSpell(spell);
-		}
-	}
+        }
+    }
 
-	public void OnExit() {
+    public void OnExit() {
         Destroy(spellBox);
-	}
+    }
 }
 

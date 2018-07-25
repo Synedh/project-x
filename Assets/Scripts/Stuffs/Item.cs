@@ -21,61 +21,63 @@ public class Item {
     List<KeyValuePair<Characteristic, float>> _stats;
     Spell _spell; // For weapons only
 
-	public Item(string name, int price, Sprite image, ItemType itemType, string description, List<KeyValuePair<Characteristic, float>> stats, Spell spell = null)
-	{
-		_name = name;
-		_price = price;
-		_image = image;
-		_itemType = itemType;
-		_description = description;
-		_stats = stats;
-		_spell = spell; // /!\ For weapons only /!\
-	}
+    public Item(string name, int price, Sprite image, ItemType itemType, string description, List<KeyValuePair<Characteristic, float>> stats, Spell spell = null)
+    {
+        _name = name;
+        _price = price;
+        _image = image;
+        _itemType = itemType;
+        _description = description;
+        _stats = stats;
+        _spell = spell; // /!\ For weapons only /!\
+    }
 
     public static Item ItemLoader(int itemId) {
-        using (StreamReader r = new StreamReader(GameManager.itemPath + itemId.ToString() + ".json"))
+        using (StreamReader r = new StreamReader(
+            GameManager.itemPath + itemId.ToString() + ".json")
+        )
             return JsonConvert.DeserializeObject<Item>(r.ReadToEnd());
     }
 
-	public string name {
-		get {
-			return _name;
-		}
-	}
+    public string name {
+        get {
+            return _name;
+        }
+    }
 
-	public int price {
-		get {
-			return _price;
-		}
-	}
+    public int price {
+        get {
+            return _price;
+        }
+    }
 
-	public Sprite image {
-		get {
-			return _image;
-		}
-	}
+    public Sprite image {
+        get {
+            return _image;
+        }
+    }
 
-	public ItemType itemType {
-		get {
-			return _itemType;
-		}
-	}
+    public ItemType itemType {
+        get {
+            return _itemType;
+        }
+    }
 
-	public string description {
-		get {
-			return _description;
-		}
-	}
+    public string description {
+        get {
+            return _description;
+        }
+    }
 
-	public List<KeyValuePair<Characteristic, float>> stats {
-		get {
-			return _stats;
-		}
-	}
+    public List<KeyValuePair<Characteristic, float>> stats {
+        get {
+            return _stats;
+        }
+    }
 
-	public Spell spell {
-		get {
-			return _spell;
-		}
-	}
+    public Spell spell {
+        get {
+            return _spell;
+        }
+    }
 }

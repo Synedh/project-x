@@ -4,35 +4,47 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-public class TimelineDetailBoxEffect : MonoBehaviour {
+public class TimelineDetailBoxEffect : MonoBehaviour
+{
     public GameObject effectBoxPrefab;
 
-	Effect effect;
-	GameObject effectBox;
+    Effect effect;
+    GameObject effectBox;
 
-	void Start() {
+    void Start()
+    {
         // /!\ Called after SetSpell() /!\
-	}
+    }
 
-	void Update() {
-        transform.Find("TurnIcon").GetComponentInChildren<Text>().text = (effect.effects.Count - effect.currentTurn).ToString();;
-	}
+    void Update()
+    {
+        transform.Find("TurnIcon").GetComponentInChildren<Text>().text =
+            (effect.effects.Count - effect.currentTurn).ToString();
+        ;
+    }
 
-    public void SetEffect(KeyValuePair<Effect,EntityBehaviour> effect) {
+    public void SetEffect(KeyValuePair<Effect,EntityBehaviour> effect)
+    {
         this.effect = effect.Key;
         GetComponentInChildren<Text>().text = effect.Key.name;
-	}
+    }
 
-	public void OnEnter() {
-        if (effect != null) {
-            effectBox = Instantiate(effectBoxPrefab, GameObject.Find("ToolBoxesContainer").transform) as GameObject;
+    public void OnEnter()
+    {
+        if (effect != null)
+        {
+            effectBox = Instantiate(
+                effectBoxPrefab,
+                GameObject.Find("ToolBoxesContainer").transform
+            ) as GameObject;
             effectBox.GetComponent<EffectBoxBehaviour>().SetEffect(effect);
-		}
-	}
+        }
+    }
 
-	public void OnExit() {
+    public void OnExit()
+    {
         Destroy(effectBox);
-	}
+    }
 
     public void OnDestroy()
     {

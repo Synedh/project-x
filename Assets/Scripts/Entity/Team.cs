@@ -5,51 +5,89 @@ using UnityEngine;
 using Newtonsoft.Json;
 
 
+public struct TeamBuilder {
+    public string name;
+    public int imageid;
+    public List<CharacterBuilder> characters;
+}
+
 public class Team
 {
-    List<EntityBehaviour> _entities;
+    string _name;
+    Sprite _image;
+    List<Character> _characters;
     readonly Material _colorMaterial;
 
-    public Team(Material colorMaterial = null, List<EntityBehaviour> entities = null)
+    public Team(string name, Sprite image, List<Character> characters = null, Material colorMaterial = null)
     {
-        if (entities == null)
-            _entities = new List<EntityBehaviour>();
+        if (characters == null)
+            _characters = new List<Character>();
         else
-            _entities = entities;
+            _characters = characters;
+
+        _name = name;
+        _image = image;
         _colorMaterial = colorMaterial;
     }
 
-    public static List<Character> TeamLoader(int teamId)
+    public Team(int teamId, Material colorMaterial = null)
     {
-        using (StreamReader r = new StreamReader(GameManager.spellPath + teamId.ToString() + ".json"))
-            return JsonConvert.DeserializeObject<List<Character>>(r.ReadToEnd());
+        TeamBuilder teamBuilder;
+        using (StreamReader r = new StreamReader(GameManager.teamPath + teamId.ToString() + ".json"))
+            teamBuilder = JsonConvert.DeserializeObject<TeamBuilder>(r.ReadToEnd());
+
+        _name = teamBuilder.name;
+        _image = null;
+        _characters = new List<Character>();
+        _colorMaterial = colorMaterial;
+
+        foreach (CharacterBuilder characterBuilder in teamBuilder.characters)
+        {
+            _characters.Add(Character.CharacterLoader(characterBuilder));
+        }
     }
 
-    public void Add(EntityBehaviour entity)
+    public void Add(Character character)
     {
-        _entities.Add(entity);
-        entity.team = this;
+        _characters.Add(character);
+        character.team = this;
     }
 
-    public bool Remove(EntityBehaviour entity)
+    public bool Remove(Character character)
     {
-        entity.team = null;
-        return _entities.Remove(entity);
+        character.team = null;
+        return _characters.Remove(character);
     }
 
     public bool checkTeam() {
-        foreach (EntityBehaviour entity in _entities) {
-            if (entity.isAlive)
+        foreach (Character character in _characters) {
+            if (character.stats[Characteristic.CurrentHP] > 0)
                 return true;
         }
         return false;
     }
 
-    public List<EntityBehaviour> entities
+    public string name
     {
         get
         {
-            return this._entities;
+            return this._name;
+        }
+    }
+
+    public Sprite image
+    {
+        get
+        {
+            return this._image;
+        }
+    }
+
+    public List<Character> characters
+    {
+        get
+        {
+            return this._characters;
         }
     }
 

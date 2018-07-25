@@ -21,17 +21,17 @@ namespace NesScripts.Controls.PathFind
         /// <summary>
         /// Different ways to calculate path distance.
         /// </summary>
-		public enum DistanceType
-		{
+        public enum DistanceType
+        {
             /// <summary>
             /// The "ordinary" straight-line distance between two points.
             /// </summary>
-			Euclidean,
+            Euclidean,
 
             /// <summary>
             /// Distance without diagonals, only horizontal and/or vertical path lines.
             /// </summary>
-			Manhattan
+            Manhattan
         }
 
         /// <summary>
@@ -39,11 +39,11 @@ namespace NesScripts.Controls.PathFind
         /// </summary>
         /// <param name="grid">Grid to search.</param>
         /// <param name="startPos">Starting position.</param>
-		/// <param name="targetPos">Ending position.</param>
+        /// <param name="targetPos">Ending position.</param>
         /// <param name="distance">The type of distance, Euclidean or Manhattan.</param>
         /// <param name="ignorePrices">If true, will ignore tile price (how much it "cost" to walk on).</param>
         /// <returns>List of points that represent the path to walk.</returns>
-		public static List<Point> FindPath(Grid grid, Point startPos, Point targetPos, DistanceType distance = DistanceType.Euclidean, bool ignorePrices = false)
+        public static List<Point> FindPath(Grid grid, Point startPos, Point targetPos, DistanceType distance = DistanceType.Euclidean, bool ignorePrices = false)
         {
             // find path
             List<Node> nodes_path = _ImpFindPath(grid, startPos, targetPos, distance, ignorePrices);

@@ -1,0 +1,22 @@
+﻿{
+    "name": "Machin",
+    "imageId": -1,
+    "characters": [
+        {
+            "nickname": "Boule",
+            "necklaceId": -1,
+            "braceletId": 2,
+            "ringId": -1,
+            "weaponId": -1,
+            "spellIds": []
+        },
+        {
+            "nickname": "Bidule",
+            "necklaceId": -1,
+            "braceletId": -1,
+            "ringId": -1,
+            "weaponId": -1,
+            "spellIds": []
+        }
+    ]
+}

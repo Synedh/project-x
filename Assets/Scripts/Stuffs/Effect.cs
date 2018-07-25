@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /* 
-	Un effet est en fait une suite d'effets sur plusieurs tours.
-	Le premier est exécuté au lancement du spell, puis à chaque début de tour on récupère les effets.
-	Pour un spell classique, on récupère le premier effet et ça s'arrête là.
-	Pour un poison, le premier effet est vide et s'applique à partir du début de tour de la cible.
-	Pour une baisse de PA/PM, il est appliqué à chaque tour (vu que les PA/PM se reset à chaque tour).
-	Pour une baisse de stats, la baisse s'applique instantannément, puis est remonté au dernier tour.
+    Un effet est en fait une suite d'effets sur plusieurs tours.
+    Le premier est exécuté au lancement du spell, puis à chaque début de tour on récupère les effets.
+    Pour un spell classique, on récupère le premier effet et ça s'arrête là.
+    Pour un poison, le premier effet est vide et s'applique à partir du début de tour de la cible.
+    Pour une baisse de PA/PM, il est appliqué à chaque tour (vu que les PA/PM se reset à chaque tour).
+    Pour une baisse de stats, la baisse s'applique instantannément, puis est remonté au dernier tour.
 */
 
 public enum EffectType {
@@ -29,28 +29,28 @@ public class Effect
     readonly List<UniqueEffect> _effects;
     readonly List<Vector2> _cells;
 
-	int _currentTurn;
+    int _currentTurn;
 
     public Effect(string name, Sprite image, EffectType type, string description, List<UniqueEffect> effects, List<Vector2> cells)
-	{
-		_name = name;
-		_image = image;
+    {
+        _name = name;
+        _image = image;
         _type = type;
-		_description = description;
-		_effects = effects;
+        _description = description;
+        _effects = effects;
         _cells = cells;
 
-		_currentTurn = 0;
+        _currentTurn = 0;
 
         foreach (UniqueEffect effect in effects)
         {
             if (effect != null)
                 effect.type = type;
         }
-	}
+    }
 
     public void Resolve(EntityBehaviour sender, EntityBehaviour reciever = null, Vector2 target = new Vector2())
-	{
+    {
         UniqueEffect effect = _effects[_currentTurn++];
         if (effect != null && (reciever == null || reciever != null && reciever.isAlive))
         {
@@ -67,14 +67,16 @@ public class Effect
                 );
             }
         }
-	}
+    }
 
     public void Apply(EntityBehaviour sender, Vector2 target) {
         foreach (Vector2 cell in sender.GetAoeOfEffect(this, target))
         {
             GameObject entity = GameManager.instance.grid.GetEntityOnCell((int)cell.x, (int)cell.y);
 
-            if ((_type == EffectType.Physical || _type == EffectType.Magic || _type == EffectType.Heal)
+            if ((_type == EffectType.Physical 
+                    || _type == EffectType.Magic 
+                    || _type == EffectType.Heal)
                 && entity != null) // CurrentHP
             {
                 List<KeyValuePair<Effect, EntityBehaviour>> entityEffects = entity.GetComponent<EntityBehaviour>().character.effects;

@@ -65,7 +65,7 @@ public class CustomGrid: MonoBehaviour {
         }
 
         return drawGrid;
-	}
+    }
 
     public CellBehaviour GetCellBehaviour(int x, int y)
     {
@@ -81,45 +81,45 @@ public class CustomGrid: MonoBehaviour {
             return null;
     }
 
-	public GameObject AddEntity(GameObject entity)
-	{
-		foreach (GameObject tmpEntity in entities)
-		{
-			if (tmpEntity.transform.position == entity.transform.position)
-				return null;
-		}
-		entities.Add(entity);
-		return entity;
-	}
+    public GameObject AddEntity(GameObject entity)
+    {
+        foreach (GameObject tmpEntity in entities)
+        {
+            if (tmpEntity.transform.position == entity.transform.position)
+                return null;
+        }
+        entities.Add(entity);
+        return entity;
+    }
 
-	public GameObject GetEntityOnCell(int x, int y)
-	{
-		foreach (GameObject entity in entities)
-		{
-			if (entity.transform.position.x == x && entity.transform.position.z == y)
-				return entity;
-		}
-		return null;
-	}
+    public GameObject GetEntityOnCell(int x, int y)
+    {
+        foreach (GameObject entity in entities)
+        {
+            if (entity.transform.position.x == x && entity.transform.position.z == y)
+                return entity;
+        }
+        return null;
+    }
 
-	public List<Vector2> MPRange(int x, int y, int range)
-	{
-		List<Vector2> cells = new List<Vector2>();
+    public List<Vector2> MPRange(int x, int y, int range)
+    {
+        List<Vector2> cells = new List<Vector2>();
 
-		for (int i = x - range; i <= x + range; ++i) {
-			for (int j = y - range; j <= y + range; ++j) {
-				try {
-					int reachable = IsReachable(new Vector2(x, y), new Vector2(i, j));
-					if (reachable > 0 && reachable <= range) {
-						cells.Add(new Vector2(i, j));
-					}
-				}
-				catch (ArgumentOutOfRangeException) { }
-				catch (IndexOutOfRangeException) { }
-			}
-		}
+        for (int i = x - range; i <= x + range; ++i) {
+            for (int j = y - range; j <= y + range; ++j) {
+                try {
+                    int reachable = IsReachable(new Vector2(x, y), new Vector2(i, j));
+                    if (reachable > 0 && reachable <= range) {
+                        cells.Add(new Vector2(i, j));
+                    }
+                }
+                catch (ArgumentOutOfRangeException) { }
+                catch (IndexOutOfRangeException) { }
+            }
+        }
 
-		return cells;
+        return cells;
     }
 
     public bool[,] GetWalkableGrid()
@@ -245,18 +245,18 @@ public class CustomGrid: MonoBehaviour {
         return viewGrid;
     }
 
-	public int IsReachable(Vector2 start, Vector2 target)
-	{
-		List<NesScripts.Controls.PathFind.Point> path = NesScripts.Controls.PathFind.Pathfinding.FindPath(
-			new NesScripts.Controls.PathFind.Grid(GetWalkableGrid()),
-			new NesScripts.Controls.PathFind.Point((int)start.x, (int)start.y),
-			new NesScripts.Controls.PathFind.Point((int)target.x, (int)target.y),
-			NesScripts.Controls.PathFind.Pathfinding.DistanceType.Manhattan
-		);
+    public int IsReachable(Vector2 start, Vector2 target)
+    {
+        List<NesScripts.Controls.PathFind.Point> path = NesScripts.Controls.PathFind.Pathfinding.FindPath(
+            new NesScripts.Controls.PathFind.Grid(GetWalkableGrid()),
+            new NesScripts.Controls.PathFind.Point((int)start.x, (int)start.y),
+            new NesScripts.Controls.PathFind.Point((int)target.x, (int)target.y),
+            NesScripts.Controls.PathFind.Pathfinding.DistanceType.Manhattan
+        );
 
-		if (path [path.Count - 1].x == target.x && path [path.Count - 1].y == target.y)
-			return path.Count;
-		return 0;
+        if (path [path.Count - 1].x == target.x && path [path.Count - 1].y == target.y)
+            return path.Count;
+        return 0;
     }
 
     public void ColorCells(List<Vector2> cells, Material material)

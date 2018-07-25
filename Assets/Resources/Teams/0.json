@@ -1,0 +1,28 @@
+﻿{
+    "name": "Pouet",
+    "imageId": -1,
+    "characters": [
+        {
+            "nickname": "Toto",
+            "necklaceId": 1,
+            "braceletId": -1,
+            "ringId": 0,
+            "weaponId": -1,
+            "spellIds": [
+                0,
+                1,
+                2,
+                3,
+                4
+            ]
+        },
+        {
+            "nickname": "Bill",
+            "necklaceId": -1,
+            "braceletId": -1,
+            "ringId": -1,
+            "weaponId": -1,
+            "spellIds": []
+        }
+    ]
+}

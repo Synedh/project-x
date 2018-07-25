@@ -7,7 +7,7 @@ public class SpellBarBehaviour: MonoBehaviour {
 
     public GameObject spellIconPrefab;
 
-    GameObject currentEntity;
+    EntityBehaviour entityBehaviour;
     List<Spell> spells;
     public List<GameObject> spellIcons;
 
@@ -20,10 +20,10 @@ public class SpellBarBehaviour: MonoBehaviour {
     }
 
     void Update() {
-        if (currentEntity != GameManager.instance.currentEntity)
+        if (entityBehaviour != GameManager.instance.currentEntityBehaviour)
         {
-            currentEntity = GameManager.instance.currentEntity;
-            spells = currentEntity.GetComponent<EntityBehaviour>().character.spells;
+            entityBehaviour = GameManager.instance.currentEntityBehaviour;
+            spells = entityBehaviour.character.spells;
 
             foreach (GameObject spellIcon in spellIcons)
                 Destroy(spellIcon);
@@ -45,7 +45,7 @@ public class SpellBarBehaviour: MonoBehaviour {
         {
             for (int i = 0; i < spells.Count; ++i) // Deactivate non usable spells
             {
-                if (currentEntity.GetComponent<EntityBehaviour>().character.stats[Characteristic.CurrentAP] < spells[i].cost)
+                if (entityBehaviour.character.stats[Characteristic.CurrentAP] < spells[i].cost)
                 {
                     spellIcons[i].GetComponent<Button>().interactable = false;
                 }

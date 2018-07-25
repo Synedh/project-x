@@ -1,28 +1,31 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
 
     public static GameManager instance;
     public System.Random randomSeed;
 
+    public int iDTeam1;
+    public int iDTeam2;
+    public GameObject turnCounter;
+
     public Team team1;
     public Team team2;
-    public List<GameObject> entities;
-    public GameObject currentEntity;
+    public List<EntityBehaviour> entities;
+    public EntityBehaviour currentEntityBehaviour;
     public CustomGrid grid;
     public Spell selectedSpell;
+    public TimelineBehaviour timelineBehaviour;
+    public TurnManager turnManager;
 
     public static string itemPath = "Assets/Resources/Items/";
     public static string spellPath = "Assets/Resources/Spells/";
+    public static string teamPath = "Assets/Resources/Teams/";
 
-    TimelineBehaviour timelineBehaviour;
-    TurnManager turnManager;
-
-
-
-    // Use this for initialization, called before Start()
+        // Use this for initialization, called before Start()
     void Awake () {
         if (instance == null)
             instance = this;
@@ -30,14 +33,14 @@ public class GameManager : MonoBehaviour {
             Destroy(gameObject);
 
         InitGame();
-	}
+    }
 
     void InitGame()
     {
-        currentEntity = null;
-        team1 = new Team();
-        team2 = new Team();
-        entities = new List<GameObject>();
+        currentEntityBehaviour = null;
+        entities = new List<EntityBehaviour>();
+        team1 = new Team(iDTeam1);
+        team2 = new Team(iDTeam2);
     }
 
     void Start()
@@ -46,39 +49,21 @@ public class GameManager : MonoBehaviour {
         grid = GameObject.Find("Grid").GetComponent<CustomGrid>();
         timelineBehaviour = GameObject.Find("Timeline").GetComponent<TimelineBehaviour>();
 
-        entities = new List<GameObject> {
-            EntityBehaviour.LoadEntity(grid, Resources.Load("Prefabs/Game/Entity"), new Vector2(8, 5)) as GameObject,
-            EntityBehaviour.LoadEntity(grid, Resources.Load("Prefabs/Game/Entity"), new Vector2(8, 7)) as GameObject,
-            EntityBehaviour.LoadEntity(grid, Resources.Load("Prefabs/Game/Entity"), new Vector2(8, 10)) as GameObject,
-            EntityBehaviour.LoadEntity(grid, Resources.Load("Prefabs/Game/Entity"), new Vector2(8, 12)) as GameObject
-        };
-
-        Item firstRing = Item.ItemLoader(0);
-        Item firstNecklace = Item.ItemLoader(1);
-
-        Spell firstSpell = Spell.SpellLoader(0);
-        Spell secondSpell = Spell.SpellLoader(1);
-        Spell thirdSpell = Spell.SpellLoader(2);
-        Spell fourthSpell = Spell.SpellLoader(3);
-        Spell fifthSpell = Spell.SpellLoader(4);
-
-        entities[0].GetComponent<EntityBehaviour>().character = new Character("Toto", firstNecklace, null, firstRing, null, new List<Spell>() {firstSpell, secondSpell, thirdSpell, fourthSpell, fifthSpell});
-		entities[1].GetComponent<EntityBehaviour>().character = new Character("Bill");
-        entities[2].GetComponent<EntityBehaviour>().character = new Character("Boule");
-        entities[3].GetComponent<EntityBehaviour>().character = new Character("Bidule");
-
-        team1.Add(entities[0].GetComponent<EntityBehaviour>());
-        team1.Add(entities[1].GetComponent<EntityBehaviour>());
-        team2.Add(entities[2].GetComponent<EntityBehaviour>());
-        team2.Add(entities[3].GetComponent<EntityBehaviour>());
+        EntityBehaviour.LoadEntity(grid, Resources.Load("Prefabs/Game/Entity"), new Vector2(8, 5));
+        EntityBehaviour.LoadEntity(grid, Resources.Load("Prefabs/Game/Entity"), new Vector2(8, 7));
+        EntityBehaviour.LoadEntity(grid, Resources.Load("Prefabs/Game/Entity"), new Vector2(8, 10));
+        EntityBehaviour.LoadEntity(grid, Resources.Load("Prefabs/Game/Entity"), new Vector2(8, 12));
+        entities[0].character = team1.characters[0];
+        entities[1].character = team1.characters[1];
+        entities[2].character = team2.characters[0];
+        entities[3].character = team2.characters[1];
 
         timelineBehaviour.Refresh();
-
-        turnManager = new TurnManager(entities);
+        turnManager = new TurnManager(
+            timelineBehaviour, 
+            GameObject.Find("TurnCounter").GetComponentInChildren<Text>()
+        );
         NextTurn();
-        /*
-        Item item = Item.ItemLoader("Assets/Resources/Items/0.json");
-        Debug.Log(item.name);*/
     }
 
     void Update()
@@ -100,10 +85,10 @@ public class GameManager : MonoBehaviour {
         instance.turnManager.Next();
     }
 
-	public void RotateTo(int rot)
-	{
-		instance.currentEntity.GetComponent<EntityBehaviour>().Rotate(rot);
-	}
+    public void RotateTo(int rot)
+    {
+        instance.currentEntityBehaviour.Rotate(rot);
+    }
 
     public static Object GetPrefabFromId(int id)
     {

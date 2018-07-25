@@ -5,69 +5,67 @@ using UnityEngine;
 public class EntityTurn {
 
     int turn;
+    EntityBehaviour entityBehaviour;
     Character character;
-    GameObject entity;
 
-    public EntityTurn(GameObject entity)
+    public EntityTurn(EntityBehaviour entityBehaviour)
     {
-        this.entity = entity;
+        this.entityBehaviour = entityBehaviour;
+        character = entityBehaviour.character;
         turn = 0;
     }
 
-	public void BeginTurn()
+    public void BeginTurn()
     {
         // Select entity.
-        character = entity.GetComponent<EntityBehaviour>().character;
-        GameManager.instance.currentEntity = entity;
-        CameraManager.instance.lookAt = entity.transform;
-
-        foreach (MeshRenderer renderer in entity.GetComponentsInChildren<MeshRenderer>())
-        {
-            renderer.material = entity.GetComponent<EntityBehaviour>().selected;
-        }
-        entity.GetComponent<EntityBehaviour>().timelineEntity.SetColor(Color.red);
-
+        GameManager.instance.currentEntityBehaviour = entityBehaviour;
+        CameraManager.instance.lookAt = entityBehaviour.transform;
         turn++;
+
+        foreach (MeshRenderer renderer in entityBehaviour.GetComponentsInChildren<MeshRenderer>())
+        {
+            renderer.material = entityBehaviour.selected;
+        }
+        entityBehaviour.timelineEntity.SetColor(Color.red);
+
 
         // Résolution d'effets
         foreach (KeyValuePair<Effect, EntityBehaviour> effect in character.effects)
         {
-            effect.Key.Resolve(effect.Value, entity.GetComponent<EntityBehaviour>());
+            effect.Key.Resolve(effect.Value, entityBehaviour);
         }
 
         // Remove effects inflicted by him if no turn left
-        foreach (GameObject entity in GameManager.instance.entities)
+        foreach (EntityBehaviour entity in GameManager.instance.entities)
         {
-            character = entity.GetComponent<EntityBehaviour>().character;
-            List<KeyValuePair<Effect, EntityBehaviour>> effects = character.effects;
+            List<KeyValuePair<Effect, EntityBehaviour>> effects = entity.character.effects;
 
             for (int i = 0; i < effects.Count; ++i)
             {
-                if (effects[i].Value == this.entity.GetComponent<EntityBehaviour>()
+                if (effects[i].Value == entityBehaviour
                     && effects[i].Key.effects.Count <= effects[i].Key.currentTurn)
                 {
                     if (effects[i].Key.type == EffectType.Charac)
-                        entity.GetComponent<EntityBehaviour>().character.stats[effects[i].Key.effects[0].charac] -= effects[i].Key.effects[0].valueMin;
+                        character.stats[effects[i].Key.effects[0].charac] -= effects[i].Key.effects[0].valueMin;
                     effects.RemoveAt(i--);
                 }
             }
         }
 
-        if (!entity.GetComponent<EntityBehaviour>().isAlive)
+        if (!entityBehaviour.isAlive)
             GameManager.instance.NextTurn();
-	}
-		
-	public void EndTurn()
+    }
+        
+    public void EndTurn()
     {
-        character = entity.GetComponent<EntityBehaviour>().character;
         character.stats[Characteristic.CurrentAP] = character.stats[Characteristic.MaxAP];
-		character.stats[Characteristic.CurrentMP] = character.stats[Characteristic.MaxMP];
+        character.stats[Characteristic.CurrentMP] = character.stats[Characteristic.MaxMP];
 
         // Unselect entity.
-        foreach (MeshRenderer renderer in entity.GetComponentsInChildren<MeshRenderer>())
+        foreach (MeshRenderer renderer in entityBehaviour.GetComponentsInChildren<MeshRenderer>())
         {
-            renderer.material = entity.GetComponent<EntityBehaviour>().unselected;
+            renderer.material = entityBehaviour.unselected;
         }
-        entity.GetComponent<EntityBehaviour>().timelineEntity.SetColor(Color.black);
-	}
+        entityBehaviour.timelineEntity.SetColor(Color.black);
+    }
 }

@@ -8,33 +8,29 @@ public class TurnManager {
 
     int turn;
     int entityTurn;
-    List<EntityTurn> entityTurns;
+    TimelineBehaviour timelineBehaviour;
     Text turnCounter;
 
-    public TurnManager(List<GameObject> entities)
+    public TurnManager(TimelineBehaviour timelineBehaviour, Text turnCounter)
     {
-        entityTurns = new List<EntityTurn>();
-        foreach (GameObject entity in entities)
-        {
-            entityTurns.Add(new EntityTurn(entity));
-        }
         turn = 0;
         entityTurn = 0;
-        turnCounter = GameObject.Find("TurnCounter").GetComponentInChildren<Text>();
+        this.timelineBehaviour = timelineBehaviour;
+        this.turnCounter = turnCounter;
         turnCounter.text = "1";
     }
 
     public void Next()
     {
         if (entityTurn != 0) // Si il ne s'agit pas du premier tour de match, finir le tour précédent.
-            entityTurns[entityTurn - 1].EndTurn();
-        if (entityTurn < entityTurns.Count)
+            timelineBehaviour.entities[entityTurn - 1].entityTurn.EndTurn();
+        if (entityTurn < timelineBehaviour.entities.Count)
         {
-            entityTurns[entityTurn++].BeginTurn();
+            timelineBehaviour.entities[entityTurn++].entityTurn.BeginTurn();
         }
         else // Nouveau tour de jeu
         {
-            entityTurns[0].BeginTurn();
+            timelineBehaviour.entities[0].entityTurn.BeginTurn();
             entityTurn = 1;
             turn++;
             turnCounter.text = (turn + 1).ToString();

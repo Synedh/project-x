@@ -1,0 +1,21 @@
+﻿{
+    "name": "Hermes' bracelets",
+    "price": 20,
+    "image": null,
+    "item_type": 1,
+    "description": "Fly as far as the world can be.",
+    "stats": [
+        {
+            "key": 11,
+            "value": 0.2
+        },
+        {
+            "key": 13,
+            "value": 0.2
+        },
+        {
+            "key": 14,
+            "value": 20
+        }
+    ]
+}

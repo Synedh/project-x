@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 222477295475245922}
   - component: {fileID: 114284384488717548}
   m_Layer: 5
-  m_Name: ContactDamage_title
+  m_Name: Contact_title
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -467,7 +467,7 @@ GameObject:
   - component: {fileID: 222189886770327632}
   - component: {fileID: 114455109464972216}
   m_Layer: 5
-  m_Name: Magic_content
+  m_Name: Magical_content
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -501,7 +501,7 @@ GameObject:
   - component: {fileID: 222976328255346212}
   - component: {fileID: 114521268883223866}
   m_Layer: 5
-  m_Name: Magic_title
+  m_Name: Magical_title
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -770,6 +770,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: efb1cdc73f8bb4a4992a953c83d6500b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hPContent: {fileID: 1412759089225710}
+  aPContent: {fileID: 1829714276254080}
+  mPContent: {fileID: 1675532211011802}
+  contactContent: {fileID: 1355096123130668}
+  distantContent: {fileID: 1932680678991076}
+  physicalContent: {fileID: 1279150533516366}
+  magicalContent: {fileID: 1834285841412114}
+  speedContent: {fileID: 1373464979232614}
+  itemNecklace: {fileID: 1930441946862714}
+  itemBracelet: {fileID: 1784184255482960}
+  itemRing: {fileID: 1123835295636226}
+  itemWeapon: {fileID: 1003599056480152}
 --- !u!114 &114274583693087652
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -19,10 +19,9 @@ public class EntityBehaviour : MonoBehaviour {
 
     public TimelineEntity timelineEntity;
     public Character character;
-    public Team team;
 
-	public int x;
-	public int y;
+    public int x;
+    public int y;
     public int orientation;
     public bool doMove;
     public bool isAlive = true;
@@ -30,9 +29,10 @@ public class EntityBehaviour : MonoBehaviour {
     static CustomGrid grid;
     public List<Vector2> moveTargets;
     public List<Vector2> pushTargets;
-	List<Vector2> MPRangeCells;
+    public EntityTurn entityTurn;
+    List<Vector2> MPRangeCells;
 
-	const float speed = 3f;
+    const float speed = 3f;
     const float pushSpeed = 10f;
 
     // Doubleclick
@@ -43,18 +43,19 @@ public class EntityBehaviour : MonoBehaviour {
     void Start() {
         grid = GameObject.Find("Grid").GetComponent<CustomGrid>();
 
-		moveTargets = new List<Vector2>();
+        moveTargets = new List<Vector2>();
         pushTargets = new List<Vector2>();
-		MPRangeCells = new List<Vector2>();
+        MPRangeCells = new List<Vector2>();
 
-		x = (int)transform.position.x;
-		y = (int)transform.position.z;
-
+        x = (int)transform.position.x;
+        y = (int)transform.position.z;
         orientation = (int)transform.eulerAngles.y;
-		doMove = false;
+
+        entityTurn = new EntityTurn(this);
+        doMove = false;
     }
-	
-	void Update() {
+    
+    void Update() {
         // Move
         if (doMove && moveTargets.Count > 0 && moveTargets.Count <= character.stats[Characteristic.CurrentMP])
             Move(moveTargets[0]);
@@ -93,51 +94,51 @@ public class EntityBehaviour : MonoBehaviour {
         }
     }
 
-	public void MouseEnter()
-	{
-		if (GameManager.instance.currentEntity == gameObject) {
-			foreach (MeshRenderer renderer in gameObject.GetComponentsInChildren<MeshRenderer>()) {
-				renderer.material = hoverSelected;
-			}
-		} else {
-			foreach (MeshRenderer renderer in gameObject.GetComponentsInChildren<MeshRenderer>()) {
-				renderer.material = hoverUnselected;
-			}
-		}
+    public void MouseEnter()
+    {
+        if (GameManager.instance.currentEntityBehaviour == this) {
+            foreach (MeshRenderer renderer in gameObject.GetComponentsInChildren<MeshRenderer>()) {
+                renderer.material = hoverSelected;
+            }
+        } else {
+            foreach (MeshRenderer renderer in gameObject.GetComponentsInChildren<MeshRenderer>()) {
+                renderer.material = hoverUnselected;
+            }
+        }
 
-		MPRangeCells = grid.MPRange(x, y, (int)(character.stats[Characteristic.CurrentMP]));
+        MPRangeCells = grid.MPRange(x, y, (int)(character.stats[Characteristic.CurrentMP]));
         grid.ColorCells(MPRangeCells, grid.hoverMP);
-	}
+    }
 
-	public void MouseExit()
-	{
-		if (GameManager.instance.currentEntity == gameObject) {
-			foreach (MeshRenderer renderer in gameObject.GetComponentsInChildren<MeshRenderer>()) {
-				renderer.material = selected;
-			}
-		} else {
-			foreach (MeshRenderer renderer in gameObject.GetComponentsInChildren<MeshRenderer>()) {
-				renderer.material = unselected;
-			}
-		}
-		grid.CleanCells(MPRangeCells);
-	}
+    public void MouseExit()
+    {
+        if (GameManager.instance.currentEntityBehaviour == this) {
+            foreach (MeshRenderer renderer in gameObject.GetComponentsInChildren<MeshRenderer>()) {
+                renderer.material = selected;
+            }
+        } else {
+            foreach (MeshRenderer renderer in gameObject.GetComponentsInChildren<MeshRenderer>()) {
+                renderer.material = unselected;
+            }
+        }
+        grid.CleanCells(MPRangeCells);
+    }
 
-	public void Move(Vector2 moveTarget) 
-	{
+    public void Move(Vector2 moveTarget) 
+    {
         Rotate(moveTarget);
-		transform.position = Vector3.MoveTowards(
-			transform.position, 
-			new Vector3(moveTarget.x, transform.position.y, moveTarget.y), 
-			speed * Time.deltaTime
-		);
+        transform.position = Vector3.MoveTowards(
+            transform.position, 
+            new Vector3(moveTarget.x, transform.position.y, moveTarget.y), 
+            speed * Time.deltaTime
+        );
 
         if (new Vector2(transform.position.x, transform.position.z).Equals(moveTarget)) {
-			moveTargets.RemoveAt(0);
+            moveTargets.RemoveAt(0);
             character.stats[Characteristic.CurrentMP]--;
-			if (moveTargets.Count == 0)
-				doMove = false;
-		}
+            if (moveTargets.Count == 0)
+                doMove = false;
+        }
     }
 
     public void Push(Vector2 pushTarget)
@@ -165,9 +166,9 @@ public class EntityBehaviour : MonoBehaviour {
             Rotate(270);
     }
 
-	public void Rotate(int angle)
-	{	
-		transform.eulerAngles = new Vector3(0, angle, 0);
+    public void Rotate(int angle)
+    {    
+        transform.eulerAngles = new Vector3(0, angle, 0);
         orientation = angle;
     }
 
@@ -265,13 +266,13 @@ public class EntityBehaviour : MonoBehaviour {
         // PathFinding module is used to search best way.
 
         List<NesScripts.Controls.PathFind.Point> path = NesScripts.Controls.PathFind.Pathfinding.FindPath(
-			new NesScripts.Controls.PathFind.Grid(grid.GetWalkableGrid()), 
-			new NesScripts.Controls.PathFind.Point(x, y),
-			new NesScripts.Controls.PathFind.Point(target.x, target.y), 
-			NesScripts.Controls.PathFind.Pathfinding.DistanceType.Manhattan
-		);
+            new NesScripts.Controls.PathFind.Grid(grid.GetWalkableGrid()), 
+            new NesScripts.Controls.PathFind.Point(x, y),
+            new NesScripts.Controls.PathFind.Point(target.x, target.y), 
+            NesScripts.Controls.PathFind.Pathfinding.DistanceType.Manhattan
+        );
 
-		moveTargets.Clear();
+        moveTargets.Clear();
         foreach (NesScripts.Controls.PathFind.Point point in path)
             moveTargets.Add(new Vector2(point.x, point.y));
         return moveTargets;
@@ -336,18 +337,13 @@ public class EntityBehaviour : MonoBehaviour {
             }
     }
 
-    public void SetTeam(Team team)
-    {
-        this.team = team;
-        team.Add(this);
-    }
-
     public static GameObject LoadEntity(CustomGrid grid, UnityEngine.Object prefab, Vector2 pos)
     {
         GameObject entity = Instantiate(prefab, new Vector3(pos.x, 0, pos.y), Quaternion.identity) as GameObject;
         entity.transform.parent = GameObject.Find("Entities").transform;
-        GameManager.instance.entities.Add(entity);
-        GameObject.Find("Timeline").GetComponent<TimelineBehaviour>().AddTimelineEntity(entity, GameManager.instance.entities.Count - 1);
+        EntityBehaviour entityBehaviour = entity.GetComponent<EntityBehaviour>();
+        GameManager.instance.entities.Add(entityBehaviour);
+        GameManager.instance.timelineBehaviour.AddTimelineEntity(entityBehaviour, GameManager.instance.entities.Count - 1);
         return grid.AddEntity(entity);
     }
 }
