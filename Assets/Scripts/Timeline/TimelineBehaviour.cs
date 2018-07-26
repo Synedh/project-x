@@ -27,18 +27,24 @@ public class TimelineBehaviour : MonoBehaviour
     void OrderBySpeed() {
         List<EntityBehaviour> orderedEntities = new List<EntityBehaviour>();
         foreach (EntityBehaviour entityBehaviour in entities)
-        {
+        {   
             int i = 0;
             for (; i < orderedEntities.Count; ++i)
             {
                 if (orderedEntities[i].character.stats[Characteristic.Speed]
-                    < entityBehaviour.character.stats[Characteristic.Speed])
+                    < entityBehaviour.character.stats[Characteristic.Speed]
+                    || (orderedEntities[i].character.stats[Characteristic.Speed]
+                    == entityBehaviour.character.stats[Characteristic.Speed]
+                        && GameManager.instance.randomSeed.Next(0, 2) == 1))
                 {
                     orderedEntities.Insert(i, entityBehaviour);
                     break;
                 }
             }
-            orderedEntities.Insert(i, entityBehaviour);
+            if (i == orderedEntities.Count)
+            {
+                orderedEntities.Insert(i, entityBehaviour);
+            }
         }
         entities = orderedEntities;
     }

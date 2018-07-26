@@ -51,7 +51,6 @@ public class EntityBehaviour : MonoBehaviour {
         y = (int)transform.position.z;
         orientation = (int)transform.eulerAngles.y;
 
-        entityTurn = new EntityTurn(this);
         doMove = false;
     }
     
@@ -342,6 +341,8 @@ public class EntityBehaviour : MonoBehaviour {
         GameObject entity = Instantiate(prefab, new Vector3(pos.x, 0, pos.y), Quaternion.identity) as GameObject;
         entity.transform.parent = GameObject.Find("Entities").transform;
         EntityBehaviour entityBehaviour = entity.GetComponent<EntityBehaviour>();
+
+        entityBehaviour.entityTurn = new EntityTurn(entityBehaviour);
         GameManager.instance.entities.Add(entityBehaviour);
         GameManager.instance.timelineBehaviour.AddTimelineEntity(entityBehaviour, GameManager.instance.entities.Count - 1);
         return grid.AddEntity(entity);

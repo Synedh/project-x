@@ -1744,6 +1744,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timelineEntityPrefab: {fileID: 1564312390329966, guid: e1909fe88fdd39b4bb01bfcc0090a7ec,
     type: 2}
+  entities: []
 --- !u!1 &790332832
 GameObject:
   m_ObjectHideFlags: 0

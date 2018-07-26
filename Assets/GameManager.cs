@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour {
     public int iDTeam1;
     public int iDTeam2;
     public GameObject turnCounter;
+    public GameObject timeLine;
 
     public Team team1;
     public Team team2;

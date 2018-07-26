@@ -11,13 +11,13 @@ public class EntityTurn {
     public EntityTurn(EntityBehaviour entityBehaviour)
     {
         this.entityBehaviour = entityBehaviour;
-        character = entityBehaviour.character;
         turn = 0;
     }
 
     public void BeginTurn()
     {
         // Select entity.
+        character = entityBehaviour.character;
         GameManager.instance.currentEntityBehaviour = entityBehaviour;
         CameraManager.instance.lookAt = entityBehaviour.transform;
         turn++;
@@ -30,6 +30,7 @@ public class EntityTurn {
 
 
         // Résolution d'effets
+        Debug.Log(character);
         foreach (KeyValuePair<Effect, EntityBehaviour> effect in character.effects)
         {
             effect.Key.Resolve(effect.Value, entityBehaviour);
@@ -58,6 +59,7 @@ public class EntityTurn {
         
     public void EndTurn()
     {
+        character = entityBehaviour.character;
         character.stats[Characteristic.CurrentAP] = character.stats[Characteristic.MaxAP];
         character.stats[Characteristic.CurrentMP] = character.stats[Characteristic.MaxMP];
 

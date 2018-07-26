@@ -51,6 +51,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98d93d66c2dff3d4d85661939e12eee4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tileMapFile: {fileID: 4900000, guid: 69bbf91059ae54448858b5783f4d22ec, type: 3}
-  selectedEntity: {fileID: 0}
+  iDTeam1: 0
+  iDTeam2: 1
+  turnCounter: {fileID: 0}
   entities: []
+  currentEntityBehaviour: {fileID: 0}
+  grid: {fileID: 0}
+  timelineBehaviour: {fileID: 0}
