@@ -91,6 +91,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7939ac55440664fe18edf8f6503da4e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  turnsObject: {fileID: 1137743805776010}
+  effectNameObject: {fileID: 1271002706792764}
+  descriptionObject: {fileID: 1546035484884648}
 --- !u!114 &114156095477554516
 MonoBehaviour:
   m_ObjectHideFlags: 1

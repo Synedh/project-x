@@ -21,6 +21,11 @@ public class Character {
 
     public Character (string nickname, Item necklace, Item bracelet, Item ring, Item weapon, List<Spell> spells) {
 
+        if (weapon == null)
+        {
+            weapon = Item.ItemLoader(0);
+        }
+
         _nickname = nickname;
         _stats = new Dictionary<Characteristic, float>() {
             { Characteristic.MaxHP, 60f },
@@ -45,6 +50,7 @@ public class Character {
             { ItemType.Ring, ring },
             { ItemType.Weapon, weapon }
         };
+
         _spells = spells;
         _effects = new List<KeyValuePair<Effect, EntityBehaviour>>();
 

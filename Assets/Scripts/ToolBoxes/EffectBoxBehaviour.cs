@@ -5,6 +5,9 @@ using UnityEngine.UI;
 
 public class EffectBoxBehaviour : MonoBehaviour
 {
+    public GameObject turnsObject;
+    public GameObject effectNameObject;
+    public GameObject descriptionObject;
 
     Effect effect;
 
@@ -28,7 +31,7 @@ public class EffectBoxBehaviour : MonoBehaviour
         if (effect != null)
         {
             int turns = effect.effects.Count - effect.currentTurn;
-            transform.Find("Turns").GetComponent<Text>().text =
+            turnsObject.GetComponent<Text>().text =
                 turns + (turns > 1 ? " turns remaining" : " turn remaining");
         }
     }
@@ -36,9 +39,9 @@ public class EffectBoxBehaviour : MonoBehaviour
     public void SetEffect(Effect effect)
     {
         this.effect = effect;
-        transform.Find("EffectName").GetComponent<Text>().text =
+        effectNameObject.GetComponent<Text>().text =
             effect.name.ToUpperInvariant();
-        transform.Find("Description").GetComponent<Text>().text =
+        descriptionObject.GetComponent<Text>().text =
             effect.description;
     }
 }

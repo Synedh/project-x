@@ -5,6 +5,13 @@ using UnityEngine.UI;
 
 public class ItemBoxBehaviour : MonoBehaviour
 {
+    public GameObject itemNameObject;
+    public GameObject priceObject;
+    public GameObject rangeObject;
+    public GameObject descriptionObject;
+    public GameObject effectBoxObject;
+    public GameObject statsBoxObject;
+    public GameObject boxTextLinePrefab;
 
     void Awake()
     {
@@ -26,12 +33,48 @@ public class ItemBoxBehaviour : MonoBehaviour
 
     public void SetItem(Item item)
     {
-        transform.Find("ItemName").GetComponent<Text>().text =
-            item.name.ToUpperInvariant();
-        transform.Find("Price").GetComponent<Text>().text =
-            item.price + " G";
-        transform.Find("Description").GetComponent<Text>().text =
-            item.description;
+        itemNameObject.GetComponent<Text>().text = item.name.ToUpperInvariant();
+        priceObject.GetComponent<Text>().text = item.price + " G";
+        descriptionObject.GetComponent<Text>().text = item.description;
+
+        if (item.spell != null)
+        {
+            rangeObject.GetComponent<Text>().text =
+                "PO " + item.spell.rangeMin + " - " + item.spell.rangeMax;
+            statsBoxObject.transform.position = new Vector3(
+                statsBoxObject.transform.position.x,
+                statsBoxObject.transform.position.y - 18,
+                statsBoxObject.transform.position.z
+            );
+
+            for (int i = 0; i < item.spell.effects.Count; ++i)
+            {
+                GetComponent<RectTransform>().SetSizeWithCurrentAnchors(
+                    RectTransform.Axis.Vertical,
+                    GetComponent<RectTransform>().sizeDelta.y + 18
+                );
+                statsBoxObject.transform.position = new Vector3(
+                    statsBoxObject.transform.position.x,
+                    statsBoxObject.transform.position.y - i * 18,
+                    statsBoxObject.transform.position.z
+                );
+                GameObject effectText = Instantiate(
+                                            boxTextLinePrefab,
+                                            effectBoxObject.transform
+                                        ) as GameObject;
+                effectText.transform.position = new Vector3(
+                    effectText.transform.position.x,
+                    effectText.transform.position.y - i * 18,
+                    effectText.transform.position.z
+                );
+                effectText.GetComponent<Text>().text = item.spell.effects[i].description;
+            }
+        }
+        else
+        {
+            rangeObject.GetComponent<Text>().text = "";
+        }
+
         for (int i = 0; i < item.stats.Count; ++i)
         {
             GetComponent<RectTransform>().SetSizeWithCurrentAnchors(
@@ -39,8 +82,8 @@ public class ItemBoxBehaviour : MonoBehaviour
                 GetComponent<RectTransform>().sizeDelta.y + 18
             );
             GameObject statText = Instantiate(
-                Resources.Load("Prefabs/UI/BoxTextLine"),
-                transform.Find("StatsBox")
+                boxTextLinePrefab,
+                statsBoxObject.transform
             ) as GameObject;
             statText.transform.position = new Vector3(
                 statText.transform.position.x,

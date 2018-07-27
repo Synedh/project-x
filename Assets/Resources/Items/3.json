@@ -1,0 +1,21 @@
+{
+    "name": "The One",
+    "price": 30,
+    "image": null,
+    "item_type": 2,
+    "description": "One ring to rule them all.",
+    "stats": [
+        {
+            "key": 4,
+            "value": 1
+        },
+        {
+            "key": 7,
+            "value": 0.5
+        },
+        {
+            "key": 9,
+            "value": 0.5
+        }
+    ]
+}

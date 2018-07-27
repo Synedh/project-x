@@ -299,6 +299,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb1677c4f6e2046428f9d62ae29bca58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spellNameObject: {fileID: 1271002706792764}
+  priceObject: {fileID: 1147378082929484}
+  descriptionObject: {fileID: 1137743805776010}
+  rangeObject: {fileID: 1765573319256984}
+  effectBoxObject: {fileID: 1029807302847444}
+  boxTextLinePrefab: {fileID: 1727069777781826, guid: a25247ab19d984f3592e146f887272c0,
+    type: 2}
 --- !u!114 &114870582437426812
 MonoBehaviour:
   m_ObjectHideFlags: 1

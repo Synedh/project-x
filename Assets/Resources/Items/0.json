@@ -1,21 +1,39 @@
-{
-    "name": "The One",
-    "price": 30,
+﻿{
+    "name": "Poke",
+    "price": 0,
     "image": null,
-    "item_type": 2,
-    "description": "One ring to rule them all.",
-    "stats": [
-        {
-            "key": 4,
-            "value": 1
-        },
-        {
-            "key": 7,
-            "value": 0.5
-        },
-        {
-            "key": 9,
-            "value": 0.5
-        }
-    ]
+    "item_type": 3,
+    "description": "A little poke.",
+    "stats": [],
+    "spell": {
+	    "name": "Poke",
+	    "price": 0,
+	    "image": null,
+	    "cost": 3,
+	    "rangeMin": 1,
+	    "rangeMax": 1,
+	    "rangeType": 0,
+	    "description": "Poke.",
+	    "effects": [
+	        {
+	            "name": "Poke",
+	            "image": null,
+	            "type": 0,
+	            "description": "2-4 physical damage",
+	            "effects": [
+	                {
+	                    "valueMin": 2,
+	                    "valueMax": 4,
+	                    "charac":  1
+	                }
+	            ],
+	            "cells": [
+	                {
+	                    "x": 0,
+	                    "y": 0
+	                }
+	            ]
+	        }
+	    ]
+	}
 }

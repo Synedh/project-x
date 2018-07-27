@@ -6,10 +6,10 @@
             "nickname": "Toto",
             "necklaceId": 1,
             "braceletId": -1,
-            "ringId": 0,
+            "ringId": 3,
             "weaponId": -1,
             "spellIds": [
-                0,
+                5,
                 1,
                 2,
                 3,

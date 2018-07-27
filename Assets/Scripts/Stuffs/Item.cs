@@ -36,7 +36,7 @@ public class Item {
         using (StreamReader r = new StreamReader(
             GameManager.itemPath + itemId.ToString() + ".json")
         )
-            return JsonConvert.DeserializeObject<Item>(r.ReadToEnd());
+        return JsonConvert.DeserializeObject<Item>(r.ReadToEnd());
     }
 
     public string name {

@@ -39,7 +39,7 @@ GameObject:
   - component: {fileID: 222947654233328868}
   - component: {fileID: 114829196083256916}
   - component: {fileID: 114759969464861064}
-  - component: {fileID: 114172481953715238}
+  - component: {fileID: 114426218223806466}
   m_Layer: 5
   m_Name: Weapon
   m_TagString: Untagged
@@ -58,7 +58,7 @@ GameObject:
   - component: {fileID: 222505887947928892}
   - component: {fileID: 114905999051526900}
   - component: {fileID: 114274583693087652}
-  - component: {fileID: 114663812583118892}
+  - component: {fileID: 114263003526543578}
   m_Layer: 5
   m_Name: Ring
   m_TagString: Untagged
@@ -431,7 +431,7 @@ GameObject:
   - component: {fileID: 222204013064192760}
   - component: {fileID: 114659897386451094}
   - component: {fileID: 114884086344144336}
-  - component: {fileID: 114388201314135710}
+  - component: {fileID: 114505997240369556}
   m_Layer: 5
   m_Name: Bracelet
   m_TagString: Untagged
@@ -518,7 +518,7 @@ GameObject:
   - component: {fileID: 222610062539834294}
   - component: {fileID: 114905892082973058}
   - component: {fileID: 114214237433593454}
-  - component: {fileID: 114214483285409088}
+  - component: {fileID: 114319638369370760}
   m_Layer: 5
   m_Name: Necklace
   m_TagString: Untagged
@@ -686,19 +686,6 @@ MonoBehaviour:
     m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: 0
---- !u!114 &114172481953715238
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1003599056480152}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d92cf972e277d4f949c0dd41d9cbdc02, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemBoxPrefab: {fileID: 1622470139484518, guid: d5a506212bd7441bda3ba064c3fd880e,
-    type: 2}
 --- !u!114 &114214237433593454
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -715,7 +702,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 114214483285409088}
+        - m_Target: {fileID: 114319638369370760}
           m_MethodName: OnEnter
           m_Mode: 1
           m_Arguments:
@@ -732,7 +719,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 114214483285409088}
+        - m_Target: {fileID: 114319638369370760}
           m_MethodName: OnExit
           m_Mode: 1
           m_Arguments:
@@ -746,19 +733,6 @@ MonoBehaviour:
       m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
         Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   delegates: []
---- !u!114 &114214483285409088
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1930441946862714}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d92cf972e277d4f949c0dd41d9cbdc02, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemBoxPrefab: {fileID: 1622470139484518, guid: d5a506212bd7441bda3ba064c3fd880e,
-    type: 2}
 --- !u!114 &114231785034782660
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -782,6 +756,19 @@ MonoBehaviour:
   itemBracelet: {fileID: 1784184255482960}
   itemRing: {fileID: 1123835295636226}
   itemWeapon: {fileID: 1003599056480152}
+--- !u!114 &114263003526543578
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1123835295636226}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d92cf972e277d4f949c0dd41d9cbdc02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemBoxPrefab: {fileID: 1329934595969586, guid: ce473f8eb7aa54e13b538105ecf9fe18,
+    type: 2}
 --- !u!114 &114274583693087652
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -798,7 +785,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 114663812583118892}
+        - m_Target: {fileID: 114263003526543578}
           m_MethodName: OnEnter
           m_Mode: 1
           m_Arguments:
@@ -815,7 +802,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 114663812583118892}
+        - m_Target: {fileID: 114263003526543578}
           m_MethodName: OnExit
           m_Mode: 1
           m_Arguments:
@@ -895,6 +882,19 @@ MonoBehaviour:
     m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: 0 - 0
+--- !u!114 &114319638369370760
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1930441946862714}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d92cf972e277d4f949c0dd41d9cbdc02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemBoxPrefab: {fileID: 1329934595969586, guid: ce473f8eb7aa54e13b538105ecf9fe18,
+    type: 2}
 --- !u!114 &114356458253117660
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1013,18 +1013,18 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!114 &114388201314135710
+--- !u!114 &114426218223806466
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1784184255482960}
+  m_GameObject: {fileID: 1003599056480152}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d92cf972e277d4f949c0dd41d9cbdc02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemBoxPrefab: {fileID: 1622470139484518, guid: d5a506212bd7441bda3ba064c3fd880e,
+  itemBoxPrefab: {fileID: 1329934595969586, guid: ce473f8eb7aa54e13b538105ecf9fe18,
     type: 2}
 --- !u!114 &114445098161462650
 MonoBehaviour:
@@ -1119,6 +1119,19 @@ MonoBehaviour:
     m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: 0 - 0
+--- !u!114 &114505997240369556
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1784184255482960}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d92cf972e277d4f949c0dd41d9cbdc02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemBoxPrefab: {fileID: 1329934595969586, guid: ce473f8eb7aa54e13b538105ecf9fe18,
+    type: 2}
 --- !u!114 &114521268883223866
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1335,19 +1348,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
---- !u!114 &114663812583118892
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1123835295636226}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d92cf972e277d4f949c0dd41d9cbdc02, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemBoxPrefab: {fileID: 1622470139484518, guid: d5a506212bd7441bda3ba064c3fd880e,
-    type: 2}
 --- !u!114 &114705689625558378
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1397,7 +1397,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 114172481953715238}
+        - m_Target: {fileID: 114426218223806466}
           m_MethodName: OnEnter
           m_Mode: 1
           m_Arguments:
@@ -1414,7 +1414,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 114172481953715238}
+        - m_Target: {fileID: 114426218223806466}
           m_MethodName: OnExit
           m_Mode: 1
           m_Arguments:
@@ -1603,7 +1603,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 114388201314135710}
+        - m_Target: {fileID: 114505997240369556}
           m_MethodName: OnEnter
           m_Mode: 1
           m_Arguments:
@@ -1620,7 +1620,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 114388201314135710}
+        - m_Target: {fileID: 114505997240369556}
           m_MethodName: OnExit
           m_Mode: 1
           m_Arguments:

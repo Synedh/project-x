@@ -30,7 +30,6 @@ public class EntityTurn {
 
 
         // Résolution d'effets
-        Debug.Log(character);
         foreach (KeyValuePair<Effect, EntityBehaviour> effect in character.effects)
         {
             effect.Key.Resolve(effect.Value, entityBehaviour);
@@ -47,7 +46,10 @@ public class EntityTurn {
                     && effects[i].Key.effects.Count <= effects[i].Key.currentTurn)
                 {
                     if (effects[i].Key.type == EffectType.Charac)
-                        character.stats[effects[i].Key.effects[0].charac] -= effects[i].Key.effects[0].valueMin;
+                    {
+                        character.stats[effects[i].Key.effects[0].charac] -= 
+                            effects[i].Key.effects[0].valueMin;
+                    }
                     effects.RemoveAt(i--);
                 }
             }

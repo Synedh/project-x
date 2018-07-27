@@ -153,6 +153,10 @@ public class EntityBehaviour : MonoBehaviour {
         }
     }
 
+    public void SetTo(int x, int y) {
+        transform.position = new Vector3(x, y, this.transform.position.z);
+    }
+
     public void Rotate(Vector2 cell)
     {
         if (cell.x - x > cell.y - y && (cell.x - x) + (cell.y - y) >= 0) // Front
