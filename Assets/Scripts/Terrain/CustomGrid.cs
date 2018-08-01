@@ -3,6 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;  
 
+struct Map {
+    List<Vector2> pos1;
+    List<Vector2> pos2;
+    int[,] tilemap;
+}
+
 public class CustomGrid: MonoBehaviour {
 
     public Material defaultColor;

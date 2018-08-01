@@ -30,10 +30,12 @@ public class Team
         _colorMaterial = colorMaterial;
     }
 
-    public Team(int teamId, Material colorMaterial = null)
+    public Team(int teamId = -1, string teamPath = "", Material colorMaterial = null)
     {
         TeamBuilder teamBuilder;
-        using (StreamReader r = new StreamReader(GameManager.teamPath + teamId.ToString() + ".json"))
+        if (teamId != -1)
+            teamPath = GameManager.teamPath + teamId.ToString() + ".json";
+        using (StreamReader r = new StreamReader(teamPath))
             teamBuilder = JsonConvert.DeserializeObject<TeamBuilder>(r.ReadToEnd());
 
         _name = teamBuilder.name;
@@ -45,6 +47,15 @@ public class Team
         {
             _characters.Add(Character.CharacterLoader(characterBuilder));
         }
+    }
+
+    public static List<Team> getTeams() {
+        List<Team> teams = new List<Team>();
+        foreach (string file in Directory.GetFiles(GameManager.teamPath, "*.json"))
+        {
+            teams.Add(new Team(teamPath: file));
+        }
+        return teams;
     }
 
     public void Add(Character character)

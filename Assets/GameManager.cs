@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour {
     public int iDTeam2;
     public GameObject turnCounter;
     public GameObject timeLine;
+    public GameObject TeamContainer;
 
     public Team team1;
     public Team team2;
@@ -37,16 +38,17 @@ public class GameManager : MonoBehaviour {
     }
 
     void InitGame()
-    {
+    {/*
         currentEntityBehaviour = null;
         entities = new List<EntityBehaviour>();
         team1 = new Team(iDTeam1);
-        team2 = new Team(iDTeam2);
+        team2 = new Team(iDTeam2); */
     }
 
     void Start()
     {
         randomSeed = new System.Random();
+        /*
         grid = GameObject.Find("Grid").GetComponent<CustomGrid>();
         timelineBehaviour = GameObject.Find("Timeline").GetComponent<TimelineBehaviour>();
 
@@ -64,11 +66,12 @@ public class GameManager : MonoBehaviour {
             timelineBehaviour, 
             GameObject.Find("TurnCounter").GetComponentInChildren<Text>()
         );
-        NextTurn();
+        NextTurn();*/
     }
 
     void Update()
     {
+        /*
         if (!team1.checkTeam())
         {
             Debug.Log("Team 2 won !");
@@ -78,7 +81,7 @@ public class GameManager : MonoBehaviour {
         {
             Debug.Log("Team 1 won !");
             Application.Quit();
-        }
+        } */
     }
 
     public void NextTurn()
