@@ -10,6 +10,9 @@ public class GameManager : MonoBehaviour {
 
     public int iDTeam1;
     public int iDTeam2;
+    public Material colorMaterial1;
+    public Material colorMaterial2;
+
     public GameObject turnCounter;
     public GameObject timeLine;
     public GameObject TeamContainer;
@@ -38,40 +41,34 @@ public class GameManager : MonoBehaviour {
     }
 
     void InitGame()
-    {/*
-        currentEntityBehaviour = null;
+    {
         entities = new List<EntityBehaviour>();
-        team1 = new Team(iDTeam1);
-        team2 = new Team(iDTeam2); */
+        team1 = new Team(iDTeam1, colorMaterial: colorMaterial1);
+        team2 = new Team(iDTeam2, colorMaterial: colorMaterial2);
     }
 
     void Start()
     {
         randomSeed = new System.Random();
-        /*
-        grid = GameObject.Find("Grid").GetComponent<CustomGrid>();
-        timelineBehaviour = GameObject.Find("Timeline").GetComponent<TimelineBehaviour>();
-
         EntityBehaviour.LoadEntity(grid, Resources.Load("Prefabs/Game/Entity"), new Vector2(8, 5));
         EntityBehaviour.LoadEntity(grid, Resources.Load("Prefabs/Game/Entity"), new Vector2(8, 7));
         EntityBehaviour.LoadEntity(grid, Resources.Load("Prefabs/Game/Entity"), new Vector2(8, 10));
         EntityBehaviour.LoadEntity(grid, Resources.Load("Prefabs/Game/Entity"), new Vector2(8, 12));
-        entities[0].character = team1.characters[0];
-        entities[1].character = team1.characters[1];
-        entities[2].character = team2.characters[0];
-        entities[3].character = team2.characters[1];
+        entities[0].SetCharacter(team1.characters[0]);
+        entities[1].SetCharacter(team1.characters[1]);
+        entities[2].SetCharacter(team2.characters[0]);
+        entities[3].SetCharacter(team2.characters[1]);
 
         timelineBehaviour.Refresh();
         turnManager = new TurnManager(
             timelineBehaviour, 
             GameObject.Find("TurnCounter").GetComponentInChildren<Text>()
         );
-        NextTurn();*/
+        NextTurn();
     }
 
     void Update()
     {
-        /*
         if (!team1.checkTeam())
         {
             Debug.Log("Team 2 won !");
@@ -81,7 +78,7 @@ public class GameManager : MonoBehaviour {
         {
             Debug.Log("Team 1 won !");
             Application.Quit();
-        } */
+        }
     }
 
     public void NextTurn()

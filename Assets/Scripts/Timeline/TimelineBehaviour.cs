@@ -16,6 +16,7 @@ public class TimelineBehaviour : MonoBehaviour
         prefabRectTransform = timelineEntityPrefab.GetComponent<RectTransform>();
         entities = new List<EntityBehaviour>();
         timelineEntities = new List<GameObject>();
+        GameManager.instance.timelineBehaviour = this;
     }
 
     // Update is called once per frame

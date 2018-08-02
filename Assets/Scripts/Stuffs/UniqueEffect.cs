@@ -22,18 +22,18 @@ public class UniqueEffect
     {
         switch (_type)
         {
-            case EffectType.Heal:
-                return ResolveHeal(reciever, (int)_valueMin, (int)_valueMax).ToString();
-            case EffectType.Move:
-                return ResolveMove(reciever, target, (int)_valueMin).ToString();
-            case EffectType.Jump:
-                return ResolveJump(sender, target);
             case EffectType.Create:
                 return ResolveCreate(target, _prefab);
+            case EffectType.Jump:
+                return ResolveJump(sender, target);
+            case EffectType.Transpose:
+                return ResolveTranspose(sender, reciever);
+            case EffectType.Move:
+                return ResolveMove(reciever, target, (int)_valueMin).ToString();
             case EffectType.Charac:
                 return ResolveCarac(reciever, _valueMin, _carac);
-            case EffectType.Transpose:
-                return ResolveTranspose(reciever, reciever  );
+            case EffectType.Heal:
+                return ResolveHeal(reciever, (int)_valueMin, (int)_valueMax).ToString();
             default:
                 return ResolveDamage(
                     sender,
@@ -46,20 +46,17 @@ public class UniqueEffect
         }
     }
 
-    int ResolveHeal(EntityBehaviour reciever, int valueMin, int valueMax)
+    string ResolveCreate(Vector2 position, Resources prefab)
     {
-        int heal = GameManager.instance.randomSeed.Next(valueMin, valueMax + 1);
-        if (60 - reciever.character.stats[Characteristic.CurrentHP] < heal)
-        {
-            heal = 60 - (int)reciever.character.stats[Characteristic.CurrentHP];
-        }
-        reciever.character.stats[Characteristic.CurrentHP] += heal;
-        return heal;
+        Debug.Log("Create");
+        return "";
     }
 
-    string ResolveMove(EntityBehaviour reciever, Vector2 cell, int qty)
-    {
-        reciever.SetPushTargets(cell, qty);
+    string ResolveTranspose(EntityBehaviour sender, EntityBehaviour reciever) {
+        int goToX = reciever.x;
+        int goToY = reciever.y;
+        reciever.SetTo(sender.x, sender.y);
+        sender.SetTo(goToX, goToY);
         return "";
     }
 
@@ -69,24 +66,27 @@ public class UniqueEffect
         return "";
     }
 
-    string ResolveCreate(Vector2 position, Resources prefab)
-    {
-        Debug.Log("Create");
-        return "";
-    }
-
     string ResolveCarac(EntityBehaviour reciever, float value, Characteristic charac)
     {
         reciever.character.stats[_carac] += value;
         return (int)(value * 100) + "%";
     }
 
-    string ResolveTranspose(EntityBehaviour sender, EntityBehaviour reciever) {
-        int goToX = reciever.x;
-        int goToY = reciever.y;
-        reciever.SetTo(sender.x, sender.y);
-        sender.SetTo(goToX, goToY);
+    string ResolveMove(EntityBehaviour reciever, Vector2 cell, int qty)
+    {
+        reciever.SetPushTargets(cell, qty);
         return "";
+    }
+
+    int ResolveHeal(EntityBehaviour reciever, int valueMin, int valueMax)
+    {
+        int heal = GameManager.instance.randomSeed.Next(valueMin, valueMax + 1);
+        if (60 - reciever.character.stats[Characteristic.CurrentHP] < heal)
+        {
+            heal = 60 - (int)reciever.character.stats[Characteristic.CurrentHP];
+        }
+        reciever.character.stats[Characteristic.CurrentHP] += heal;
+        return heal;
     }
 
     string ResolveDamage(EntityBehaviour sender, EntityBehaviour reciever, EffectType type, int valueMin, int valueMax, Characteristic charac = Characteristic.CurrentHP)

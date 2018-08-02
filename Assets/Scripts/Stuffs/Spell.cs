@@ -11,6 +11,13 @@ public enum RangeType
     Diagonal
 }
 
+public enum EntityRequirement
+{
+    None,
+    Empty,
+    Entity
+}
+
 public class Spell {
 
     readonly string _name;
@@ -18,12 +25,14 @@ public class Spell {
     readonly int _cost;
     readonly int _rangeMin;
     readonly int _rangeMax;
+    readonly bool _needView;
     readonly RangeType _rangeType;
+    readonly EntityRequirement _entityRequirement;
     readonly Sprite _image;
     readonly string _description;
     readonly List<Effect> _effects;
 
-    public Spell(string name, int price, int cost, int rangeMin, int rangeMax, RangeType rangeType, Sprite image, string description, List<Effect> effects)
+    public Spell(string name, int price, int cost, int rangeMin, int rangeMax, RangeType rangeType, bool needView, EntityRequirement entityRequirement, Sprite image, string description, List<Effect> effects)
     {
         _name = name;
         _price = price;
@@ -31,6 +40,8 @@ public class Spell {
         _rangeMin = rangeMin;
         _rangeMax = rangeMax;
         _rangeType = rangeType;
+        _needView = needView;
+        _entityRequirement = entityRequirement;
         _image = image;
         _description = description;
         _effects = effects;
@@ -91,6 +102,18 @@ public class Spell {
         get
         {
             return _rangeType;
+        }
+    }
+
+    public bool needView {
+        get {
+            return _needView;
+        }
+    }
+
+    public EntityRequirement entityRequirement {
+        get {
+            return _entityRequirement;
         }
     }
 

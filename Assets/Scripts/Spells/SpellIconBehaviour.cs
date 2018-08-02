@@ -73,8 +73,9 @@ public class SpellIconBehaviour: MonoBehaviour
             posY = entityBehavior.y;
         }
 
-        reachableCells = grid.SpellRange(posX, posY, spell.rangeMin, spell.rangeMax, spell.rangeType)[0];
-        unreachableCells = grid.SpellRange(posX, posY, spell.rangeMin, spell.rangeMax, spell.rangeType)[1];
+        List<Vector2>[] spellRange = grid.SpellRange(posX, posY, spell.rangeMin, spell.rangeMax, spell.rangeType, spell.needView, spell.entityRequirement);
+        reachableCells = spellRange[0];
+        unreachableCells = spellRange[1];
         grid.ColorCells(reachableCells, grid.reachableSpellRange);
         grid.ColorCells(unreachableCells, grid.unreachableSpellRange);
     }

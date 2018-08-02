@@ -2,10 +2,12 @@
     "name": "Fireball",
     "price": 50,
     "image": null,
-    "cost": 3,
+    "cost": 4,
     "rangeMin": 2,
     "rangeMax": 5,
     "rangeType": 0,
+    "needView": true,
+    "entityRequirement": 0,
     "description": "Burn fool !",
     "effects": [
         {

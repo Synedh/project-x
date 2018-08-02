@@ -75,8 +75,12 @@ public class Effect
         foreach (Vector2 cell in sender.GetAoeOfEffect(this, target))
         {
             GameObject entity = GameManager.instance.grid.GetEntityOnCell((int)cell.x, (int)cell.y);
-            List<KeyValuePair<Effect, EntityBehaviour>> entityEffects = entity.GetComponent<EntityBehaviour>().character.effects;
-            entityEffects.Add(new KeyValuePair<Effect, EntityBehaviour>(this.MemberwiseClone() as Effect, sender));
+            List<KeyValuePair<Effect, EntityBehaviour>> entityEffects = new List<KeyValuePair<Effect, EntityBehaviour>>();
+            if (entity != null)
+            {
+                entityEffects = entity.GetComponent<EntityBehaviour>().character.effects;
+                entityEffects.Add(new KeyValuePair<Effect, EntityBehaviour>(this.MemberwiseClone() as Effect, sender));
+            }
 
             if ((_type == EffectType.Physical
                 || _type == EffectType.Magic
@@ -89,6 +93,9 @@ public class Effect
             }
             else if ((_type == EffectType.Create || _type == EffectType.Jump) && entity == null) // Create
             {
+                entityEffects = sender.character.effects;
+                entityEffects.Add(new KeyValuePair<Effect, EntityBehaviour>(this.MemberwiseClone() as Effect, sender));
+
                 entityEffects[entityEffects.Count - 1].Key.Resolve(sender, target: cell);
                 if (entityEffects[entityEffects.Count - 1].Key.currentTurn >= entityEffects[entityEffects.Count - 1].Key.effects.Count)
                     entityEffects.RemoveAt(entityEffects.Count - 1);

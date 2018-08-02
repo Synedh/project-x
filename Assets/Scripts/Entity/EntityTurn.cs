@@ -22,10 +22,6 @@ public class EntityTurn {
         CameraManager.instance.lookAt = entityBehaviour.transform;
         turn++;
 
-        foreach (MeshRenderer renderer in entityBehaviour.GetComponentsInChildren<MeshRenderer>())
-        {
-            renderer.material = entityBehaviour.selected;
-        }
         entityBehaviour.timelineEntity.SetColor(Color.red);
 
 
@@ -66,10 +62,6 @@ public class EntityTurn {
         character.stats[Characteristic.CurrentMP] = character.stats[Characteristic.MaxMP];
 
         // Unselect entity.
-        foreach (MeshRenderer renderer in entityBehaviour.GetComponentsInChildren<MeshRenderer>())
-        {
-            renderer.material = entityBehaviour.unselected;
-        }
         entityBehaviour.timelineEntity.SetColor(Color.black);
     }
 }

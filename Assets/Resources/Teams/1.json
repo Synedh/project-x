@@ -4,11 +4,14 @@
     "characters": [
         {
             "nickname": "Boule",
-            "necklaceId": -1,
+            "necklaceId": 1,
             "braceletId": 2,
             "ringId": -1,
-            "weaponId": 4,
-            "spellIds": []
+            "weaponId": -1,
+            "spellIds": [
+                3,
+                7
+            ]
         },
         {
             "nickname": "Bidule",

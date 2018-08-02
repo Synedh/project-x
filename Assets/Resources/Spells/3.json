@@ -6,6 +6,8 @@
     "rangeMin": 2,
     "rangeMax": 8,
     "rangeType": 1,
+    "needView": true,
+    "entityRequirement": 2,
     "description": "Attirance",
     "effects": [
         {

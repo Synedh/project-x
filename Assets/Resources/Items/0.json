@@ -13,6 +13,8 @@
 	    "rangeMin": 1,
 	    "rangeMax": 1,
 	    "rangeType": 0,
+	    "needView": true,
+	    "entityRequirement": 0,
 	    "description": "Poke.",
 	    "effects": [
 	        {

@@ -12,10 +12,7 @@ public enum Orientation {
 
 public class EntityBehaviour : MonoBehaviour {
 
-    public Material selected;
-    public Material unselected;
-    public Material hoverSelected;
-    public Material hoverUnselected;
+    public GameObject colorIndicatorPrefab;
 
     public TimelineEntity timelineEntity;
     public Character character;
@@ -27,6 +24,7 @@ public class EntityBehaviour : MonoBehaviour {
     public bool isAlive = true;
 
     static CustomGrid grid;
+    GameObject colorIndicator;
     public List<Vector2> moveTargets;
     public List<Vector2> pushTargets;
     public EntityTurn entityTurn;
@@ -65,10 +63,14 @@ public class EntityBehaviour : MonoBehaviour {
         if (pushTargets.Count > 0)
             Push(pushTargets[0]);
 
-        // grid.GetCellBehaviour((int)transform.position.x, (int)transform.position.z).colorCell(team.colorMaterial);
-
         x = (int)transform.position.x;
         y = (int)transform.position.z;
+        colorIndicator.transform.position = new Vector3(
+            transform.position.x,
+            colorIndicator.transform.position.y,
+            transform.position.z
+        );
+
         
     }
 
@@ -95,31 +97,12 @@ public class EntityBehaviour : MonoBehaviour {
 
     public void MouseEnter()
     {
-        if (GameManager.instance.currentEntityBehaviour == this) {
-            foreach (MeshRenderer renderer in gameObject.GetComponentsInChildren<MeshRenderer>()) {
-                renderer.material = hoverSelected;
-            }
-        } else {
-            foreach (MeshRenderer renderer in gameObject.GetComponentsInChildren<MeshRenderer>()) {
-                renderer.material = hoverUnselected;
-            }
-        }
-
         MPRangeCells = grid.MPRange(x, y, (int)(character.stats[Characteristic.CurrentMP]));
         grid.ColorCells(MPRangeCells, grid.hoverMP);
     }
 
     public void MouseExit()
     {
-        if (GameManager.instance.currentEntityBehaviour == this) {
-            foreach (MeshRenderer renderer in gameObject.GetComponentsInChildren<MeshRenderer>()) {
-                renderer.material = selected;
-            }
-        } else {
-            foreach (MeshRenderer renderer in gameObject.GetComponentsInChildren<MeshRenderer>()) {
-                renderer.material = unselected;
-            }
-        }
         grid.CleanCells(MPRangeCells);
     }
 
@@ -154,7 +137,7 @@ public class EntityBehaviour : MonoBehaviour {
     }
 
     public void SetTo(int x, int y) {
-        transform.position = new Vector3(x, y, this.transform.position.z);
+        transform.position = new Vector3(x, transform.position.y, y);
     }
 
     public void Rotate(Vector2 cell)
@@ -340,11 +323,23 @@ public class EntityBehaviour : MonoBehaviour {
             }
     }
 
+    public void SetCharacter(Character character) {
+        this.character = character;
+        colorIndicator.GetComponent<SpriteRenderer>().color = character.team.colorMaterial.color;
+    }
+
     public static GameObject LoadEntity(CustomGrid grid, UnityEngine.Object prefab, Vector2 pos)
     {
         GameObject entity = Instantiate(prefab, new Vector3(pos.x, 0, pos.y), Quaternion.identity) as GameObject;
         entity.transform.parent = GameObject.Find("Entities").transform;
         EntityBehaviour entityBehaviour = entity.GetComponent<EntityBehaviour>();
+
+        entityBehaviour.colorIndicator = Instantiate(
+            Resources.Load("Prefabs/Game/ColorIndicator"),
+            new Vector3(pos.x, -0.2499f, pos.y),
+            Quaternion.Euler(new Vector3(90f, 0f, 0f))
+        ) as GameObject;
+        entityBehaviour.colorIndicator.transform.parent = entity.transform;
 
         entityBehaviour.entityTurn = new EntityTurn(entityBehaviour);
         GameManager.instance.entities.Add(entityBehaviour);

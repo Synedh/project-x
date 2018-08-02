@@ -2,10 +2,12 @@
     "name": "Punch",
     "price": 50,
     "image": null,
-    "cost": 3,
+    "cost": 2,
     "rangeMin": 1,
     "rangeMax": 2,
     "rangeType": 1,
+    "needView": true,
+    "entityRequirement": 0,
     "description": "Falcon punch !",
     "effects": [
         {

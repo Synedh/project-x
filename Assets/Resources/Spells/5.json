@@ -2,10 +2,12 @@
     "name": "Sword of Damocles",
     "price": 50,
     "image": null,
-    "cost": 3,
+    "cost": 4,
     "rangeMin": 1,
     "rangeMax": 1,
     "rangeType": 0,
+    "needView": false,
+    "entityRequirement": 0,
     "description": "With great power comes great responsibility.",
     "effects": [
         {

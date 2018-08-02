@@ -29,6 +29,7 @@ public class CustomGrid: MonoBehaviour {
     void Awake()
     {
         LoadGrid();
+        GameManager.instance.grid = this;
     }
 
     private void Start()
@@ -153,7 +154,7 @@ public class CustomGrid: MonoBehaviour {
         return walkableGrid;
     }
 
-    public List<Vector2>[] SpellRange(int x, int y, int rangeMin, int rangeMax, RangeType rangeType, bool needView = true) {
+    public List<Vector2>[] SpellRange(int x, int y, int rangeMin, int rangeMax, RangeType rangeType, bool needView, EntityRequirement entityRequirement) {
         List<Vector2> reachableCells = new List<Vector2>();
         List<Vector2> unreachableCells = new List<Vector2>();
 
@@ -169,7 +170,10 @@ public class CustomGrid: MonoBehaviour {
                         || rangeType == RangeType.Line && (i == x || j == y) 
                         || rangeType == RangeType.Diagonal && (i + j == x + y  || i - j == x - y)))
                 {
-                    if (!needView || Visibility(new Vector2(x, y), new Vector2(i, j)))
+                    if ((!needView || Visibility(new Vector2(x, y), new Vector2(i, j)))
+                        && ((GetEntityOnCell(i, j) != null) && entityRequirement == EntityRequirement.Entity
+                            || (GetEntityOnCell(i, j) == null) && entityRequirement == EntityRequirement.Empty
+                            || entityRequirement == EntityRequirement.None))
                         reachableCells.Add(new Vector2(i, j));
                     else
                         unreachableCells.Add(new Vector2(i, j));

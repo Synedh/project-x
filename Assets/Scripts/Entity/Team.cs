@@ -1,113 +1,115 @@
-﻿using System.IO;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using Newtonsoft.Json;
+﻿    using System.IO;
+    using System.Collections;
+    using System.Collections.Generic;
+    using UnityEngine;
+    using Newtonsoft.Json;
 
 
-public struct TeamBuilder {
-    public string name;
-    public int imageid;
-    public List<CharacterBuilder> characters;
-}
+    public struct TeamBuilder {
+        public string name;
+        public int imageid;
+        public List<CharacterBuilder> characters;
+    }
 
-public class Team
-{
-    string _name;
-    Sprite _image;
-    List<Character> _characters;
-    readonly Material _colorMaterial;
-
-    public Team(string name, Sprite image, List<Character> characters = null, Material colorMaterial = null)
+    public class Team
     {
-        if (characters == null)
+        string _name;
+        Sprite _image;
+        List<Character> _characters;
+        readonly Material _colorMaterial;
+
+        public Team(string name, Sprite image, List<Character> characters = null, Material colorMaterial = null)
+        {
+            if (characters == null)
+                _characters = new List<Character>();
+            else
+                _characters = characters;
+
+            _name = name;
+            _image = image;
+            _colorMaterial = colorMaterial;
+        }
+
+        public Team(int teamId = -1, string teamPath = "", Material colorMaterial = null)
+        {
+            TeamBuilder teamBuilder;
+            if (teamId != -1)
+                teamPath = GameManager.teamPath + teamId.ToString() + ".json";
+            using (StreamReader r = new StreamReader(teamPath))
+                teamBuilder = JsonConvert.DeserializeObject<TeamBuilder>(r.ReadToEnd());
+
+            _name = teamBuilder.name;
+            _image = null;
             _characters = new List<Character>();
-        else
-            _characters = characters;
+            _colorMaterial = colorMaterial;
 
-        _name = name;
-        _image = image;
-        _colorMaterial = colorMaterial;
-    }
+            foreach (CharacterBuilder characterBuilder in teamBuilder.characters)
+            {
+                Character character = Character.CharacterLoader(characterBuilder);
+                character.team = this;
+                _characters.Add(character);
+            }
+        }
 
-    public Team(int teamId = -1, string teamPath = "", Material colorMaterial = null)
-    {
-        TeamBuilder teamBuilder;
-        if (teamId != -1)
-            teamPath = GameManager.teamPath + teamId.ToString() + ".json";
-        using (StreamReader r = new StreamReader(teamPath))
-            teamBuilder = JsonConvert.DeserializeObject<TeamBuilder>(r.ReadToEnd());
+        public static List<Team> getTeams() {
+            List<Team> teams = new List<Team>();
+            foreach (string file in Directory.GetFiles(GameManager.teamPath, "*.json"))
+            {
+                teams.Add(new Team(teamPath: file));
+            }
+            return teams;
+        }
 
-        _name = teamBuilder.name;
-        _image = null;
-        _characters = new List<Character>();
-        _colorMaterial = colorMaterial;
-
-        foreach (CharacterBuilder characterBuilder in teamBuilder.characters)
+        public void Add(Character character)
         {
-            _characters.Add(Character.CharacterLoader(characterBuilder));
+            _characters.Add(character);
+            character.team = this;
         }
-    }
 
-    public static List<Team> getTeams() {
-        List<Team> teams = new List<Team>();
-        foreach (string file in Directory.GetFiles(GameManager.teamPath, "*.json"))
+        public bool Remove(Character character)
         {
-            teams.Add(new Team(teamPath: file));
+            character.team = null;
+            return _characters.Remove(character);
         }
-        return teams;
-    }
 
-    public void Add(Character character)
-    {
-        _characters.Add(character);
-        character.team = this;
-    }
-
-    public bool Remove(Character character)
-    {
-        character.team = null;
-        return _characters.Remove(character);
-    }
-
-    public bool checkTeam() {
-        foreach (Character character in _characters) {
-            if (character.stats[Characteristic.CurrentHP] > 0)
-                return true;
+        public bool checkTeam() {
+            foreach (Character character in _characters) {
+                if (character.stats[Characteristic.CurrentHP] > 0)
+                    return true;
+            }
+            return false;
         }
-        return false;
-    }
 
-    public string name
-    {
-        get
+        public string name
         {
-            return this._name;
+            get
+            {
+                return this._name;
+            }
         }
-    }
 
-    public Sprite image
-    {
-        get
+        public Sprite image
         {
-            return this._image;
+            get
+            {
+                return this._image;
+            }
         }
-    }
 
-    public List<Character> characters
-    {
-        get
+        public List<Character> characters
         {
-            return this._characters;
+            get
+            {
+                return this._characters;
+            }
         }
-    }
 
-    public Material colorMaterial
-    {
-        get
+        public Material colorMaterial
         {
-            return this._colorMaterial;
+            get
+            {
+                return this._colorMaterial;
+            }
         }
     }
-}
 

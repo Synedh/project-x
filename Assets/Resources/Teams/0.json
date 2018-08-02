@@ -7,12 +7,9 @@
             "necklaceId": 1,
             "braceletId": -1,
             "ringId": 3,
-            "weaponId": -1,
+            "weaponId": 4,
             "spellIds": [
-                5,
                 1,
-                2,
-                3,
                 4
             ]
         },
@@ -22,7 +19,11 @@
             "braceletId": -1,
             "ringId": -1,
             "weaponId": -1,
-            "spellIds": []
+            "spellIds": [
+                5,
+                2,
+                6
+            ]
         }
     ]
 }

@@ -1,0 +1,29 @@
+{
+    "name": "Switch",
+    "price": 50,
+    "image": null,
+    "cost": 4,
+    "rangeMin": 1,
+    "rangeMax": 10,
+    "rangeType": 0,
+    "entityRequirement": 2,
+    "description": "I hope you like jetlag.",
+    "needView": false,
+    "effects": [
+        {
+            "name": "Switch",
+            "image": null,
+            "type": 6,
+            "description": "Switch places of user and selected target.",
+            "effects": [
+                {},
+            ],
+            "cells": [
+                {
+                    "x": 0,
+                    "y": 0
+                }
+            ]
+        }
+    ]
+}

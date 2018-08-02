@@ -1,0 +1,29 @@
+{
+    "name": "Jump",
+    "price": 50,
+    "image": null,
+    "cost": 3,
+    "rangeMin": 1,
+    "rangeMax": 3,
+    "rangeType": 0,
+    "entityRequirement": 1,
+    "description": "Higher in the sky !",
+    "needView": false,
+    "effects": [
+        {
+            "name": "Jump",
+            "image": null,
+            "type": 5,
+            "description": "Move the user on the selected cell.",
+            "effects": [
+                {},
+            ],
+            "cells": [
+                {
+                    "x": 0,
+                    "y": 0
+                }
+            ]
+        }
+    ]
+}

@@ -2,10 +2,12 @@
     "name": "Coup de bambou",
     "price": 50,
     "image": null,
-    "cost": 3,
+    "cost": 2,
     "rangeMin": 1,
     "rangeMax": 6,
     "rangeType": 0,
+    "needView": true,
+    "entityRequirement": 0,
     "description": "Un coup de mou ?",
     "effects": [
         {
