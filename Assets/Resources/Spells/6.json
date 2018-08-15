@@ -14,7 +14,7 @@
             "name": "Jump",
             "image": null,
             "type": 5,
-            "description": "Move the user on the selected cell.",
+            "description": "The user jumps on the selected cell.",
             "effects": [
                 {},
             ],

@@ -8,6 +8,7 @@ public class SpellBoxBehaviour : MonoBehaviour
     public GameObject spellNameObject;
     public GameObject priceObject;
     public GameObject descriptionObject;
+    public GameObject costObject;
     public GameObject rangeObject;
     public GameObject effectBoxObject;
     public GameObject boxTextLinePrefab;
@@ -34,9 +35,10 @@ public class SpellBoxBehaviour : MonoBehaviour
     {
         spellNameObject.GetComponent<Text>().text = spell.name.ToUpperInvariant();
         priceObject.GetComponent<Text>().text = spell.price + " G";
-        descriptionObject.GetComponent<Text>().text = spell.description;
+        costObject.GetComponent<Text>().text = spell.cost + " AP";
         rangeObject.GetComponent<Text>().text =
-            "PO " + spell.rangeMin + " - " + spell.rangeMax;
+            spell.rangeMin + " - " + spell.rangeMax;
+        descriptionObject.GetComponent<Text>().text = spell.description;
         for (int i = 0; i < spell.effects.Count; ++i)
         {
             GetComponent<RectTransform>().SetSizeWithCurrentAnchors(

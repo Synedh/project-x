@@ -37,8 +37,8 @@
             "effects": [
                 null,
                 {
-                    "valueMin": 4,
-                    "valueMax": 4,
+                    "valueMin": 80,
+                    "valueMax": 80,
                     "charac": 1
                 },
                 {

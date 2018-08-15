@@ -70,8 +70,6 @@ public class EntityBehaviour : MonoBehaviour {
             colorIndicator.transform.position.y,
             transform.position.z
         );
-
-        
     }
 
     public void MouseDown()

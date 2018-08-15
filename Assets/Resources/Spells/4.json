@@ -14,7 +14,7 @@
             "name": "Coup de bambou",
             "image": null,
             "type": 3,
-            "description": "20% de résistance contact en moins (1 tour).",
+            "description": "-20% contact res (1 turn).",
             "effects": [
                 {
                     "valueMin": -0.2,
@@ -33,7 +33,7 @@
             "name": "Coup de bambou",
             "image": null,
             "type": 3,
-            "description": "20% de résistance distance en moins (1 tour).",
+            "description": "-20% distant res (1 turn).",
             "effects": [
                 {
                     "valueMin": -0.2,
