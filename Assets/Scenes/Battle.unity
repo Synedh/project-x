@@ -799,7 +799,8 @@ MonoBehaviour:
   timelineBehaviour: {fileID: 615980104}
   turnCounter: {fileID: 1696984070}
   timebankFullBar: {fileID: 1309536554}
-  timebankEmptyBar: {fileID: 0}
+  timebankEmptyBar: {fileID: 846447630}
+  nextButtonText: {fileID: 1342467876}
   currentEntityBehaviour: {fileID: 0}
 --- !u!224 &193588249
 RectTransform:

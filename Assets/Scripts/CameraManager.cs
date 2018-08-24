@@ -10,7 +10,6 @@ public class CameraManager : MonoBehaviour {
     const float DISTANCE_MIN = 1.5f;
     const float DISTANCE_MAX = 20f;
 
-    public Transform lookAt;
     public float currentX = 0.0f;
     public float currentY = 45.0f;
     public float distance = 10.0f;
@@ -19,7 +18,11 @@ public class CameraManager : MonoBehaviour {
     public float sensitivityY = 1.0f;
     public float sensitivityZ = 2.0f;
 
+    Vector3 lookAt;
+    Vector3 target;
     Transform camTransform;
+    float startTime;
+    float distToCover;
 
     public static CameraManager instance;
 
@@ -27,6 +30,9 @@ public class CameraManager : MonoBehaviour {
     {
         camTransform = transform;
         instance = this;
+        startTime = Time.time;
+        lookAt = new Vector3(0, 0, 0);
+        target = new Vector3(0, 0, 0);
     }
 
     void Update()
@@ -45,17 +51,29 @@ public class CameraManager : MonoBehaviour {
                 distance -= Input.GetAxis("Mouse ScrollWheel") * sensitivityZ;
                 distance = Mathf.Clamp(distance, DISTANCE_MIN, DISTANCE_MAX);
             }
-        }
+        }   
     }
 
     void LateUpdate()
     {
         Vector3 dir = new Vector3(0, 0, -distance);
         Quaternion rotation = Quaternion.Euler(currentY, currentX, 0);
-        if (lookAt != null)
-        {
-            camTransform.position = lookAt.position + rotation * dir;
-            camTransform.LookAt(lookAt.position);
-        }
+
+        float distCovered = (Time.time - startTime) * 20f;
+        float fracJourney = distCovered / distToCover;
+
+        Vector3 lookTarget = Vector3.Lerp(lookAt, target, fracJourney);
+        camTransform.position = lookTarget + rotation * dir;
+        camTransform.LookAt(lookTarget);
+
+        if (lookTarget == target)
+            lookAt = target;
+    }
+
+    public void LookAt(Vector3 position)
+    {
+        target = position;
+        distToCover = Vector3.Distance(lookAt, target);
+        startTime = Time.time;
     }
 }

@@ -88,7 +88,7 @@ public class EntityBehaviour : MonoBehaviour {
             else
             {
                 one_click = false; // found a double click, now reset
-                CameraManager.instance.lookAt = transform;
+                CameraManager.instance.LookAt(transform.position);
             }
         }
     }

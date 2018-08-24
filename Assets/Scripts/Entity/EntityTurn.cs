@@ -23,7 +23,7 @@ public class EntityTurn {
         // Select entity.
         character = entityBehaviour.character;
         GameManager.instance.currentEntityBehaviour = entityBehaviour;
-        CameraManager.instance.lookAt = entityBehaviour.transform;
+        CameraManager.instance.LookAt(entityBehaviour.transform.position);
         turn++;
         maxTimebank = 
             20
