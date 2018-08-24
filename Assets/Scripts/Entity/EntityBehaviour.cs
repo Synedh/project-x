@@ -113,6 +113,7 @@ public class EntityBehaviour : MonoBehaviour {
             speed * Time.deltaTime
         );
 
+        // Si fin de cellule
         if (new Vector2(transform.position.x, transform.position.z).Equals(moveTarget)) {
             moveTargets.RemoveAt(0);
             character.stats[Characteristic.CurrentMP]--;
@@ -246,7 +247,7 @@ public class EntityBehaviour : MonoBehaviour {
     public List<Vector2> SetMoveTargets(Cell target)
     {
         // Fill a targets list of point. Then this list is parsed by Update function.
-        // Once a location is reached, element is remove and next one is targeted.
+        // Once a location is reached, element is removed and next one is targeted.
         // PathFinding module is used to search best way.
 
         List<NesScripts.Controls.PathFind.Point> path = NesScripts.Controls.PathFind.Pathfinding.FindPath(

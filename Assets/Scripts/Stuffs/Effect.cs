@@ -53,7 +53,6 @@ public class Effect
 
     public void Resolve(EntityBehaviour sender, EntityBehaviour reciever = null, Vector2 target = new Vector2())
     {
-        Debug.Log(_name);
         UniqueEffect effect = _effects[_currentTurn++];
         if (effect != null && (reciever == null || reciever != null && reciever.isAlive))
         {

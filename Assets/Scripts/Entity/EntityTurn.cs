@@ -8,10 +8,14 @@ public class EntityTurn {
     EntityBehaviour entityBehaviour;
     Character character;
 
+    public float maxTimebank;
+    public float currentTimebank;
+
     public EntityTurn(EntityBehaviour entityBehaviour)
     {
         this.entityBehaviour = entityBehaviour;
         turn = 0;
+        currentTimebank = 0;
     }
 
     public void BeginTurn()
@@ -21,6 +25,12 @@ public class EntityTurn {
         GameManager.instance.currentEntityBehaviour = entityBehaviour;
         CameraManager.instance.lookAt = entityBehaviour.transform;
         turn++;
+        maxTimebank = 
+            20
+            + character.stats[Characteristic.CurrentAP]
+            + character.stats[Characteristic.CurrentMP];
+        currentTimebank = maxTimebank;
+        
 
         entityBehaviour.timelineEntity.SetColor(Color.red);
 
@@ -52,7 +62,7 @@ public class EntityTurn {
         }
 
         if (!entityBehaviour.isAlive)
-            GameManager.instance.NextTurn();
+            TurnManager.instance.Next();
     }
         
     public void EndTurn()

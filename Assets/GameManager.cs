@@ -24,7 +24,6 @@ public class GameManager : MonoBehaviour {
     public CustomGrid grid;
     public Spell selectedSpell;
     public TimelineBehaviour timelineBehaviour;
-    public TurnManager turnManager;
 
     public static string itemPath = "Assets/Resources/Items/";
     public static string spellPath = "Assets/Resources/Spells/";
@@ -60,11 +59,6 @@ public class GameManager : MonoBehaviour {
         entities[3].SetCharacter(team2.characters[1]);
 
         timelineBehaviour.Refresh();
-        turnManager = new TurnManager(
-            timelineBehaviour, 
-            GameObject.Find("TurnCounter").GetComponentInChildren<Text>()
-        );
-        NextTurn();
     }
 
     void Update()
@@ -79,11 +73,6 @@ public class GameManager : MonoBehaviour {
             Debug.Log("Team 1 won !");
             Application.Quit();
         }
-    }
-
-    public void NextTurn()
-    {
-        instance.turnManager.Next();
     }
 
     public void RotateTo(int rot)

@@ -6,30 +6,34 @@ using UnityEngine.UI;
 public class CurrentEntityBoxBehaviour : MonoBehaviour {
 
     Character currentCharacter;
-
-    Text currentHP;
-    Text currentAP;
-    Text currentMP;
+    public Text nextButtonText;
+    public Text currentHP;
+    public Text currentAP;
+    public Text currentMP;
 
     // Use this for initialization
     void Start () {
-        currentHP = transform.Find("HP/Text").GetComponent<Text>();
-        currentAP = transform.Find("AP/Text").GetComponent<Text>();
-        currentMP = transform.Find("MP/Text").GetComponent<Text>();
     }
     
     // Update is called once per frame
     void Update () {
-        currentCharacter = GameManager.instance.currentEntityBehaviour.character;
-        currentHP.text =
-            currentCharacter.stats[Characteristic.CurrentHP].ToString();
-        currentAP.text =
-            currentCharacter.stats[Characteristic.CurrentAP].ToString();
-        currentMP.text =
-            currentCharacter.stats[Characteristic.CurrentMP].ToString();
+        if (TurnManager.instance.currentEntityBehaviour)
+        {
+            currentCharacter = TurnManager.instance.currentEntityBehaviour.character;
+            currentHP.text = 
+                currentCharacter.stats[Characteristic.CurrentHP].ToString();
+            currentAP.text =
+                currentCharacter.stats[Characteristic.CurrentAP].ToString();
+            currentMP.text =
+                currentCharacter.stats[Characteristic.CurrentMP].ToString();
         
-        transform.Find("Rotation").rotation = Quaternion.Euler(
-            new Vector3(0, 0, 135 + CameraManager.instance.currentX)
-        );
+            transform.Find("Rotation").rotation = Quaternion.Euler(
+                new Vector3(0, 0, 135 + CameraManager.instance.currentX)
+            );
+        }
+    }
+
+    void LateUpdate() {
+        // currentTimebank.text = GameManager.instance.turnManager.currentTimebank.ToString();
     }
 }
