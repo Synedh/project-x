@@ -10,13 +10,15 @@ public class TimelineBehaviour : MonoBehaviour
     RectTransform prefabRectTransform;
     List<GameObject> timelineEntities;
 
+    public static TimelineBehaviour instance;
+
     // Use this for initialization
     void Awake()
     {
+        instance = this;
         prefabRectTransform = timelineEntityPrefab.GetComponent<RectTransform>();
         entities = new List<EntityBehaviour>();
         timelineEntities = new List<GameObject>();
-        GameManager.instance.timelineBehaviour = this;
     }
 
     // Update is called once per frame

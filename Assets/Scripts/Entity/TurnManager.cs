@@ -48,11 +48,14 @@ public class TurnManager: MonoBehaviour
         }
     }
 
-    public void Next()
-    {
+    public void Next() {
         if (currentEntityBehaviour != null) // Si il ne s'agit pas du premier tour de match, finir le tour précédent.
             currentEntityBehaviour.entityTurn.EndTurn();
-        if (entityTurn < timelineBehaviour.entities.Count)
+        if (timelineBehaviour.entities.Count == 0)
+        {
+            return;
+        }
+        else if (entityTurn < timelineBehaviour.entities.Count)
         {
             currentEntityBehaviour = timelineBehaviour.entities[entityTurn++];
         }

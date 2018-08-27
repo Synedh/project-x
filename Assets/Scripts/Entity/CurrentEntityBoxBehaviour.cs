@@ -36,4 +36,9 @@ public class CurrentEntityBoxBehaviour : MonoBehaviour {
     void LateUpdate() {
         // currentTimebank.text = GameManager.instance.turnManager.currentTimebank.ToString();
     }
+
+    public void RotateTo(int rot)
+    {
+        TurnManager.instance.currentEntityBehaviour.Rotate(rot);
+    }
 }

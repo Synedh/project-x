@@ -15,7 +15,7 @@ public class SpellIconBehaviour: MonoBehaviour
 
     void Start()
     {
-        grid = GameManager.instance.grid;
+        grid = CustomGrid.instance;
         reachableCells = new List<Vector2>();
         unreachableCells = new List<Vector2>();
     }

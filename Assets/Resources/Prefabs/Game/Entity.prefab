@@ -283,11 +283,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e8d6c1cbad535b4dbc89cf040be33f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selected: {fileID: 2100000, guid: ce6a5dd9e3684274d943b66edf1346c3, type: 2}
-  unselected: {fileID: 2100000, guid: 58abd474388cae34aa627a85e22298c4, type: 2}
-  hoverSelected: {fileID: 2100000, guid: c355411dd4a913b448dcc03ce3d3bbce, type: 2}
-  hoverUnselected: {fileID: 2100000, guid: 5cf2772f8be5f6042a753daa02b833f8, type: 2}
   timelineEntity: {fileID: 0}
   x: 0
   y: 0
+  orientation: 0
   doMove: 0
+  isAlive: 1
+  colorIndicator: {fileID: 0}
+  moveTargets: []
+  pushTargets: []

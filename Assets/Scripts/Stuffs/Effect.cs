@@ -74,7 +74,7 @@ public class Effect
     public void Apply(EntityBehaviour sender, Vector2 target) {
         foreach (Vector2 cell in sender.GetAoeOfEffect(this, target))
         {
-            GameObject entity = GameManager.instance.grid.GetEntityOnCell((int)cell.x, (int)cell.y);
+            GameObject entity = CustomGrid.instance.GetEntityOnCell((int)cell.x, (int)cell.y);
             List<KeyValuePair<Effect, EntityBehaviour>> entityEffects = new List<KeyValuePair<Effect, EntityBehaviour>>();
             if (entity != null)
             {

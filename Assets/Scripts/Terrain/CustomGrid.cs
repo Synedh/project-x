@@ -19,17 +19,20 @@ public class CustomGrid: MonoBehaviour {
     public Material aoeSpellRange;
 
     public TextAsset tileMapFile;
-    public int width, height;
-    
+
+    int width;
+    int height;
     int[,] tilemap;
     List<GameObject> entities;
     Cell[,] grid;
     GameObject[,] drawnGrid;
 
+    public static CustomGrid instance;
+
     void Awake()
     {
+        instance = this;
         LoadGrid();
-        GameManager.instance.grid = this;
     }
 
     private void Start()

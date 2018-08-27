@@ -41,7 +41,7 @@ public class CellBehaviour : MonoBehaviour {
 
     public EntityBehaviour IsThereAnEntity()
     {
-        foreach (EntityBehaviour entity in GameManager.instance.entities)
+        foreach (EntityBehaviour entity in EntityManager.entities)
         {
             if (entity.x == x && entity.y == y)
             {

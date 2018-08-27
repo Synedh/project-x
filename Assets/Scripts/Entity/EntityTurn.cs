@@ -42,7 +42,7 @@ public class EntityTurn {
         }
 
         // Remove effects inflicted by him if no turn left
-        foreach (EntityBehaviour entity in GameManager.instance.entities)
+        foreach (EntityBehaviour entity in EntityManager.entities)
         {
             List<KeyValuePair<Effect, EntityBehaviour>> effects = entity.character.effects;
 

@@ -12,8 +12,6 @@ public enum Orientation {
 
 public class EntityBehaviour : MonoBehaviour {
 
-    public GameObject colorIndicatorPrefab;
-
     public TimelineEntity timelineEntity;
     public Character character;
 
@@ -23,12 +21,12 @@ public class EntityBehaviour : MonoBehaviour {
     public bool doMove;
     public bool isAlive = true;
 
-    static CustomGrid grid;
-    GameObject colorIndicator;
+    CustomGrid grid;
+    public GameObject colorIndicator;
+    List<Vector2> MPRangeCells;
     public List<Vector2> moveTargets;
     public List<Vector2> pushTargets;
     public EntityTurn entityTurn;
-    List<Vector2> MPRangeCells;
 
     const float speed = 3f;
     const float pushSpeed = 10f;
@@ -39,7 +37,7 @@ public class EntityBehaviour : MonoBehaviour {
     const float delay = .5f;
 
     void Start() {
-        grid = GameObject.Find("Grid").GetComponent<CustomGrid>();
+        grid = CustomGrid.instance;
 
         moveTargets = new List<Vector2>();
         pushTargets = new List<Vector2>();
@@ -271,10 +269,10 @@ public class EntityBehaviour : MonoBehaviour {
         {
             while (i != qty + incr)
             {
-                CellBehaviour cellBehaviour = GameManager.instance.grid.GetCellBehaviour(x - i, y);
+                CellBehaviour cellBehaviour = grid.GetCellBehaviour(x - i, y);
                 if (cellBehaviour == null
                     || !cellBehaviour.isWalkable
-                    || GameManager.instance.grid.GetEntityOnCell(x - i, y) != null)
+                    || grid.GetEntityOnCell(x - i, y) != null)
                 {
                     break;
                 }
@@ -285,9 +283,9 @@ public class EntityBehaviour : MonoBehaviour {
         else if (cell.x - x >= cell.y - y && (cell.x - x) + (cell.y - y) < 0) // Left
             while (i != qty + incr)
             {
-                CellBehaviour cellBehaviour = GameManager.instance.grid.GetCellBehaviour(x, y + i);
+                CellBehaviour cellBehaviour = grid.GetCellBehaviour(x, y + i);
                 if (cellBehaviour == null || !cellBehaviour.isWalkable
-                    || GameManager.instance.grid.GetEntityOnCell(x, y + i) != null)
+                    || grid.GetEntityOnCell(x, y + i) != null)
                 {
                     break;
                 }
@@ -297,10 +295,10 @@ public class EntityBehaviour : MonoBehaviour {
         else if (cell.x - x < cell.y - y && (cell.x - x) + (cell.y - y) <= 0) // Back
             while (i != qty + incr)
             {
-                CellBehaviour cellBehaviour = GameManager.instance.grid.GetCellBehaviour(x + i, y);
+                CellBehaviour cellBehaviour = grid.GetCellBehaviour(x + i, y);
                 if (cellBehaviour == null
                     || !cellBehaviour.isWalkable
-                    || GameManager.instance.grid.GetEntityOnCell(x + i, y) != null)
+                    || grid.GetEntityOnCell(x + i, y) != null)
                 {
                     break;
                 }
@@ -310,10 +308,10 @@ public class EntityBehaviour : MonoBehaviour {
         else if (cell.x - x <= cell.y - y && (cell.x - x) + (cell.y - y) > 0) // Right
             while (i != qty + incr)
             {
-                CellBehaviour cellBehaviour = GameManager.instance.grid.GetCellBehaviour(x, y - i);
+                CellBehaviour cellBehaviour = grid.GetCellBehaviour(x, y - i);
                 if (cellBehaviour == null
                     || !cellBehaviour.isWalkable
-                    || GameManager.instance.grid.GetEntityOnCell(x, y - i) != null)
+                    || grid.GetEntityOnCell(x, y - i) != null)
                 {
                     break;
                 }
@@ -326,7 +324,7 @@ public class EntityBehaviour : MonoBehaviour {
         this.character = character;
         colorIndicator.GetComponent<SpriteRenderer>().color = character.team.colorMaterial.color;
     }
-
+    /*
     public static GameObject LoadEntity(CustomGrid grid, UnityEngine.Object prefab, Vector2 pos)
     {
         GameObject entity = Instantiate(prefab, new Vector3(pos.x, 0, pos.y), Quaternion.identity) as GameObject;
@@ -344,5 +342,5 @@ public class EntityBehaviour : MonoBehaviour {
         GameManager.instance.entities.Add(entityBehaviour);
         GameManager.instance.timelineBehaviour.AddTimelineEntity(entityBehaviour, GameManager.instance.entities.Count - 1);
         return grid.AddEntity(entity);
-    }
+    } */
 }
